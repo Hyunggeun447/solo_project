@@ -16,6 +16,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
+import org.springframework.util.Assert;
 
 @Entity
 @Table(name = "users")
@@ -30,11 +31,13 @@ public class User {
   @Column(name = "id")
   private Long id;
 
+  @Embedded
   @Column(name = "email")
-  private String email;
+  private Email email;
 
+  @Embedded
   @Column(name = "name")
-  private String name;
+  private Name name;
 
   @Column(name = "nickname")
   private String nickname;
@@ -48,11 +51,23 @@ public class User {
   private Address address;
 
   @Column(name = "is_deleted")
-  private Boolean isDeleted = Boolean.FALSE;
+  private final Boolean isDeleted = Boolean.FALSE;
 
   @BatchSize(size = 100)
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-  private Set<Authority> authorities = new HashSet<>();
+  private final Set<Authority> authorities = new HashSet<>();
+
+  public User(String email, String firstName, String lastName, String nickname, String phoneNumber,
+      String city, String detailAddress) {
+    Assert.notNull(nickname, "need nickname");
+    Assert.notNull(phoneNumber, "need phoneNumber");
+
+    this.email = new Email(email);
+    this.name = new Name(firstName, lastName);
+    this.nickname = nickname;
+    this.phoneNumber = new PhoneNumber(phoneNumber);
+    this.address = new Address(city, detailAddress);
+  }
 
   public void addAuthority(Authority authority) {
     this.authorities.add(authority);

@@ -8,6 +8,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.springframework.util.Assert;
 
 @Embeddable
 @Getter
@@ -20,6 +21,7 @@ public class Email {
   private String email;
 
   public Email(String email) {
+    Assert.notNull(email, "need email");
     this.email = email;
   }
 
