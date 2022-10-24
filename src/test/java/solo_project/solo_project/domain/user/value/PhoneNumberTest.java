@@ -3,7 +3,6 @@ package solo_project.solo_project.domain.user.value;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -21,7 +20,18 @@ class PhoneNumberTest {
     PhoneNumber phoneNumber = new PhoneNumber(number);
 
     //then
-    assertThat(phoneNumber.getPhoneNumber()).isEqualTo(number);
+    assertThat(phoneNumber.getNumber()).isEqualTo(number);
+  }
+
+  @Test
+  @DisplayName("생성 실패 - number is null")
+  public void F_null() throws Exception {
+
+    //when
+    number = null;
+
+    //then
+    assertThrows(RuntimeException.class, () -> new PhoneNumber(number));
   }
 
   @Test
