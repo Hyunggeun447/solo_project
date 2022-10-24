@@ -14,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.BatchSize;
@@ -31,6 +32,7 @@ import solo_project.solo_project.domain.user.value.PhoneNumber;
 @Where(clause = "is_deleted = false")
 @SQLDelete(sql = "UPDATE users SET is_deleted = true WHERE id = ?")
 @Getter
+@EqualsAndHashCode(of = "id")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class User extends BaseEntity {
 

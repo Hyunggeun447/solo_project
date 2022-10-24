@@ -10,6 +10,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.SQLDelete;
@@ -22,6 +23,7 @@ import solo_project.solo_project.common.entity.BaseEntity;
 @Getter
 @Where(clause = "is_deleted = false")
 @SQLDelete(sql = "UPDATE profile SET is_deleted = true WHERE id = ?")
+@EqualsAndHashCode(of = "id")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Profile extends BaseEntity {
 
