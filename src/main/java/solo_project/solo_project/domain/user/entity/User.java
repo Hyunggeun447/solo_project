@@ -24,7 +24,6 @@ import solo_project.solo_project.domain.user.value.Address;
 import solo_project.solo_project.domain.user.value.Email;
 import solo_project.solo_project.domain.user.value.Name;
 import solo_project.solo_project.domain.user.value.PhoneNumber;
-import solo_project.solo_project.domain.user.value.Profile;
 
 @Entity
 @Table(name = "users")
