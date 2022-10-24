@@ -1,6 +1,8 @@
 package solo_project.solo_project.domain.user.entity;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -50,6 +52,10 @@ public class User {
   @Column(name = "address")
   private Address address;
 
+  @Column(name = "profile_url")
+  @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+  private final List<Profile> profiles = new ArrayList<>();
+
   @Column(name = "is_deleted")
   private final Boolean isDeleted = Boolean.FALSE;
 
@@ -69,7 +75,20 @@ public class User {
     this.address = new Address(city, detailAddress);
   }
 
+
+  public Profile getMainProfile() {
+    Integer profileSize = this.profiles.size();
+    if (profileSize.equals(0)) {
+      return null;
+    }
+    return this.profiles.get(profileSize - 1);
+  }
+
   public void addAuthority(Authority authority) {
     this.authorities.add(authority);
+  }
+
+  public void addProfile(Profile profile) {
+    this.profiles.add(profile);
   }
 }
