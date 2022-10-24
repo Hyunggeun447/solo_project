@@ -20,7 +20,7 @@ class PhoneNumberTest {
     String number = "010-1234-5678";
 
     @Test
-    @DisplayName("생성 성공")
+    @DisplayName("성공")
     public void S() throws Exception {
 
       //when
@@ -31,7 +31,7 @@ class PhoneNumberTest {
     }
 
     @Test
-    @DisplayName("생성 실패 - number is null")
+    @DisplayName("실패 - number is null")
     public void F_null() throws Exception {
 
       //when
@@ -42,7 +42,7 @@ class PhoneNumberTest {
     }
 
     @Test
-    @DisplayName("생성 실패 - number isn't match regex - 2-4-4")
+    @DisplayName("실패 - number isn't match regex - 2-4-4")
     public void F_regex244() throws Exception {
 
       //when
@@ -53,7 +53,7 @@ class PhoneNumberTest {
     }
 
     @Test
-    @DisplayName("생성 실패 - number isn't match regex - 4-4-4")
+    @DisplayName("실패 - number isn't match regex - 4-4-4")
     public void F_regex444() throws Exception {
 
       //when
@@ -64,7 +64,7 @@ class PhoneNumberTest {
     }
 
     @Test
-    @DisplayName("생성 실패 - number isn't match regex - 3-3-4")
+    @DisplayName("실패 - number isn't match regex - 3-3-4")
     public void F_regex334() throws Exception {
 
       //when
@@ -75,7 +75,7 @@ class PhoneNumberTest {
     }
 
     @Test
-    @DisplayName("생성 실패 - number isn't match regex - 3-5-4")
+    @DisplayName("실패 - number isn't match regex - 3-5-4")
     public void F_regex354() throws Exception {
 
       //when
@@ -86,7 +86,7 @@ class PhoneNumberTest {
     }
 
     @Test
-    @DisplayName("생성 실패 - number isn't match regex - 3-4-3")
+    @DisplayName("실패 - number isn't match regex - 3-4-3")
     public void F_regex343() throws Exception {
 
       //when
@@ -97,7 +97,7 @@ class PhoneNumberTest {
     }
 
     @Test
-    @DisplayName("생성 실패 - number isn't match regex - 3-4-5")
+    @DisplayName("실패 - number isn't match regex - 3-4-5")
     public void F_regex345() throws Exception {
 
       //when
@@ -128,7 +128,7 @@ class PhoneNumberTest {
     String afterNumber = "010-4321-8765";
 
     @Test
-    @DisplayName("수정 성공")
+    @DisplayName("성공")
     public void S() throws Exception {
 
       //when
@@ -139,7 +139,7 @@ class PhoneNumberTest {
     }
 
     @Test
-    @DisplayName("생성 실패 - number is null")
+    @DisplayName("실패 - number is null")
     public void F_null() throws Exception {
 
       //when
@@ -150,7 +150,7 @@ class PhoneNumberTest {
     }
 
     @Test
-    @DisplayName("생성 실패 - number isn't match regex - 2-4-4")
+    @DisplayName("실패 - number isn't match regex - 2-4-4")
     public void F_regex244() throws Exception {
 
       //when
@@ -161,7 +161,7 @@ class PhoneNumberTest {
     }
 
     @Test
-    @DisplayName("생성 실패 - number isn't match regex - 4-4-4")
+    @DisplayName("실패 - number isn't match regex - 4-4-4")
     public void F_regex444() throws Exception {
 
       //when
@@ -172,7 +172,7 @@ class PhoneNumberTest {
     }
 
     @Test
-    @DisplayName("생성 실패 - number isn't match regex - 3-3-4")
+    @DisplayName("실패 - number isn't match regex - 3-3-4")
     public void F_regex334() throws Exception {
 
       //when
@@ -183,7 +183,7 @@ class PhoneNumberTest {
     }
 
     @Test
-    @DisplayName("생성 실패 - number isn't match regex - 3-5-4")
+    @DisplayName("실패 - number isn't match regex - 3-5-4")
     public void F_regex354() throws Exception {
 
       //when
@@ -194,7 +194,7 @@ class PhoneNumberTest {
     }
 
     @Test
-    @DisplayName("생성 실패 - number isn't match regex - 3-4-3")
+    @DisplayName("실패 - number isn't match regex - 3-4-3")
     public void F_regex343() throws Exception {
 
       //when
@@ -205,7 +205,7 @@ class PhoneNumberTest {
     }
 
     @Test
-    @DisplayName("생성 실패 - number isn't match regex - 3-4-5")
+    @DisplayName("실패 - number isn't match regex - 3-4-5")
     public void F_regex345() throws Exception {
 
       //when
