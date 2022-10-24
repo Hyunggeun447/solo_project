@@ -3,7 +3,6 @@ package solo_project.solo_project.domain.user.value;
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -21,7 +20,7 @@ class EmailTest {
     Email email = new Email(emailString);
 
     //then
-    assertThat(email.getEmail()).isEqualTo(emailString);
+    assertThat(email.getEmailAddress()).isEqualTo(emailString);
   }
 
   @Test
