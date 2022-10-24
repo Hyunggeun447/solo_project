@@ -22,6 +22,7 @@ public class Email {
 
   public Email(String email) {
     Assert.notNull(email, "need email");
+    validationEmail(email);
     this.email = email;
   }
 
