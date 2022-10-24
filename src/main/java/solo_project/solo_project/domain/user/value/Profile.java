@@ -10,6 +10,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,7 +23,6 @@ import solo_project.solo_project.domain.user.entity.User;
 @Getter
 @Where(clause = "is_deleted = false")
 @SQLDelete(sql = "UPDATE profile SET is_deleted = true WHERE id = ?")
-@Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Profile {
 
@@ -31,6 +31,7 @@ public class Profile {
   @Column(name = "id")
   private Long id;
 
+  @Column(name = "profile_url")
   private String profileUrl;
 
   @ManyToOne(fetch = FetchType.LAZY)
@@ -38,9 +39,9 @@ public class Profile {
   private User user;
 
   @Column(name = "is_deleted")
-  private final Boolean isDeleted = Boolean.FALSE;
+  private Boolean isDeleted = Boolean.FALSE;
 
-  public Profile(String profileUrl, User user, Boolean isDeleted) {
+  public Profile(String profileUrl, User user) {
     addUser(user);
     this.profileUrl = profileUrl;
   }

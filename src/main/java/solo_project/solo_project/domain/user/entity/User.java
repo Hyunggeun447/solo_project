@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
@@ -19,6 +20,11 @@ import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 import org.springframework.util.Assert;
+import solo_project.solo_project.domain.user.value.Address;
+import solo_project.solo_project.domain.user.value.Email;
+import solo_project.solo_project.domain.user.value.Name;
+import solo_project.solo_project.domain.user.value.PhoneNumber;
+import solo_project.solo_project.domain.user.value.Profile;
 
 @Entity
 @Table(name = "users")
@@ -54,14 +60,14 @@ public class User {
 
   @Column(name = "profile_url")
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-  private final List<Profile> profiles = new ArrayList<>();
+  private List<Profile> profiles = new ArrayList<>();
 
   @Column(name = "is_deleted")
-  private final Boolean isDeleted = Boolean.FALSE;
+  private Boolean isDeleted = Boolean.FALSE;
 
   @BatchSize(size = 100)
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-  private final Set<Authority> authorities = new HashSet<>();
+  private Set<Authority> authorities = new HashSet<>();
 
   public User(String email, String firstName, String lastName, String nickname, String phoneNumber,
       String city, String detailAddress) {
@@ -75,13 +81,18 @@ public class User {
     this.address = new Address(city, detailAddress);
   }
 
-
   public Profile getMainProfile() {
     Integer profileSize = this.profiles.size();
     if (profileSize.equals(0)) {
       return null;
     }
     return this.profiles.get(profileSize - 1);
+  }
+
+  public List<String> getAuthorities() {
+    return authorities.stream()
+        .map(Authority::getRole)
+        .collect(Collectors.toList());
   }
 
   public void addAuthority(Authority authority) {
