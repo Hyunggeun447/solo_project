@@ -14,13 +14,15 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
+import solo_project.solo_project.common.entity.BaseEntity;
+import solo_project.solo_project.common.entity.BaseTimeEntity;
 
 @Table(name = "authority")
 @Entity
 @Getter
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Authority implements GrantedAuthority {
+public class Authority extends BaseEntity implements GrantedAuthority {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)

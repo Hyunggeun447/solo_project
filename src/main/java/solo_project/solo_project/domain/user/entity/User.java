@@ -20,6 +20,7 @@ import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 import org.springframework.util.Assert;
+import solo_project.solo_project.common.entity.BaseEntity;
 import solo_project.solo_project.domain.user.value.Address;
 import solo_project.solo_project.domain.user.value.Email;
 import solo_project.solo_project.domain.user.value.Name;
@@ -31,7 +32,7 @@ import solo_project.solo_project.domain.user.value.PhoneNumber;
 @SQLDelete(sql = "UPDATE users SET is_deleted = true WHERE id = ?")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class User {
+public class User extends BaseEntity {
 
   @Id
   @GeneratedValue

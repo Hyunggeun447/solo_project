@@ -14,7 +14,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
-import solo_project.solo_project.domain.user.entity.User;
+import solo_project.solo_project.common.entity.BaseEntity;
 
 @Table(name = "profile")
 @Entity
@@ -22,7 +22,7 @@ import solo_project.solo_project.domain.user.entity.User;
 @Where(clause = "is_deleted = false")
 @SQLDelete(sql = "UPDATE profile SET is_deleted = true WHERE id = ?")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Profile {
+public class Profile extends BaseEntity {
 
   @Id
   @GeneratedValue
