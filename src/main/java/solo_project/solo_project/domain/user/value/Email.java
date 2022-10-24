@@ -18,12 +18,12 @@ import org.springframework.util.Assert;
 public class Email {
 
   private static String EMAIL_REGEX_PATTERN = "^(.+)@(\\S+)$";
-  private String email;
+  private String emailAddress;
 
   public Email(String email) {
     Assert.notNull(email, "need email");
     validationEmail(email);
-    this.email = email;
+    this.emailAddress = email;
   }
 
   private void validationEmail(String email) {
