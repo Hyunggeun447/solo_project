@@ -21,12 +21,8 @@ public class Address {
 
   public Address(String city, String detailAddress) {
     Assert.notNull(city, "need city");
-    Assert.notNull(city, "need detailAddress");
+    Assert.notNull(detailAddress, "need detailAddress");
     this.city = city;
     this.detailAddress = detailAddress;
-  }
-
-  public static Address of(String city, String detailAddress) {
-    return new Address(city, detailAddress);
   }
 }
