@@ -8,6 +8,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.springframework.util.Assert;
 
 @Embeddable
 @Getter
@@ -17,11 +18,12 @@ import lombok.ToString;
 public class PhoneNumber {
 
   private static String PHONE_NUMBER_REGEX_PATTERN = "^\\d{3}-\\d{4}-\\d{4}$";
-  private String phoneNumber;
+  private String number;
 
-  public PhoneNumber(String phoneNumber) {
-    validationPhone(phoneNumber);
-    this.phoneNumber = phoneNumber;
+  public PhoneNumber(String number) {
+    Assert.notNull(number, "need phoneNumber");
+    validationPhone(number);
+    this.number = number;
   }
 
   private void validationPhone(String number) {
