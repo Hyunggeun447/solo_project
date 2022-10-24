@@ -80,6 +80,11 @@ public class User extends BaseEntity {
     this.address = new Address(city, detailAddress);
   }
 
+  public void changeNickname(String nickname) {
+    Assert.notNull(nickname, "need nickname");
+    this.nickname = nickname;
+  }
+
   public Profile getMainProfile() {
     Integer profileSize = this.profiles.size();
     if (profileSize.equals(0)) {
