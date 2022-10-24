@@ -71,7 +71,6 @@ public class User {
   public User(String email, String firstName, String lastName, String nickname, String phoneNumber,
       String city, String detailAddress) {
     Assert.notNull(nickname, "need nickname");
-    Assert.notNull(phoneNumber, "need phoneNumber");
 
     this.email = new Email(email);
     this.name = new Name(firstName, lastName);
