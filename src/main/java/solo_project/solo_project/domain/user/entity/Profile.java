@@ -14,6 +14,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
+import org.springframework.util.Assert;
 import solo_project.solo_project.common.entity.BaseEntity;
 
 @Table(name = "profile")
@@ -40,6 +41,9 @@ public class Profile extends BaseEntity {
   private Boolean isDeleted = Boolean.FALSE;
 
   public Profile(String profileUrl, User user) {
+    Assert.notNull(profileUrl, "need profileUrl");
+    Assert.notNull(user, "need user");
+
     addUser(user);
     this.profileUrl = profileUrl;
   }
