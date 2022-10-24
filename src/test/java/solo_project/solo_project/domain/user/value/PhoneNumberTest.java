@@ -13,11 +13,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 class PhoneNumberTest {
 
+  String number = "010-1234-5678";
+
   @Nested
   @DisplayName("생성")
   class create {
-
-    String number = "010-1234-5678";
 
     @Test
     @DisplayName("성공")
@@ -112,12 +112,11 @@ class PhoneNumberTest {
   @DisplayName("수정")
   class update {
 
-    String beforeNumber = "010-1234-5678";
     PhoneNumber phoneNumber;
 
     @BeforeEach
     void setup() {
-      phoneNumber = new PhoneNumber(beforeNumber);
+      phoneNumber = new PhoneNumber();
     }
 
     @AfterEach

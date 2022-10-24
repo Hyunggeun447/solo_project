@@ -13,12 +13,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 class AddressTest {
 
+  String city = "seoul";
+  String detailAddress = "20-1";
+
   @Nested
   @DisplayName("생성")
   class create {
-
-    String city = "seoul";
-    String detailAddress = "20-1";
 
     @Test
     @DisplayName("성공")
@@ -58,8 +58,6 @@ class AddressTest {
   @DisplayName("수정")
   class update {
 
-    String city = "seoul";
-    String detailAddress = "20-1";
     Address address;
 
     @BeforeEach
