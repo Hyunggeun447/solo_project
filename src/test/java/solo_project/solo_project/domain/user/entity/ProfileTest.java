@@ -3,6 +3,7 @@ package solo_project.solo_project.domain.user.entity;
 
 import static org.assertj.core.api.Assertions.*;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -55,6 +56,28 @@ class ProfileTest {
       assertThat(profile.getProfileUrl()).isEqualTo(profileUrl);
       assertThat(user.getProfiles().size()).isEqualTo(1);
       assertThat(user.getMainProfile()).isEqualTo(profile);
+    }
+
+    @Test
+    @DisplayName("실패 - profileUrl is null")
+    public void F_profileUrl() throws Exception {
+
+      //when
+      profileUrl = null;
+
+      //then
+      Assertions.assertThrows(RuntimeException.class, () -> new Profile(profileUrl, user));
+    }
+
+    @Test
+    @DisplayName("실패 - user is null")
+    public void F_user() throws Exception {
+
+      //when
+      user = null;
+
+      //then
+      Assertions.assertThrows(RuntimeException.class, () -> new Profile(profileUrl, user));
     }
   }
 
