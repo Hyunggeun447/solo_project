@@ -20,6 +20,7 @@ public class PhoneNumber {
   private String phoneNumber;
 
   public PhoneNumber(String phoneNumber) {
+    validationPhone(phoneNumber);
     this.phoneNumber = phoneNumber;
   }
 
