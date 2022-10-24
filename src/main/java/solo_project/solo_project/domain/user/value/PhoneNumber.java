@@ -1,4 +1,4 @@
-package solo_project.solo_project.domain.user.entity;
+package solo_project.solo_project.domain.user.value;
 
 import java.util.regex.Pattern;
 import javax.persistence.Access;

@@ -1,4 +1,4 @@
-package solo_project.solo_project.domain.user.entity;
+package solo_project.solo_project.domain.user.value;
 
 import java.util.Objects;
 import javax.persistence.Column;
@@ -15,6 +15,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
+import solo_project.solo_project.domain.user.entity.User;
 
 @Table(name = "profile")
 @Entity
