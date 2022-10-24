@@ -26,6 +26,12 @@ public class PhoneNumber {
     this.number = number;
   }
 
+  public void changeNumber(String number) {
+    Assert.notNull(number, "need phoneNumber");
+    validationPhone(number);
+    this.number = number;
+  }
+
   private void validationPhone(String number) {
     boolean emailMatches = Pattern.compile(PHONE_NUMBER_REGEX_PATTERN)
         .matcher(number)
