@@ -5,7 +5,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -76,7 +75,7 @@ public class CustomUserDetails implements UserDetails {
 
     return CustomUserDetails.builder()
         .id(user.getId())
-        .email(user.getEmail().getEmail())
+        .email(user.getEmail().getEmailAddress())
         .authorities(user.getAuthorities())
         .build();
   }
