@@ -21,7 +21,7 @@ import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 import org.springframework.util.Assert;
-import solo_project.solo_project.common.entity.BaseEntity;
+import solo_project.solo_project.common.entity.BaseTimeEntity;
 import solo_project.solo_project.domain.user.value.Address;
 import solo_project.solo_project.domain.user.value.Email;
 import solo_project.solo_project.domain.user.value.Name;
@@ -34,7 +34,7 @@ import solo_project.solo_project.domain.user.value.PhoneNumber;
 @Getter
 @EqualsAndHashCode(of = "id")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class User extends BaseEntity {
+public class User extends BaseTimeEntity {
 
   @Id
   @GeneratedValue
