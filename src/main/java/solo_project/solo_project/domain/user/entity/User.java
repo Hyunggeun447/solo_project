@@ -27,6 +27,7 @@ import solo_project.solo_project.common.entity.BaseTimeEntity;
 import solo_project.solo_project.domain.user.value.Address;
 import solo_project.solo_project.domain.user.value.Email;
 import solo_project.solo_project.domain.user.value.Name;
+import solo_project.solo_project.domain.user.value.Nickname;
 import solo_project.solo_project.domain.user.value.PhoneNumber;
 
 @Entity
@@ -52,7 +53,7 @@ public class User extends BaseTimeEntity {
   private Name name;
 
   @Column(name = "nickname")
-  private String nickname;
+  private Nickname nickname;
 
   @Embedded
   @Column(name = "phoneNumber")
@@ -75,19 +76,17 @@ public class User extends BaseTimeEntity {
 
   public User(String email, String firstName, String lastName, String nickname, String phoneNumber,
       String city, String detailAddress) {
-    Assert.notNull(nickname, "need nickname");
 
     this.email = new Email(email);
     this.name = new Name(firstName, lastName);
-    this.nickname = nickname;
+    this.nickname = new Nickname(nickname);
     this.phoneNumber = new PhoneNumber(phoneNumber);
     this.address = new Address(city, detailAddress);
     addUserAuth(this);
   }
 
   public void changeNickname(String nickname) {
-    Assert.notNull(nickname, "need nickname");
-    this.nickname = nickname;
+    this.nickname.changeNickname(nickname);
   }
 
   public Profile getMainProfile() {
