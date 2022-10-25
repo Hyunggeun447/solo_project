@@ -22,13 +22,12 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
-import org.springframework.util.Assert;
 import solo_project.solo_project.common.entity.BaseTimeEntity;
 import solo_project.solo_project.domain.user.value.Address;
 import solo_project.solo_project.domain.user.value.Email;
 import solo_project.solo_project.domain.user.value.Name;
 import solo_project.solo_project.domain.user.value.Nickname;
-import solo_project.solo_project.domain.user.value.PhoneNumber;
+import solo_project.solo_project.domain.user.value.Phone;
 
 @Entity
 @Table(name = "users")
@@ -57,7 +56,7 @@ public class User extends BaseTimeEntity {
 
   @Embedded
   @Column(name = "phoneNumber")
-  private PhoneNumber phoneNumber;
+  private Phone phoneNumber;
 
   @Embedded
   @Column(name = "address")
@@ -80,7 +79,7 @@ public class User extends BaseTimeEntity {
     this.email = new Email(email);
     this.name = new Name(firstName, lastName);
     this.nickname = new Nickname(nickname);
-    this.phoneNumber = new PhoneNumber(phoneNumber);
+    this.phoneNumber = new Phone(phoneNumber);
     this.address = new Address(city, detailAddress);
     addUserAuth(this);
   }

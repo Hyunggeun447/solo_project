@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class PhoneNumberTest {
+class PhoneTest {
 
   String number = "010-1234-5678";
 
@@ -24,7 +24,7 @@ class PhoneNumberTest {
     public void S() throws Exception {
 
       //when
-      PhoneNumber phoneNumber = new PhoneNumber(number);
+      Phone phoneNumber = new Phone(number);
 
       //then
       assertThat(phoneNumber.getNumber()).isEqualTo(number);
@@ -38,7 +38,7 @@ class PhoneNumberTest {
       number = null;
 
       //then
-      assertThrows(RuntimeException.class, () -> new PhoneNumber(number));
+      assertThrows(RuntimeException.class, () -> new Phone(number));
     }
 
     @Test
@@ -49,7 +49,7 @@ class PhoneNumberTest {
       number = "01-1234-5678";
 
       //then
-      assertThrows(RuntimeException.class, () -> new PhoneNumber(number));
+      assertThrows(RuntimeException.class, () -> new Phone(number));
     }
 
     @Test
@@ -60,7 +60,7 @@ class PhoneNumberTest {
       number = "0100-1234-5678";
 
       //then
-      assertThrows(RuntimeException.class, () -> new PhoneNumber(number));
+      assertThrows(RuntimeException.class, () -> new Phone(number));
     }
 
     @Test
@@ -71,7 +71,7 @@ class PhoneNumberTest {
       number = "010-123-5678";
 
       //then
-      assertThrows(RuntimeException.class, () -> new PhoneNumber(number));
+      assertThrows(RuntimeException.class, () -> new Phone(number));
     }
 
     @Test
@@ -82,7 +82,7 @@ class PhoneNumberTest {
       number = "010-12345-5678";
 
       //then
-      assertThrows(RuntimeException.class, () -> new PhoneNumber(number));
+      assertThrows(RuntimeException.class, () -> new Phone(number));
     }
 
     @Test
@@ -93,7 +93,7 @@ class PhoneNumberTest {
       number = "010-1234-567";
 
       //then
-      assertThrows(RuntimeException.class, () -> new PhoneNumber(number));
+      assertThrows(RuntimeException.class, () -> new Phone(number));
     }
 
     @Test
@@ -104,7 +104,7 @@ class PhoneNumberTest {
       number = "010-1234-56789";
 
       //then
-      assertThrows(RuntimeException.class, () -> new PhoneNumber(number));
+      assertThrows(RuntimeException.class, () -> new Phone(number));
     }
   }
 
@@ -112,11 +112,11 @@ class PhoneNumberTest {
   @DisplayName("수정")
   class update {
 
-    PhoneNumber phoneNumber;
+    Phone phoneNumber;
 
     @BeforeEach
     void setup() {
-      phoneNumber = new PhoneNumber();
+      phoneNumber = new Phone();
     }
 
     @AfterEach

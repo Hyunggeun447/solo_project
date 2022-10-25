@@ -15,12 +15,12 @@ import org.springframework.util.Assert;
 @Access(value = AccessType.FIELD)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString
-public class PhoneNumber {
+public class Phone {
 
   private static String PHONE_NUMBER_REGEX_PATTERN = "^\\d{3}-\\d{4}-\\d{4}$";
   private String number;
 
-  public PhoneNumber(String number) {
+  public Phone(String number) {
     Assert.notNull(number, "need phoneNumber");
     validationPhone(number);
     this.number = number;
