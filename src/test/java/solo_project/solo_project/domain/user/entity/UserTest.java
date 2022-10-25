@@ -3,6 +3,7 @@ package solo_project.solo_project.domain.user.entity;
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.List;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -94,6 +95,59 @@ class UserTest {
 
       //then
       assertThrows(RuntimeException.class, () -> user.changeNickname(newNickname));
+    }
+  }
+
+  @Nested
+  @DisplayName("조회")
+  class Read {
+
+    User user;
+
+    @BeforeEach
+    void setup() {
+      user = new User(email, firstName, lastName, nickname, phoneNumber, city, detailAddress);
+    }
+
+    @AfterEach
+    void deleteAll() {
+      user = null;
+    }
+
+    @Nested
+    @DisplayName("메인 프로필")
+    class getMainProfile {
+
+      @Test
+      @DisplayName("성공 - result = null")
+      public void S_null() throws Exception {
+
+        //when
+        Profile mainProfile = user.getMainProfile();
+
+        //then
+        assertThat(mainProfile).isNull();
+
+        List<String> authorities = user.getAuthorities();
+      }
+
+      @Test
+      @DisplayName("성공 - result = the most recently registered profile")
+      public void S_profile() throws Exception {
+
+        //given
+        int n = 10;
+        Profile profile = null;
+        for (int i = 0; i < n; i++) {
+          profile = new Profile("/s3/profile/url" + i, user);
+        }
+
+        //when
+        Profile mainProfile = user.getMainProfile();
+
+        //then
+        assertThat(mainProfile).isEqualTo(profile);
+      }
     }
   }
 }
