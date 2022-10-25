@@ -11,7 +11,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 class NameTest {
 
-
   @Nested
   @DisplayName("생성")
   class create {
