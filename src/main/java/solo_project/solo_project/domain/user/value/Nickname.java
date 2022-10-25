@@ -31,6 +31,7 @@ public class Nickname {
   public void changeNickname(String nickname) {
     Assert.notNull(nickname, "need nickname");
 
+    validationNickname(nickname);
     this.nickname = nickname;
   }
 
