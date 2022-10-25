@@ -1,6 +1,13 @@
+buildscript {
+	ext {
+		queryDslVersion = "5.0.0"
+	}
+}
+
 plugins {
 	id 'org.springframework.boot' version '2.7.5'
 	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+	id "com.ewerk.gradle.plugins.querydsl" version "1.0.10"
 	id 'java'
 }
 
@@ -37,9 +44,31 @@ dependencies {
 	runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.2'
 
 	//s3 설정
-	implementation 'io.awspring.cloud:spring-cloud-starter-aws:2.4.1'
+	implementation 'io.awspring.cloud:spring-cloud-starter-aws:2.4.2'
+
+	//querydsl 추가
+	implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
+	annotationProcessor "com.querydsl:querydsl-apt:${queryDslVersion}"
 }
 
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+//querydsl 추가 시작
+//def querydslDir = 'src/main/generated'
+def querydslDir = "$buildDir/generated/querydsl"
+querydsl {
+	jpa = true
+	querydslSourcesDir = querydslDir
+}
+sourceSets {
+	main.java.srcDir querydslDir
+}
+configurations {
+	querydsl.extendsFrom compileClasspath
+}
+compileQuerydsl {
+	options.annotationProcessorPath = configurations.querydsl
+}
+//querydsl 추가 끝
