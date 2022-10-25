@@ -41,6 +41,7 @@ class UserTest {
       assertThat(user.getPhoneNumber().getNumber()).isEqualTo(phoneNumber);
       assertThat(user.getAddress().getCity()).isEqualTo(city);
       assertThat(user.getAddress().getDetailAddress()).isEqualTo(detailAddress);
+      assertThat(user.getAuthorities()).contains("ROLE_USER");
     }
 
     @Test

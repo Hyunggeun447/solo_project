@@ -10,13 +10,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import solo_project.solo_project.common.entity.BaseEntity;
-import solo_project.solo_project.common.entity.BaseTimeEntity;
 
 @Table(name = "authority")
 @Entity
@@ -24,6 +24,7 @@ import solo_project.solo_project.common.entity.BaseTimeEntity;
 @Builder
 @EqualsAndHashCode(of = "id")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class Authority extends BaseEntity implements GrantedAuthority {
 
   @Id
@@ -37,12 +38,6 @@ public class Authority extends BaseEntity implements GrantedAuthority {
 
   @Column(name = "role")
   private String role;
-
-  public Authority(Long id, User user, String role) {
-    this.id = id;
-    this.user = user;
-    this.role = role;
-  }
 
   @Override
   public String getAuthority() {

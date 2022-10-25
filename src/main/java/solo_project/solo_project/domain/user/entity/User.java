@@ -1,5 +1,7 @@
 package solo_project.solo_project.domain.user.entity;
 
+import static solo_project.solo_project.domain.user.entity.Authority.addUserAuth;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -80,6 +82,7 @@ public class User extends BaseTimeEntity {
     this.nickname = nickname;
     this.phoneNumber = new PhoneNumber(phoneNumber);
     this.address = new Address(city, detailAddress);
+    addUserAuth(this);
   }
 
   public void changeNickname(String nickname) {
