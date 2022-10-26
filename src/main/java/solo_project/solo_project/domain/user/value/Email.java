@@ -1,6 +1,7 @@
 package solo_project.solo_project.domain.user.value;
 
-import java.util.regex.Pattern;
+import static solo_project.solo_project.common.util.Validation.*;
+
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Embeddable;
@@ -9,6 +10,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.springframework.util.Assert;
+import solo_project.solo_project.common.util.Validation;
 
 @Embeddable
 @Getter
@@ -22,16 +24,7 @@ public class Email {
 
   public Email(String email) {
     Assert.notNull(email, "need email");
-    validationEmail(email);
+    validateRegex(email, EMAIL_REGEX_PATTERN);
     this.emailAddress = email;
-  }
-
-  private void validationEmail(String email) {
-    boolean emailMatches = Pattern.compile(EMAIL_REGEX_PATTERN)
-        .matcher(email)
-        .matches();
-    if (!emailMatches) {
-      throw new RuntimeException("입력값이 이메일 형식에 맞지 않습니다.");
-    }
   }
 }

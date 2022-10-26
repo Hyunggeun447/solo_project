@@ -1,6 +1,7 @@
 package solo_project.solo_project.domain.user.value;
 
-import java.util.regex.Pattern;
+import static solo_project.solo_project.common.util.Validation.validateRegex;
+
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Embeddable;
@@ -24,23 +25,15 @@ public class Nickname {
   public Nickname(String nickname) {
     Assert.notNull(nickname, "need nickname");
 
-    validationNickname(nickname);
+    validateRegex(nickname, NICKNAME_REGEX_PATTERN);
     this.nickname = nickname;
   }
 
   public void changeNickname(String nickname) {
     Assert.notNull(nickname, "need nickname");
 
-    validationNickname(nickname);
+    validateRegex(nickname, NICKNAME_REGEX_PATTERN);
     this.nickname = nickname;
   }
 
-  private void validationNickname(String nickname) {
-    boolean emailMatches = Pattern.compile(NICKNAME_REGEX_PATTERN)
-        .matcher(nickname)
-        .matches();
-    if (!emailMatches) {
-      throw new RuntimeException("입력값이 닉네임 형식에 맞지 않습니다.");
-    }
-  }
 }
