@@ -5,7 +5,7 @@ import static solo_project.solo_project.domain.user.util.UserConverter.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PostMapping;
+import solo_project.solo_project.domain.user.dto.request.LoginRequest;
 import solo_project.solo_project.domain.user.dto.request.SignUpRequest;
 import solo_project.solo_project.domain.user.dto.response.LoginResponse;
 import solo_project.solo_project.domain.user.entity.User;
@@ -20,7 +20,6 @@ public class UserService {
   private final UserRepository userRepository;
   private final JwtTokenProvider jwtTokenProvider;
 
-  @PostMapping
   public Long signUp(SignUpRequest request) {
 
     boolean duplicateEmail = isDuplicateEmail(request.getEmail());
@@ -31,12 +30,13 @@ public class UserService {
     }
 
     User user = toUser(request);
-    Long id = userRepository.save(user).getId();
-    return id;
+    return userRepository.save(user).getId();
   }
 
-  public LoginResponse login(String emailAddress, String password) {
-    User user = userRepository.findByEmailEmailAddress(emailAddress)
+  public LoginResponse login(LoginRequest request) {
+    String email = request.getEmail();
+    String password = request.getPassword();
+    User user = userRepository.findByEmailEmailAddress(email)
         .orElseThrow(RuntimeException::new);
 
     user.getPassword().isMatch(password);
