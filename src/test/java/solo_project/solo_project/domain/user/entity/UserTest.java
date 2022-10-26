@@ -21,6 +21,7 @@ class UserTest {
   String phoneNumber = "010-1234-5678";
   String city = "Seoul";
   String detailAddress = "1-1";
+  String password = "!q2w3e4r5t";
 
   @Nested
   @DisplayName("생성")
@@ -31,7 +32,7 @@ class UserTest {
     public void S() throws Exception {
 
       //when
-      User user = new User(email, firstName, lastName, nickname, phoneNumber, city, detailAddress);
+      User user = new User(email, firstName, lastName, nickname, phoneNumber, city, detailAddress, password);
 
       //then
       assertThat(user.getEmail().getEmailAddress()).isEqualTo(email);
@@ -53,7 +54,7 @@ class UserTest {
 
       //then
       assertThrows(RuntimeException.class,
-          () -> new User(email, firstName, lastName, nickname, phoneNumber, city, detailAddress));
+          () -> new User(email, firstName, lastName, nickname, phoneNumber, city, detailAddress, password));
     }
   }
 
@@ -66,7 +67,7 @@ class UserTest {
 
     @BeforeEach
     void setup() {
-      user = new User(email, firstName, lastName, nickname, phoneNumber, city, detailAddress);
+      user = new User(email, firstName, lastName, nickname, phoneNumber, city, detailAddress, password);
     }
 
     @AfterEach
@@ -107,7 +108,7 @@ class UserTest {
 
     @BeforeEach
     void setup() {
-      user = new User(email, firstName, lastName, nickname, phoneNumber, city, detailAddress);
+      user = new User(email, firstName, lastName, nickname, phoneNumber, city, detailAddress, password);
     }
 
     @AfterEach

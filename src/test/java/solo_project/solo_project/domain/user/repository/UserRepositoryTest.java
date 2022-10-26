@@ -23,7 +23,8 @@ class UserRepositoryTest {
   String phoneNumber = "010-1234-5678";
   String city = "Seoul";
   String detailAddress = "1-1";
-  User user = new User(email, firstName, lastName, nickname, phoneNumber, city, detailAddress);
+  String password = "!q2w3e4r5t";
+  User user = new User(email, firstName, lastName, nickname, phoneNumber, city, detailAddress, password);
 
   @Test
   @DisplayName("s : existsByNicknameNickname")

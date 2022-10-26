@@ -13,7 +13,8 @@ public class UserConverter {
         request.getNickname(),
         request.getPhoneNumber(),
         request.getCity(),
-        request.getDetailAddress()
+        request.getDetailAddress(),
+        request.getPassword()
     );
 
   }
