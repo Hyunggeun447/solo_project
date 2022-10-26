@@ -1,13 +1,13 @@
 package solo_project.solo_project.domain.user.controller;
 
-import java.net.URI;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import solo_project.solo_project.common.s3.UploadService;
 import solo_project.solo_project.domain.user.dto.request.LoginRequest;
@@ -24,28 +24,31 @@ public class UserController {
   private final UploadService uploadService;
 
   @PostMapping("/signUp")
-  public ResponseEntity<Long> signUp(@RequestBody SignUpRequest request) {
+  @ResponseStatus(HttpStatus.CREATED)
+  public Long signUp(@RequestBody SignUpRequest request) {
     Long userId = userService.signUp(request);
-    // TODO: 2022/10/26 URI 설정
-    return ResponseEntity.created(URI.create("/")).body(userId);
+    return userId;
   }
 
   @PostMapping("/login")
-  public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest request) {
+  @ResponseStatus(HttpStatus.OK)
+  public LoginResponse login(@RequestBody LoginRequest request) {
     LoginResponse loginResponse = userService.login(request);
 
-    return ResponseEntity.ok(loginResponse);
+    return loginResponse;
   }
 
   @GetMapping("/validate")
-  public ResponseEntity<Boolean> isDuplicatedEmail(@PathVariable(name = "email") String email) {
+  @ResponseStatus(HttpStatus.OK)
+  public boolean isDuplicatedEmail(@PathVariable(name = "email") String email) {
     boolean isDuplicatedEmail = userService.isDuplicatedEmail(email);
-    return ResponseEntity.ok(isDuplicatedEmail);
+    return isDuplicatedEmail;
   }
 
   @GetMapping("/validate")
-  public ResponseEntity<Boolean> isDuplicatedNickname(@PathVariable(name = "nickname") String nickname) {
+  @ResponseStatus(HttpStatus.OK)
+  public boolean isDuplicatedNickname(@PathVariable(name = "nickname") String nickname) {
     boolean isDuplicatedNickname = userService.isDuplicatedNickname(nickname);
-    return ResponseEntity.ok(isDuplicatedNickname);
+    return isDuplicatedNickname;
   }
 }
