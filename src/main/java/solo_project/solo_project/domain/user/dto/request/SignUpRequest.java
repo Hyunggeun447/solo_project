@@ -1,8 +1,10 @@
 package solo_project.solo_project.domain.user.dto.request;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
 public class SignUpRequest {
 
   private String email;
