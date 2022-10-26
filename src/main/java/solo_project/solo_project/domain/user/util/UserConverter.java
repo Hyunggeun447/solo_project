@@ -27,7 +27,7 @@ public class UserConverter {
             LoginUser.builder()
                 .id(user.getId())
                 .nickname(user.getNickname().getNickname())
-                .profileImage(user.getMainProfile().getProfileUrl())
+                .profileImage(user.getMainProfile())
                 .authorities(user.getAuthorities())
                 .build()
         )

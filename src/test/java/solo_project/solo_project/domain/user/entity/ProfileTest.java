@@ -38,7 +38,7 @@ class ProfileTest {
     @DisplayName("성공")
     public void S() throws Exception {
 
-      Profile mainProfile = user.getMainProfile();
+      String mainProfile = user.getMainProfile();
       assertThat(mainProfile).isNull();
 
       //when

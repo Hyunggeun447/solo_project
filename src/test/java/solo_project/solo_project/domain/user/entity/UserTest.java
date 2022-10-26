@@ -125,7 +125,7 @@ class UserTest {
       public void S_null() throws Exception {
 
         //when
-        Profile mainProfile = user.getMainProfile();
+        String mainProfile = user.getMainProfile();
 
         //then
         assertThat(mainProfile).isNull();
@@ -145,7 +145,7 @@ class UserTest {
         }
 
         //when
-        Profile mainProfile = user.getMainProfile();
+        String mainProfile = user.getMainProfile();
 
         //then
         assertThat(mainProfile).isEqualTo(profile);

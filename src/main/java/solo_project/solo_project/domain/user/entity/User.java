@@ -99,12 +99,12 @@ public class User extends BaseTimeEntity {
     this.password.equals(password);
   }
 
-  public Profile getMainProfile() {
+  public String getMainProfile() {
     Integer profileSize = this.profiles.size();
     if (profileSize.equals(0)) {
       return null;
     }
-    return this.profiles.get(profileSize - 1);
+    return this.profiles.get(profileSize - 1).getProfileUrl();
   }
 
   public List<String> getAuthorities() {
