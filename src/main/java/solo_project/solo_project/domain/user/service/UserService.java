@@ -22,8 +22,8 @@ public class UserService {
 
   public Long signUp(SignUpRequest request) {
 
-    boolean duplicateEmail = isDuplicateEmail(request.getEmail());
-    boolean duplicateNickname = isDuplicateNickname(request.getNickname());
+    boolean duplicateEmail = isDuplicatedEmail(request.getEmail());
+    boolean duplicateNickname = isDuplicatedNickname(request.getNickname());
 
     if (duplicateEmail || duplicateNickname) {
       throw new RuntimeException();
@@ -47,11 +47,11 @@ public class UserService {
     return toLoginResponse(user, token);
   }
 
-  public boolean isDuplicateNickname(String nickname) {
+  public boolean isDuplicatedNickname(String nickname) {
     return userRepository.existsByNicknameNickname(nickname);
   }
 
-  public boolean isDuplicateEmail(String email) {
+  public boolean isDuplicatedEmail(String email) {
     return userRepository.existsByEmailEmailAddress(email);
   }
 }

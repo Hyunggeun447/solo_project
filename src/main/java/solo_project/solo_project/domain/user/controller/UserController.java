@@ -3,6 +3,8 @@ package solo_project.solo_project.domain.user.controller;
 import java.net.URI;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,6 +35,17 @@ public class UserController {
     LoginResponse loginResponse = userService.login(request);
 
     return ResponseEntity.ok(loginResponse);
+  }
 
+  @GetMapping("/validate")
+  public ResponseEntity<Boolean> isDuplicatedEmail(@PathVariable(name = "email") String email) {
+    boolean isDuplicatedEmail = userService.isDuplicatedEmail(email);
+    return ResponseEntity.ok(isDuplicatedEmail);
+  }
+
+  @GetMapping("/validate")
+  public ResponseEntity<Boolean> isDuplicatedNickname(@PathVariable(name = "nickname") String nickname) {
+    boolean isDuplicatedNickname = userService.isDuplicatedNickname(nickname);
+    return ResponseEntity.ok(isDuplicatedNickname);
   }
 }
