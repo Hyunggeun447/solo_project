@@ -6,7 +6,7 @@ import solo_project.solo_project.domain.user.entity.User;
 
 public interface UserRepository extends JpaRepository<User, Long>, UserValidateRepository {
 
-  Optional<User> findByEmail(String email);
+  Optional<User> findByEmailEmailAddress(String emailAddress);
 
   Boolean existsByNicknameNickname(String nickname);
 

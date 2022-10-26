@@ -1,7 +1,6 @@
 package solo_project.solo_project.domain.user.service;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -19,7 +18,7 @@ public class CustomUserDetailService implements UserDetailsService {
 
   @Override
   public CustomUserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-    User user = userRepository.findByEmail(email)
+    User user = userRepository.findByEmailEmailAddress(email)
         .orElseThrow(() -> new RuntimeException("이메일를 찾을 수 없습니다."));
     return CustomUserDetails.of(user);
   }
