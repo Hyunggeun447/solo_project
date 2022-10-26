@@ -5,6 +5,7 @@ import static solo_project.solo_project.domain.user.util.UserConverter.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.PostMapping;
 import solo_project.solo_project.domain.user.dto.request.SignUpRequest;
 import solo_project.solo_project.domain.user.dto.response.LoginResponse;
 import solo_project.solo_project.domain.user.entity.User;
@@ -17,8 +18,9 @@ import solo_project.solo_project.domain.user.security.JwtTokenProvider;
 public class UserService {
 
   private final UserRepository userRepository;
-  private JwtTokenProvider jwtTokenProvider;
+  private final JwtTokenProvider jwtTokenProvider;
 
+  @PostMapping
   public Long signUp(SignUpRequest request) {
 
     boolean duplicateEmail = isDuplicateEmail(request.getEmail());
