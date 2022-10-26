@@ -52,9 +52,11 @@ public class User extends BaseTimeEntity {
   @Column(name = "name")
   private Name name;
 
+  @Embedded
   @Column(name = "nickname")
   private Nickname nickname;
 
+  @Embedded
   @Column(name = "password")
   private Password password;
 
