@@ -19,7 +19,7 @@ public class LoginResponse {
   @Builder
   @NoArgsConstructor(access = AccessLevel.PROTECTED)
   @AllArgsConstructor(access = AccessLevel.PROTECTED)
-  public class LoginUser {
+  public static class LoginUser {
 
     private Long id;
 
