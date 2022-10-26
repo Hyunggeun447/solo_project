@@ -31,8 +31,20 @@ public class Password {
     this.hashedKey = encrypt(password);
   }
 
-  public boolean isMatch(String password) {
-    return BCrypt.checkpw(password, hashedKey);
+  public void changePassword(String password) {
+    Assert.notNull(password, "need password");
+
+    validateRegex(password, PASSWORD_REGEX_PATTERN);
+
+    isMatch(password);
+
+    this.hashedKey = encrypt(password);
+  }
+
+  public void isMatch(String password) {
+    if (!BCrypt.checkpw(password, hashedKey)) {
+      throw new RuntimeException();
+    }
   }
 
   private String encrypt(String password) {
