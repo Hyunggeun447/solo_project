@@ -15,10 +15,10 @@ public abstract class BaseEntity extends BaseTimeEntity{
 
   @CreatedBy
   @Column(name = "created_by", updatable = false)
-  private Long createdBy;
+  private String createdBy;
 
   @LastModifiedBy
   @Column(name = "modifiedBy", updatable = false)
-  private Long modifiedBy;
+  private String modifiedBy;
 
 }

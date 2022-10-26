@@ -8,17 +8,21 @@ import org.springframework.stereotype.Component;
 import solo_project.solo_project.domain.user.pojo.CustomUserDetails;
 
 @Component
-public class UserIdAwareAudit implements AuditorAware<Long> {
+public class UserAwareAudit implements AuditorAware<String> {
 
   @Override
-  public Optional<Long> getCurrentAuditor() {
+  public Optional<String> getCurrentAuditor() {
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
     if (authentication == null || !authentication.isAuthenticated()) {
       return null;
     }
-    CustomUserDetails principal = (CustomUserDetails) authentication.getPrincipal();
-    Long id = principal.getId();
-    return Optional.of(id);
+    Object principal = authentication.getPrincipal();
+    if (principal.equals("anonymousUser")) {
+      return null;
+    }
+    CustomUserDetails customUserDetails = (CustomUserDetails) principal;
+    return Optional.of(customUserDetails.getUsername());
   }
 
 }
