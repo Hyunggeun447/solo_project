@@ -78,7 +78,8 @@ class AddressTest {
     public void S() throws Exception {
 
       //when
-      address.changeAddress(newCity, newDetailAddress);
+      address.changeCity(newCity);
+      address.changeDetailAddress(newDetailAddress);
 
       //then
       Assertions.assertThat(address.getCity()).isEqualTo(newCity);
@@ -93,7 +94,7 @@ class AddressTest {
       newCity = null;
 
       //then
-      assertThrows(RuntimeException.class, () -> address.changeAddress(newCity, newDetailAddress));
+      assertThrows(RuntimeException.class, () -> address.changeCity(newCity));
     }
     @Test
     @DisplayName("실패 - detailAddress is null")
@@ -103,7 +104,7 @@ class AddressTest {
       newDetailAddress = null;
 
       //then
-      assertThrows(RuntimeException.class, () -> address.changeAddress(newCity, newDetailAddress));
+      assertThrows(RuntimeException.class, () -> address.changeDetailAddress(newDetailAddress));
     }
   }
 }
