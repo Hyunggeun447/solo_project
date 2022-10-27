@@ -31,14 +31,14 @@ public class Password {
     this.hashedKey = encrypt(password);
   }
 
-  public void changePassword(String password) {
-    Assert.notNull(password, "need password");
+  public void changePassword(String prePassword, String newPassword) {
+    Assert.notNull(prePassword, "need prePassword");
+    Assert.notNull(newPassword, "need newPassword");
 
-    validateRegex(password, PASSWORD_REGEX_PATTERN);
+    validateRegex(newPassword, PASSWORD_REGEX_PATTERN);
+    isMatch(prePassword);
 
-    isMatch(password);
-
-    this.hashedKey = encrypt(password);
+    this.hashedKey = encrypt(newPassword);
   }
 
   public void isMatch(String password) {
