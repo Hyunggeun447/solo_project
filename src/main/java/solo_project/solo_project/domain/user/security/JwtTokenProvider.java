@@ -1,6 +1,7 @@
 package solo_project.solo_project.domain.user.security;
 
 import static solo_project.solo_project.domain.user.security.JwtExpirationEnum.ACCESS_TOKEN_EXPIRATION_TIME;
+import static solo_project.solo_project.domain.user.security.JwtExpirationEnum.REFRESH_TOKEN_EXPIRATION_TIME;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -24,18 +25,26 @@ public class JwtTokenProvider {
   @Value("${jwt.secretKey}")
   private String secretKey;
 
+  @Value("${jwt.refreshKey}")
+  private String refreshKey;
+
   @PostConstruct
   protected void init() {
     secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
+    refreshKey = Base64.getEncoder().encodeToString(refreshKey.getBytes());
   }
 
   public String generateAccessToken(Long id, String email) {
     return generateToken(id, email, ACCESS_TOKEN_EXPIRATION_TIME.getValue());
   }
 
+  public String generateRefreshToken(Long id, String email) {
+    return generateToken(id, email, REFRESH_TOKEN_EXPIRATION_TIME.getValue());
+  }
+
   public Long getUserId(String token) {
-    Object id = extractClaims(token).get("id");
-    return Long.valueOf(String.valueOf(id));
+    Long id = (Long) extractClaims(token).get("id");
+    return id;
   }
 
   public String getUserEmail(String token) {
@@ -60,6 +69,12 @@ public class JwtTokenProvider {
     Long userId = getUserId(token);
     String userEmail = getUserEmail(token);
     return userDetails.validate(userId, userEmail) && !isTokenExpired(token);
+  }
+
+  public Long getExpiration(String token) {
+    Date expiration = extractClaims(token).getExpiration();
+    Long now = new Date().getTime();
+    return (expiration.getTime() - now);
   }
 
   private boolean isTokenExpired(String token) {

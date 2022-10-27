@@ -3,6 +3,7 @@ package solo_project.solo_project.domain.user.service;
 import static solo_project.solo_project.domain.user.util.UserConverter.*;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import solo_project.solo_project.domain.user.dto.request.LoginRequest;
@@ -43,10 +44,10 @@ public class UserService {
 
     user.checkPassword(password);
 
-    String token = jwtTokenProvider.generateAccessToken(user.getId(),
-        user.getEmail().getEmailAddress());
+    String accessToken = jwtTokenProvider.generateAccessToken(user.getId(), email);
+    String refreshToken = jwtTokenProvider.generateRefreshToken(user.getId(), email);
 
-    return toLoginResponse(user, token);
+    return toLoginResponse(user, accessToken, refreshToken);
   }
 
   public void update(Long userId, UpdateRequest request) {

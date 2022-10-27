@@ -1,5 +1,7 @@
 package solo_project.solo_project.domain.user.util;
 
+import static solo_project.solo_project.domain.user.security.JwtExpirationEnum.REFRESH_TOKEN_EXPIRATION_TIME;
+
 import solo_project.solo_project.domain.user.dto.request.SignUpRequest;
 import solo_project.solo_project.domain.user.dto.response.LoginResponse;
 import solo_project.solo_project.domain.user.dto.response.LoginResponse.LoginUser;
@@ -20,9 +22,11 @@ public class UserConverter {
     );
   }
 
-  public static LoginResponse toLoginResponse(User user, String token) {
+  public static LoginResponse toLoginResponse(User user, String accessToken, String refreshToken) {
     LoginResponse response = LoginResponse.builder()
-        .accessToken(token)
+        .accessToken(accessToken)
+        .refreshToken(refreshToken)
+        .refreshTokenExpirationTime(REFRESH_TOKEN_EXPIRATION_TIME.getValue())
         .loginUser(
             LoginUser.builder()
                 .id(user.getId())
