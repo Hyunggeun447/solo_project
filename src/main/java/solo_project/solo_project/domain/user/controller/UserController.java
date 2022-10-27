@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import solo_project.solo_project.common.annotation.AuthUser;
@@ -28,16 +29,13 @@ public class UserController {
   @PostMapping("/signUp")
   @ResponseStatus(HttpStatus.CREATED)
   public Long signUp(@RequestBody SignUpRequest request) {
-    Long userId = userService.signUp(request);
-    return userId;
+    return userService.signUp(request);
   }
 
   @PostMapping("/login")
   @ResponseStatus(HttpStatus.OK)
   public LoginResponse login(@RequestBody LoginRequest request) {
-    LoginResponse loginResponse = userService.login(request);
-
-    return loginResponse;
+    return userService.login(request);
   }
 
   @GetMapping("/update")
@@ -48,16 +46,14 @@ public class UserController {
 
   @GetMapping("/validateEmail")
   @ResponseStatus(HttpStatus.OK)
-  public boolean isDuplicatedEmail(@PathVariable(name = "email") String email) {
+  public boolean isDuplicatedEmail(@RequestParam(name = "email") String email) {
 
-    boolean isDuplicatedEmail = userService.isDuplicatedEmail(email);
-    return isDuplicatedEmail;
+    return userService.isDuplicatedEmail(email);
   }
 
   @GetMapping("/validateNickname")
   @ResponseStatus(HttpStatus.OK)
-  public boolean isDuplicatedNickname(@PathVariable(name = "nickname") String nickname) {
-    boolean isDuplicatedNickname = userService.isDuplicatedNickname(nickname);
-    return isDuplicatedNickname;
+  public boolean isDuplicatedNickname(@RequestParam(name = "nickname") String nickname) {
+    return userService.isDuplicatedNickname(nickname);
   }
 }
