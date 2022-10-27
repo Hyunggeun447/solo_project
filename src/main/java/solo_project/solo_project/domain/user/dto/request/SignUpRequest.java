@@ -1,10 +1,13 @@
 package solo_project.solo_project.domain.user.dto.request;
 
+import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
-@NoArgsConstructor
+@Builder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class SignUpRequest {
 
   private String email;
