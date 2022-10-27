@@ -13,6 +13,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class LoginResponse {
 
+  private String grantType;
+
   private String accessToken;
 
   private String refreshToken;
@@ -20,8 +22,6 @@ public class LoginResponse {
   private Long refreshTokenExpirationTime;
 
   private LoginUser loginUser;
-
-  private String grantType;
 
   @Getter
   @Builder
