@@ -58,10 +58,14 @@ public class UserService {
     user.changePhoneNumber(request.getPhoneNumber());
   }
 
-//  public void updatePassword(Long userId, UpdatePasswordRequest request) {
-//    User user = userRepository.findById(userId)
-//        .orElseThrow(RuntimeException::new);
-//  }
+  public void updatePassword(Long userId, UpdatePasswordRequest request) {
+    User user = userRepository.findById(userId)
+        .orElseThrow(RuntimeException::new);
+
+    user.changePassword(request.getPrePassword(), request.getNewPassword());
+
+    // TODO: 2022/10/27 로그아웃 구현
+  }
 
   @Transactional(readOnly = true)
   public boolean isDuplicatedNickname(String nickname) {
