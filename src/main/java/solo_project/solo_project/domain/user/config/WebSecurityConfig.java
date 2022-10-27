@@ -10,7 +10,9 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import solo_project.solo_project.domain.user.security.JwtAccessDeniedHandler;
 import solo_project.solo_project.domain.user.security.JwtAuthenticationFilter;
 import solo_project.solo_project.domain.user.security.JwtEntryPoint;
 import solo_project.solo_project.domain.user.service.CustomUserDetailService;
@@ -20,6 +22,7 @@ import solo_project.solo_project.domain.user.service.CustomUserDetailService;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
   private final JwtEntryPoint jwtEntryPoint;
+  private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
   private final JwtAuthenticationFilter jwtAuthenticationFilter;
   private final CustomUserDetailService customUserDetailService;
 
@@ -41,6 +44,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         .and()
 
+        .headers()
+        .frameOptions()
+        .sameOrigin()
+        .and()
+
         .authorizeRequests()
         // TODO: 2022/10/25
         .antMatchers(HttpMethod.GET, "/").hasAnyRole("USER")
@@ -50,6 +58,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         .exceptionHandling()
         .authenticationEntryPoint(jwtEntryPoint)
+        .accessDeniedHandler(jwtAccessDeniedHandler)
         .and()
 
         .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
