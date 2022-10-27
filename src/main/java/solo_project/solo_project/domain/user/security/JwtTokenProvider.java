@@ -2,6 +2,7 @@ package solo_project.solo_project.domain.user.security;
 
 import static solo_project.solo_project.domain.user.security.JwtExpirationEnum.ACCESS_TOKEN_EXPIRATION_TIME;
 import static solo_project.solo_project.domain.user.security.JwtExpirationEnum.REFRESH_TOKEN_EXPIRATION_TIME;
+import static solo_project.solo_project.domain.user.security.JwtHeader.GRANT_TYPE;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -23,8 +24,6 @@ import solo_project.solo_project.domain.user.pojo.CustomUserDetails;
 @PropertySource("classpath:application.yaml")
 public class JwtTokenProvider {
 
-  private static final String GRANTED_BEARER_TYPE = "Bearer";
-
   @Value("${jwt.secretKey}")
   private String secretKey;
 
@@ -43,7 +42,7 @@ public class JwtTokenProvider {
     return TokenInfo.builder()
         .accessToken(accessToken)
         .refreshToken(refreshToken)
-        .grantType(GRANTED_BEARER_TYPE)
+        .grantType(GRANT_TYPE.getValue())
         .refreshTokenExpirationTime(REFRESH_TOKEN_EXPIRATION_TIME.getValue())
         .build();
   }

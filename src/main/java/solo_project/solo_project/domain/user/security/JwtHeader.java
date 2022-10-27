@@ -2,7 +2,7 @@ package solo_project.solo_project.domain.user.security;
 
 public enum JwtHeader {
 
-  GRANT_TYPE("Jwt Header", "Bearer ");
+  GRANT_TYPE("Jwt Header", "Bearer");
 
   private String description;
   private String value;
