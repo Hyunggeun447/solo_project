@@ -9,9 +9,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import solo_project.solo_project.common.annotation.AuthUser;
 import solo_project.solo_project.common.s3.UploadService;
 import solo_project.solo_project.domain.user.dto.request.LoginRequest;
 import solo_project.solo_project.domain.user.dto.request.SignUpRequest;
+import solo_project.solo_project.domain.user.dto.request.UpdateRequest;
 import solo_project.solo_project.domain.user.dto.response.LoginResponse;
 import solo_project.solo_project.domain.user.service.UserService;
 
@@ -38,14 +40,21 @@ public class UserController {
     return loginResponse;
   }
 
-  @GetMapping("/validate")
+  @GetMapping("/update")
+  @ResponseStatus(HttpStatus.OK)
+  public void update(@AuthUser Long id, UpdateRequest request) {
+    userService.update(id, request);
+  }
+
+  @GetMapping("/validateEmail")
   @ResponseStatus(HttpStatus.OK)
   public boolean isDuplicatedEmail(@PathVariable(name = "email") String email) {
+
     boolean isDuplicatedEmail = userService.isDuplicatedEmail(email);
     return isDuplicatedEmail;
   }
 
-  @GetMapping("/validate")
+  @GetMapping("/validateNickname")
   @ResponseStatus(HttpStatus.OK)
   public boolean isDuplicatedNickname(@PathVariable(name = "nickname") String nickname) {
     boolean isDuplicatedNickname = userService.isDuplicatedNickname(nickname);
