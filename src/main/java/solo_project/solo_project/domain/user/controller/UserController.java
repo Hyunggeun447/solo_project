@@ -15,6 +15,7 @@ import solo_project.solo_project.common.annotation.AuthUser;
 import solo_project.solo_project.common.s3.UploadService;
 import solo_project.solo_project.domain.user.dto.request.LoginRequest;
 import solo_project.solo_project.domain.user.dto.request.SignUpRequest;
+import solo_project.solo_project.domain.user.dto.request.UpdatePasswordRequest;
 import solo_project.solo_project.domain.user.dto.request.UpdateRequest;
 import solo_project.solo_project.domain.user.dto.response.LoginResponse;
 import solo_project.solo_project.domain.user.service.UserService;
@@ -45,10 +46,16 @@ public class UserController {
     userService.update(id, request);
   }
 
+  @PutMapping("/update/password")
+  @ResponseStatus(HttpStatus.OK)
+  public void changePassword(@AuthUser Long id, UpdatePasswordRequest request) {
+    userService.updatePassword(id, request);
+  }
+
+
   @GetMapping("/validateEmail")
   @ResponseStatus(HttpStatus.OK)
   public boolean isDuplicatedEmail(@RequestParam(name = "email") String email) {
-
     return userService.isDuplicatedEmail(email);
   }
 
