@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import solo_project.solo_project.domain.user.dto.request.LoginRequest;
 import solo_project.solo_project.domain.user.dto.request.SignUpRequest;
+import solo_project.solo_project.domain.user.dto.request.UpdatePasswordRequest;
 import solo_project.solo_project.domain.user.dto.request.UpdateRequest;
 import solo_project.solo_project.domain.user.dto.response.LoginResponse;
 import solo_project.solo_project.domain.user.entity.User;
@@ -40,7 +41,7 @@ public class UserService {
     User user = userRepository.findByEmailEmailAddress(email)
         .orElseThrow(RuntimeException::new);
 
-    user.getPassword().isMatch(password);
+    user.checkPassword(password);
 
     String token = jwtTokenProvider.generateAccessToken(user.getId(),
         user.getEmail().getEmailAddress());
@@ -56,6 +57,11 @@ public class UserService {
     user.changeAddress(request.getCity(), request.getDetailAddress());
     user.changePhoneNumber(request.getPhoneNumber());
   }
+
+//  public void updatePassword(Long userId, UpdatePasswordRequest request) {
+//    User user = userRepository.findById(userId)
+//        .orElseThrow(RuntimeException::new);
+//  }
 
   @Transactional(readOnly = true)
   public boolean isDuplicatedNickname(String nickname) {
