@@ -3,9 +3,9 @@ package solo_project.solo_project.domain.user.service;
 import static solo_project.solo_project.domain.user.util.UserConverter.*;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import solo_project.solo_project.domain.user.dto.TokenInfo;
 import solo_project.solo_project.domain.user.dto.request.LoginRequest;
 import solo_project.solo_project.domain.user.dto.request.SignUpRequest;
 import solo_project.solo_project.domain.user.dto.request.UpdatePasswordRequest;
@@ -44,10 +44,9 @@ public class UserService {
 
     user.checkPassword(password);
 
-    String accessToken = jwtTokenProvider.generateAccessToken(user.getId(), email);
-    String refreshToken = jwtTokenProvider.generateRefreshToken(user.getId(), email);
+    TokenInfo tokenInfo = jwtTokenProvider.generateToken(user.getId(), email);
 
-    return toLoginResponse(user, accessToken, refreshToken);
+    return toLoginResponse(user, tokenInfo);
   }
 
   public void update(Long userId, UpdateRequest request) {

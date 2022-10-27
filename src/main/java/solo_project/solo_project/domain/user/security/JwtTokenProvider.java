@@ -16,11 +16,14 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
+import solo_project.solo_project.domain.user.dto.TokenInfo;
 import solo_project.solo_project.domain.user.pojo.CustomUserDetails;
 
 @Component
 @PropertySource("classpath:application.yaml")
 public class JwtTokenProvider {
+
+  private static final String GRANTED_BEARER_TYPE = "Bearer";
 
   @Value("${jwt.secretKey}")
   private String secretKey;
@@ -32,6 +35,17 @@ public class JwtTokenProvider {
   protected void init() {
     secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
     refreshKey = Base64.getEncoder().encodeToString(refreshKey.getBytes());
+  }
+
+  public TokenInfo generateToken(Long id, String email) {
+    String accessToken = generateAccessToken(id, email);
+    String refreshToken = generateRefreshToken(id, email);
+    return TokenInfo.builder()
+        .accessToken(accessToken)
+        .refreshToken(refreshToken)
+        .grantType(GRANTED_BEARER_TYPE)
+        .refreshTokenExpirationTime(REFRESH_TOKEN_EXPIRATION_TIME.getValue())
+        .build();
   }
 
   public String generateAccessToken(Long id, String email) {
