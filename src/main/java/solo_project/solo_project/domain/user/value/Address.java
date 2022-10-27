@@ -26,8 +26,12 @@ public class Address {
     this.detailAddress = detailAddress;
   }
 
-  public void changeAddress(String city, String detailAddress) {
+  public void changeCity(String city) {
     Assert.notNull(city, "need city");
+    this.city = city;
+  }
+
+  public void changeDetailAddress(String detailAddress) {
     Assert.notNull(detailAddress, "need detailAddress");
     this.city = city;
     this.detailAddress = detailAddress;

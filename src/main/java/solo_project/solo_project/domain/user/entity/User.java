@@ -80,14 +80,14 @@ public class User extends BaseTimeEntity {
   private Set<Authority> authorities = new HashSet<>();
 
   public User(String email, String firstName, String lastName, String nickname, String phoneNumber,
-      String city, String detailAddress, String key) {
+      String city, String detailAddress, String password) {
 
     this.email = new Email(email);
     this.name = new Name(firstName, lastName);
     this.nickname = new Nickname(nickname);
     this.phoneNumber = new Phone(phoneNumber);
     this.address = new Address(city, detailAddress);
-    this.password = new Password(key);
+    this.password = new Password(password);
     addUserAuth(this);
   }
 
@@ -95,8 +95,13 @@ public class User extends BaseTimeEntity {
     this.nickname.changeNickname(nickname);
   }
 
-  public void matchPassword(String password) {
-    this.password.equals(password);
+  public void changeAddress(String city, String detailAddress) {
+    this.address.changeCity(city);
+    this.address.changeDetailAddress(detailAddress);
+  }
+
+  public void changePhoneNumber(String number) {
+    this.phoneNumber.changeNumber(number);
   }
 
   public String getMainProfile() {
