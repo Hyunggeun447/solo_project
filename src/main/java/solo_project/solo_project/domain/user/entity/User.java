@@ -104,6 +104,14 @@ public class User extends BaseTimeEntity {
     this.phoneNumber.changeNumber(number);
   }
 
+  public void changePassword(String prePassword, String newPassword) {
+    this.password.changePassword(prePassword, newPassword);
+  }
+
+  public void checkPassword(String password) {
+    this.password.isMatch(password);
+  }
+
   public String getMainProfile() {
     Integer profileSize = this.profiles.size();
     if (profileSize.equals(0)) {
