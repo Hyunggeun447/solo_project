@@ -2,8 +2,8 @@ package solo_project.solo_project.domain.user.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -41,6 +41,8 @@ public class UserController {
   }
 
   @PutMapping("/update")
+//  @PreAuthorize("hasRole('ROLE_USER')")
+  @Secured({"ROLE_USER", "ROLE_ADMIN"})
   @ResponseStatus(HttpStatus.OK)
   public void update(@AuthUser Long id, UpdateRequest request) {
     userService.update(id, request);
