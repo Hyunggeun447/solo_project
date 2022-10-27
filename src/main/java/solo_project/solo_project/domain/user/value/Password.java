@@ -22,13 +22,13 @@ public class Password {
 
   private static final String PASSWORD_REGEX_PATTERN = "^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\\-_=+]).{8,15}$";
 
-  private String hashedKey;
+  private String hashedPassword;
 
   public Password(String password) {
     Assert.notNull(password, "need password");
 
     validateRegex(password, PASSWORD_REGEX_PATTERN);
-    this.hashedKey = encrypt(password);
+    this.hashedPassword = encrypt(password);
   }
 
   public void changePassword(String prePassword, String newPassword) {
@@ -38,11 +38,11 @@ public class Password {
     validateRegex(newPassword, PASSWORD_REGEX_PATTERN);
     isMatch(prePassword);
 
-    this.hashedKey = encrypt(newPassword);
+    this.hashedPassword = encrypt(newPassword);
   }
 
   public void isMatch(String password) {
-    if (!BCrypt.checkpw(password, hashedKey)) {
+    if (!BCrypt.checkpw(password, hashedPassword)) {
       throw new RuntimeException();
     }
   }
