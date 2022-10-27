@@ -3,7 +3,7 @@ package solo_project.solo_project.domain.user.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import solo_project.solo_project.domain.user.entity.User;
 import solo_project.solo_project.domain.user.pojo.CustomUserDetails;
@@ -11,7 +11,7 @@ import solo_project.solo_project.domain.user.repository.UserRepository;
 
 @Transactional
 @RequiredArgsConstructor
-@Service
+@Component
 public class CustomUserDetailService implements UserDetailsService {
 
   private final UserRepository userRepository;
