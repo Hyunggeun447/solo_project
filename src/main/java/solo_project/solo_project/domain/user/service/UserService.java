@@ -13,7 +13,7 @@ import solo_project.solo_project.domain.user.dto.request.UpdateRequest;
 import solo_project.solo_project.domain.user.dto.response.LoginResponse;
 import solo_project.solo_project.domain.user.entity.User;
 import solo_project.solo_project.domain.user.repository.UserRepository;
-import solo_project.solo_project.domain.user.security.JwtTokenProvider;
+import solo_project.solo_project.security.JwtTokenProvider;
 
 @Transactional
 @Service
@@ -21,7 +21,6 @@ import solo_project.solo_project.domain.user.security.JwtTokenProvider;
 public class UserService {
 
   private final UserRepository userRepository;
-  private final JwtTokenProvider jwtTokenProvider;
 
   public Long signUp(SignUpRequest request) {
 
@@ -34,19 +33,6 @@ public class UserService {
 
     User user = toUser(request);
     return userRepository.save(user).getId();
-  }
-
-  public LoginResponse login(LoginRequest request) {
-    String email = request.getEmail();
-    String password = request.getPassword();
-    User user = userRepository.findByEmailEmailAddress(email)
-        .orElseThrow(RuntimeException::new);
-
-    user.checkPassword(password);
-
-    TokenInfo tokenInfo = jwtTokenProvider.generateToken(user.getId(), email);
-
-    return toLoginResponse(user, tokenInfo);
   }
 
   public void update(Long userId, UpdateRequest request) {

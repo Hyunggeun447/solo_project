@@ -34,12 +34,6 @@ public class UserController {
     return userService.signUp(request);
   }
 
-  @PostMapping("/login")
-  @ResponseStatus(HttpStatus.OK)
-  public LoginResponse login(@RequestBody LoginRequest request) {
-    return userService.login(request);
-  }
-
   @PutMapping("/update")
 //  @PreAuthorize("hasRole('ROLE_USER')")
   @Secured({"ROLE_USER", "ROLE_ADMIN"})
@@ -53,7 +47,6 @@ public class UserController {
   public void changePassword(@AuthUser Long id, UpdatePasswordRequest request) {
     userService.updatePassword(id, request);
   }
-
 
   @GetMapping("/validateEmail")
   @ResponseStatus(HttpStatus.OK)
