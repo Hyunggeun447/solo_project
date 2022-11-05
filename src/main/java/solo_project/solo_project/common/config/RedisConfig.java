@@ -1,4 +1,4 @@
-package solo_project.solo_project.domain.user.config;
+package solo_project.solo_project.common.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;

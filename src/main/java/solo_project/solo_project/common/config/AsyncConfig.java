@@ -1,4 +1,4 @@
-package solo_project.solo_project.domain.user.config;
+package solo_project.solo_project.common.config;
 
 import java.util.concurrent.Executor;
 import java.util.concurrent.ThreadPoolExecutor.CallerRunsPolicy;

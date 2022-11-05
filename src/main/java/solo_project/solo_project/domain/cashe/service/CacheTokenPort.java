@@ -52,7 +52,7 @@ public class CacheTokenPort {
     return hashValueOperations.get(key, hashKey);
   }
 
-  public void setHahData(String key, String hashKey, Object value) {
+  public void setHashData(String key, String hashKey, Object value) {
     hashValueOperations.put(key, hashKey, String.valueOf(value));
   }
 
