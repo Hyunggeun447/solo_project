@@ -14,7 +14,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import solo_project.solo_project.domain.user.security.JwtAccessDeniedHandler;
 import solo_project.solo_project.domain.user.security.JwtAuthenticationFilter;
 import solo_project.solo_project.domain.user.security.JwtEntryPoint;
-import solo_project.solo_project.domain.user.service.CustomUserDetailService;
+import solo_project.solo_project.domain.user.service.CustomUserDetailsService;
 
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
@@ -24,7 +24,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
   private final JwtEntryPoint jwtEntryPoint;
   private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
   private final JwtAuthenticationFilter jwtAuthenticationFilter;
-  private final CustomUserDetailService customUserDetailService;
+  private final CustomUserDetailsService customUserDetailService;
 
   @Bean
   public PasswordEncoder passwordEncoder() {

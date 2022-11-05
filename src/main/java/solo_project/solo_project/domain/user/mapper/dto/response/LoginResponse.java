@@ -9,15 +9,9 @@ import lombok.NoArgsConstructor;
 @Getter
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 public class LoginResponse {
 
-  private String grantType;
-
   private String accessToken;
-
-  private String refreshToken;
-
-  private Long refreshTokenExpirationTime;
 
 }
