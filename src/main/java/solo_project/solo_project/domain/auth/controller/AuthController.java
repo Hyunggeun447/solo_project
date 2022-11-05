@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import solo_project.solo_project.domain.auth.service.AuthService;
-import solo_project.solo_project.domain.user.dto.request.LoginRequest;
-import solo_project.solo_project.domain.user.dto.response.LoginResponse;
+import solo_project.solo_project.domain.user.mapper.dto.request.LoginRequest;
+import solo_project.solo_project.domain.user.mapper.dto.response.LoginResponse;
 
 @RequiredArgsConstructor
 @RestController

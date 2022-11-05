@@ -1,4 +1,4 @@
-package solo_project.solo_project.domain.user.dto.request;
+package solo_project.solo_project.domain.user.mapper.dto.response;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -10,13 +10,14 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
-public class UpdateRequest {
+public class LoginResponse {
 
-  private String nickname;
+  private String grantType;
 
-  private String phoneNumber;
+  private String accessToken;
 
-  private String city;
+  private String refreshToken;
 
-  private String detailAddress;
+  private Long refreshTokenExpirationTime;
+
 }

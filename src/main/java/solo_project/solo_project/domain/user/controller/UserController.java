@@ -13,11 +13,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import solo_project.solo_project.common.annotation.AuthUser;
 import solo_project.solo_project.common.s3.UploadService;
-import solo_project.solo_project.domain.user.dto.request.LoginRequest;
-import solo_project.solo_project.domain.user.dto.request.SignUpRequest;
-import solo_project.solo_project.domain.user.dto.request.UpdatePasswordRequest;
-import solo_project.solo_project.domain.user.dto.request.UpdateRequest;
-import solo_project.solo_project.domain.user.dto.response.LoginResponse;
+import solo_project.solo_project.domain.user.mapper.dto.request.SignUpRequest;
+import solo_project.solo_project.domain.user.mapper.dto.request.UpdatePasswordRequest;
+import solo_project.solo_project.domain.user.mapper.dto.request.UpdateRequest;
 import solo_project.solo_project.domain.user.service.UserService;
 
 @RestController

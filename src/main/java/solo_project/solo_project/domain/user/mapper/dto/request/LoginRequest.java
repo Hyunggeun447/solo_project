@@ -1,4 +1,4 @@
-package solo_project.solo_project.domain.user.dto.request;
+package solo_project.solo_project.domain.user.mapper.dto.request;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -10,9 +10,10 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
-public class UpdatePasswordRequest {
+public class LoginRequest {
 
-  private String prePassword;
+  private String email;
 
-  private String newPassword;
+  private String password;
+
 }

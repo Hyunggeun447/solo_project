@@ -5,15 +5,11 @@ import static solo_project.solo_project.domain.user.util.UserConverter.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import solo_project.solo_project.domain.user.dto.TokenInfo;
-import solo_project.solo_project.domain.user.dto.request.LoginRequest;
-import solo_project.solo_project.domain.user.dto.request.SignUpRequest;
-import solo_project.solo_project.domain.user.dto.request.UpdatePasswordRequest;
-import solo_project.solo_project.domain.user.dto.request.UpdateRequest;
-import solo_project.solo_project.domain.user.dto.response.LoginResponse;
+import solo_project.solo_project.domain.user.mapper.dto.request.SignUpRequest;
+import solo_project.solo_project.domain.user.mapper.dto.request.UpdatePasswordRequest;
+import solo_project.solo_project.domain.user.mapper.dto.request.UpdateRequest;
 import solo_project.solo_project.domain.user.entity.User;
 import solo_project.solo_project.domain.user.repository.UserRepository;
-import solo_project.solo_project.security.JwtTokenProvider;
 
 @Transactional
 @Service

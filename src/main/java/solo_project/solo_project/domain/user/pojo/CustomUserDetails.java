@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,20 +17,20 @@ import solo_project.solo_project.domain.user.entity.User;
 @Getter
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class CustomUserDetails implements UserDetails {
 
   private Long id;
 
   private String email;
 
+  private String password;
+
+  private String nickname;
+
+
   @Builder.Default
   private List<String> authorities = new ArrayList<>();
-
-  public CustomUserDetails(Long id, String email, List<String> authorities) {
-    this.id = id;
-    this.email = email;
-    this.authorities = authorities;
-  }
 
   public boolean validate(Long id, String email){
     return id.equals(this.id) && email.equals(this.email);
@@ -53,22 +54,22 @@ public class CustomUserDetails implements UserDetails {
 
   @Override
   public boolean isAccountNonExpired() {
-    return false;
+    return true;
   }
 
   @Override
   public boolean isAccountNonLocked() {
-    return false;
+    return true;
   }
 
   @Override
   public boolean isCredentialsNonExpired() {
-    return false;
+    return true;
   }
 
   @Override
   public boolean isEnabled() {
-    return false;
+    return true;
   }
 
   public static CustomUserDetails of(User user) {

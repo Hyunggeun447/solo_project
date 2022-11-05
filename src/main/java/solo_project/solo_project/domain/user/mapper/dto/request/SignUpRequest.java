@@ -1,4 +1,4 @@
-package solo_project.solo_project.domain.user.dto.request;
+package solo_project.solo_project.domain.user.mapper.dto.request;
 
 import lombok.AccessLevel;
 import lombok.Builder;

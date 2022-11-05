@@ -1,11 +1,10 @@
-package solo_project.solo_project.domain.user.dto;
+package solo_project.solo_project.domain.user.mapper.dto;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import solo_project.solo_project.domain.user.dto.response.LoginResponse.LoginUser;
 
 @Getter
 @Builder
@@ -17,10 +16,8 @@ public class TokenInfo {
 
   private String refreshToken;
 
+  private long accessTokenExpirationTime;
+
   private Long refreshTokenExpirationTime;
-
-  private LoginUser loginUser;
-
-  private String grantType;
 
 }

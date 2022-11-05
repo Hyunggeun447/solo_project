@@ -12,7 +12,7 @@ import solo_project.solo_project.domain.user.repository.UserRepository;
 @Transactional
 @RequiredArgsConstructor
 @Component
-public class CustomUserDetailService implements UserDetailsService {
+public class CustomUserDetailsService implements UserDetailsService {
 
   private final UserRepository userRepository;
 
