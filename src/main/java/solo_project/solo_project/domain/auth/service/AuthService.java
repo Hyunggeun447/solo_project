@@ -1,26 +1,36 @@
 package solo_project.solo_project.domain.auth.service;
 
 
+import static solo_project.solo_project.domain.user.security.JwtExpirationEnum.ACCESS_TOKEN_EXPIRATION_TIME;
+import static solo_project.solo_project.domain.user.security.JwtExpirationEnum.REFRESH_TOKEN_EXPIRATION_TIME;
+import static solo_project.solo_project.domain.user.util.SecurityConstants.ACCESS_TOKEN;
+import static solo_project.solo_project.domain.user.util.SecurityConstants.BEARER_TYPE;
+import static solo_project.solo_project.domain.user.util.SecurityConstants.EMPTY_VALUE;
+import static solo_project.solo_project.domain.user.util.SecurityConstants.LOGIN_ACCESS_TOKEN_PREFIX;
+import static solo_project.solo_project.domain.user.util.SecurityConstants.LOGIN_FAILED_KEY_PREFIX;
+import static solo_project.solo_project.domain.user.util.SecurityConstants.LOGIN_REFRESH_TOKEN_PREFIX;
+import static solo_project.solo_project.domain.user.util.SecurityConstants.LOGOUT_KEY_PREFIX;
+import static solo_project.solo_project.domain.user.util.SecurityConstants.MAXIMAL_NUMBER_OF_WRONG_PASSWORD;
 import static solo_project.solo_project.domain.user.util.UserConverter.toLoginResponse;
-import static solo_project.solo_project.security.JwtExpirationEnum.ACCESS_TOKEN_EXPIRATION_TIME;
-import static solo_project.solo_project.security.JwtExpirationEnum.REFRESH_TOKEN_EXPIRATION_TIME;
 
 import javax.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import solo_project.solo_project.common.exception.NotFoundException;
 import solo_project.solo_project.common.util.CookieUtils;
 import solo_project.solo_project.domain.cashe.service.CacheTokenPort;
-import solo_project.solo_project.domain.user.dto.TokenInfo;
-import solo_project.solo_project.domain.user.dto.request.LoginRequest;
-import solo_project.solo_project.domain.user.dto.response.LoginResponse;
+import solo_project.solo_project.domain.user.mapper.dto.TokenInfo;
+import solo_project.solo_project.domain.user.mapper.dto.request.LoginRequest;
+import solo_project.solo_project.domain.user.mapper.dto.response.LoginResponse;
 import solo_project.solo_project.domain.user.entity.User;
 import solo_project.solo_project.domain.user.repository.UserRepository;
 import org.springframework.util.StringUtils;
-import solo_project.solo_project.security.JwtTokenProvider;
+import solo_project.solo_project.domain.user.security.JwtTokenProvider;
 
 
 @Transactional
@@ -28,46 +38,37 @@ import solo_project.solo_project.security.JwtTokenProvider;
 @Service
 public class AuthService {
 
-  public static final int MAXIMAL_NUMBER_OF_WRONG_PASSWORD = 5;
-
-  public static final String LOGOUT_KEY_PREFIX = "auth:logout#";
-  public static final String LOGIN_FAILED_KEY_PREFIX = "auth:login-failed#";
-  public static final String LOGIN_ACCESS_TOKEN_PREFIX = "auth:login:access-token#";
-  public static final String LOGIN_REFRESH_TOKEN_PREFIX = "auth:login:refresh-token#";
-  public static final String ACCESS_TOKEN = "access_token";
-  public static final String REFRESH_TOKEN = "refresh_token";
-  public static final String BEARER_TYPE = "Bearer ";
-  private static final String EMPTY_VALUE = "";
-
   private final UserRepository userRepository;
   private final JwtTokenProvider jwtTokenProvider;
   private final CacheTokenPort cacheTokenPort;
   private final AuthenticationManagerBuilder authenticationManagerBuilder;
 
-  public LoginResponse login(LoginRequest request) {
+  public TokenInfo login(LoginRequest loginRequest) {
 
-    String email = request.getEmail();
-    String password = request.getPassword();
+    String email = loginRequest.getEmail();
 
+    // TODO: 2022/11/05
     checkFailureCount(email);
 
     User user = userRepository.findByEmailEmailAddress(email)
-        .orElseThrow(RuntimeException::new);
-    user.checkPassword(password);
+        .orElseThrow(() -> new NotFoundException("해당 user를 찾을 수 없습니다."));
 
-    TokenInfo tokenInfo = jwtTokenProvider.generateToken(user.getId(), email);
+    UsernamePasswordAuthenticationToken authenticationToken = loginRequest.toAuthenticationToken();
+    authenticationManagerBuilder.getObject().authenticate(authenticationToken);
+
+    TokenInfo tokenInfo = jwtTokenProvider.getTokenResponse(user);
     saveTokenToCache(email, tokenInfo);
-    return toLoginResponse(user, tokenInfo);
+
+    return tokenInfo;
   }
 
   public void logout(HttpServletRequest request) {
     String accessToken = resolveAccessToken(request);
 
-//    if (!jwtTokenProvider.validateToken(accessToken)) {
-//      throw new RuntimeException();
-//    }
+    if (!jwtTokenProvider.validateToken(accessToken)) {
+      throw new IllegalArgumentException("유효하지 않은 토큰");
+    }
 
-//    jwtTokenProvider.validateToken(accessToken);
     cacheTokenPort.setDataAndExpiration(LOGOUT_KEY_PREFIX + accessToken, accessToken, ACCESS_TOKEN_EXPIRATION_TIME.getValue());
     SecurityContextHolder.clearContext();
   }
