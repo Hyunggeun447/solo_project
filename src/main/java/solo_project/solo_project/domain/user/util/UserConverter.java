@@ -1,6 +1,8 @@
 package solo_project.solo_project.domain.user.util;
 
 
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import solo_project.solo_project.domain.user.mapper.dto.TokenInfo;
 import solo_project.solo_project.domain.user.mapper.dto.request.SignUpRequest;
 import solo_project.solo_project.domain.user.mapper.dto.response.LoginResponse;
@@ -24,8 +26,6 @@ public class UserConverter {
   public static LoginResponse toLoginResponse(User user, TokenInfo tokenInfo) {
     LoginResponse response = LoginResponse.builder()
         .accessToken(tokenInfo.getAccessToken())
-        .refreshToken(tokenInfo.getRefreshToken())
-        .refreshTokenExpirationTime(tokenInfo.getRefreshTokenExpirationTime())
         .build();
     return response;
   }
