@@ -20,37 +20,37 @@ public class UserService {
   private final UserRepository userRepository;
   private final PasswordEncoder passwordEncoder;
 
-  public Long signUp(SignUpRequest request) {
+  public Long signUp(SignUpRequest signUpRequest) {
 
-    boolean duplicateEmail = isDuplicatedEmail(request.getEmail());
-    boolean duplicateNickname = isDuplicatedNickname(request.getNickname());
+    boolean duplicateEmail = isDuplicatedEmail(signUpRequest.getEmail());
+    boolean duplicateNickname = isDuplicatedNickname(signUpRequest.getNickname());
 
     if (duplicateEmail || duplicateNickname) {
       throw new RuntimeException();
     }
 
-    User user = toUser(request);
-    user.changePassword(passwordEncoder.encode(request.getPassword()));
+    User user = toUser(signUpRequest);
+    user.changePassword(passwordEncoder.encode(signUpRequest.getPassword()));
     return userRepository.save(user).getId();
   }
 
-  public void update(Long userId, UpdateRequest request) {
+  public void update(Long userId, UpdateRequest updateRequest) {
     User user = userRepository.findById(userId)
         .orElseThrow(RuntimeException::new);
 
-    user.changeNickname(request.getNickname());
-    user.changeAddress(request.getCity(), request.getDetailAddress());
-    user.changePhoneNumber(request.getPhoneNumber());
+    user.changeNickname(updateRequest.getNickname());
+    user.changeAddress(updateRequest.getCity(), updateRequest.getDetailAddress());
+    user.changePhoneNumber(updateRequest.getPhoneNumber());
   }
 
-  public void updatePassword(Long userId, UpdatePasswordRequest request) {
+  public void updatePassword(Long userId, UpdatePasswordRequest updatePasswordRequest) {
     User user = userRepository.findById(userId)
         .orElseThrow(RuntimeException::new);
 
-    if (!passwordEncoder.matches(request.getPrePassword(), user.getPassword())) {
+    if (!passwordEncoder.matches(updatePasswordRequest.getPrePassword(), user.getPassword())) {
       throw new RuntimeException();
     }
-    user.changePassword(passwordEncoder.encode(request.getNewPassword()));
+    user.changePassword(passwordEncoder.encode(updatePasswordRequest.getNewPassword()));
   }
 
   @Transactional(readOnly = true)

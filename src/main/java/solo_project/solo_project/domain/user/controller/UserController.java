@@ -1,6 +1,7 @@
 package solo_project.solo_project.domain.user.controller;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.annotation.Secured;
@@ -33,24 +34,28 @@ public class UserController {
   @PostMapping("/signUp")
   @PreAuthorize("isAnonymous()")
   @ResponseStatus(HttpStatus.CREATED)
-  public Long signUp(@RequestBody SignUpRequest request) {
-    return userService.signUp(request);
+  public Long signUp(@RequestBody @Valid SignUpRequest signUpRequest) {
+    return userService.signUp(signUpRequest);
   }
 
   @PutMapping("/update")
 //  @PreAuthorize("hasRole('ROLE_USER')")
   @Secured({"ROLE_USER", "ROLE_ADMIN"})
   @ResponseStatus(HttpStatus.OK)
-  public void update(@AuthUser Long id, UpdateRequest request) {
-    userService.update(id, request);
+  public void update(
+      @AuthUser Long id,
+      @RequestBody @Valid UpdateRequest updateRequest
+  ) {
+    userService.update(id, updateRequest);
   }
 
   @PutMapping("/update/password")
   @ResponseStatus(HttpStatus.OK)
   public void changePassword(
       @AuthUser Long id,
-      UpdatePasswordRequest updatePasswordRequest,
-      HttpServletRequest request) {
+      @RequestBody @Valid UpdatePasswordRequest updatePasswordRequest,
+      HttpServletRequest request
+  ) {
     userService.updatePassword(id, updatePasswordRequest);
     authService.logout(request);
   }

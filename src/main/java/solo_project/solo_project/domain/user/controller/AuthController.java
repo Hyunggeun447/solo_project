@@ -7,6 +7,7 @@ import static solo_project.solo_project.domain.user.util.SecurityConstants.REFRE
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -33,7 +34,7 @@ public class AuthController {
   @PostMapping("/login")
   @ResponseStatus(HttpStatus.OK)
   public LoginResponse login(
-      @RequestBody LoginRequest loginRequest,
+      @RequestBody @Valid LoginRequest loginRequest,
       HttpServletResponse response) {
 
     TokenInfo tokenInfo = authService.login(loginRequest);

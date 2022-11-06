@@ -131,7 +131,7 @@ public class AuthService {
     }
   }
 
-  public Authentication authenticate(UsernamePasswordAuthenticationToken authenticationToken) {
+  private Authentication authenticate(UsernamePasswordAuthenticationToken authenticationToken) {
     try {
       Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
       cacheTokenPort.deleteData(LOGIN_FAILED_KEY_PREFIX + authenticationToken.getName());
