@@ -1,18 +1,24 @@
-package solo_project.solo_project.domain.auth.controller;
+package solo_project.solo_project.domain.user.controller;
 
 
 import static solo_project.solo_project.domain.user.util.SecurityConstants.AUTHORIZATION_HEADER;
+import static solo_project.solo_project.domain.user.util.SecurityConstants.EMPTY_VALUE;
+import static solo_project.solo_project.domain.user.util.SecurityConstants.REFRESH_TOKEN;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import solo_project.solo_project.common.util.CookieUtils;
-import solo_project.solo_project.domain.auth.service.AuthService;
+import solo_project.solo_project.domain.user.mapper.dto.response.ReissueResponse;
+import solo_project.solo_project.domain.user.service.AuthService;
 import solo_project.solo_project.domain.user.mapper.dto.TokenInfo;
 import solo_project.solo_project.domain.user.mapper.dto.request.LoginRequest;
 import solo_project.solo_project.domain.user.mapper.dto.response.LoginResponse;
