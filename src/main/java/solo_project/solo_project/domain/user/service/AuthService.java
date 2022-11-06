@@ -1,17 +1,14 @@
-package solo_project.solo_project.domain.auth.service;
+package solo_project.solo_project.domain.user.service;
 
 
 import static solo_project.solo_project.domain.user.security.JwtExpirationEnum.ACCESS_TOKEN_EXPIRATION_TIME;
 import static solo_project.solo_project.domain.user.security.JwtExpirationEnum.REFRESH_TOKEN_EXPIRATION_TIME;
-import static solo_project.solo_project.domain.user.util.SecurityConstants.ACCESS_TOKEN;
-import static solo_project.solo_project.domain.user.util.SecurityConstants.BEARER_TYPE;
-import static solo_project.solo_project.domain.user.util.SecurityConstants.EMPTY_VALUE;
+import static solo_project.solo_project.domain.user.util.SecurityConstants.IS_LOGOUT_PREFIX;
 import static solo_project.solo_project.domain.user.util.SecurityConstants.LOGIN_ACCESS_TOKEN_PREFIX;
 import static solo_project.solo_project.domain.user.util.SecurityConstants.LOGIN_FAILED_KEY_PREFIX;
 import static solo_project.solo_project.domain.user.util.SecurityConstants.LOGIN_REFRESH_TOKEN_PREFIX;
 import static solo_project.solo_project.domain.user.util.SecurityConstants.LOGOUT_KEY_PREFIX;
 import static solo_project.solo_project.domain.user.util.SecurityConstants.MAXIMAL_NUMBER_OF_WRONG_PASSWORD;
-import static solo_project.solo_project.domain.user.util.UserConverter.toLoginResponse;
 
 import javax.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
