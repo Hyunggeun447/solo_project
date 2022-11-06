@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -14,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import solo_project.solo_project.common.annotation.AuthUser;
+import solo_project.solo_project.common.annotation.AuthUserId;
 import solo_project.solo_project.common.s3.UploadService;
 import solo_project.solo_project.domain.user.mapper.dto.request.SignUpRequest;
 import solo_project.solo_project.domain.user.mapper.dto.request.UpdatePasswordRequest;
@@ -43,7 +44,7 @@ public class UserController {
   @Secured({"ROLE_USER", "ROLE_ADMIN"})
   @ResponseStatus(HttpStatus.OK)
   public void update(
-      @AuthUser Long id,
+      @AuthUserId Long id,
       @RequestBody @Valid UpdateRequest updateRequest
   ) {
     userService.update(id, updateRequest);
@@ -52,7 +53,7 @@ public class UserController {
   @PutMapping("/update/password")
   @ResponseStatus(HttpStatus.OK)
   public void changePassword(
-      @AuthUser Long id,
+      @AuthUserId Long id,
       @RequestBody @Valid UpdatePasswordRequest updatePasswordRequest,
       HttpServletRequest request
   ) {
@@ -70,5 +71,14 @@ public class UserController {
   @ResponseStatus(HttpStatus.OK)
   public boolean isDuplicatedNickname(@RequestParam(name = "nickname") String nickname) {
     return userService.isDuplicatedNickname(nickname);
+  }
+
+  @DeleteMapping()
+  @ResponseStatus(HttpStatus.NO_CONTENT)
+  @Secured({"ROLE_USER", "ROLE_ADMIN"})
+  public void delete(
+      @AuthUserId Long userId
+  ) {
+    userService.delete(userId);
   }
 }

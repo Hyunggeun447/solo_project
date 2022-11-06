@@ -9,6 +9,6 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.PARAMETER)
 @AuthenticationPrincipal(expression = "#this == 'anonymousUser' ? null : id")
-public @interface AuthUser {
+public @interface AuthUserId {
 
 }
