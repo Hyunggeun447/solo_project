@@ -56,11 +56,13 @@ public class JwtTokenProvider {
   }
 
   public Long getUserId(String token) {
-    return (Long) extractClaims(token).get("id");
+    Object id = extractClaims(token).get("userId");
+    return Long.valueOf(String.valueOf(id));
   }
 
   public String getUserEmail(String token) {
-    return (String) extractClaims(token).get("email");
+    Object id = extractClaims(token).getSubject();
+    return String.valueOf(String.valueOf(id));
   }
 
   public Authentication getAuthentication(String accessToken) {

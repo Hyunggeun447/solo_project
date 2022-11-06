@@ -3,8 +3,10 @@ package solo_project.solo_project.domain.user.service;
 import static solo_project.solo_project.domain.user.util.UserConverter.*;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import solo_project.solo_project.domain.user.mapper.dto.ModifyUserRequestMapper;
 import solo_project.solo_project.domain.user.mapper.dto.request.SignUpRequest;
 import solo_project.solo_project.domain.user.mapper.dto.request.UpdatePasswordRequest;
 import solo_project.solo_project.domain.user.mapper.dto.request.UpdateRequest;
@@ -17,6 +19,7 @@ import solo_project.solo_project.domain.user.repository.UserRepository;
 public class UserService {
 
   private final UserRepository userRepository;
+  private final PasswordEncoder passwordEncoder;
 
   public Long signUp(SignUpRequest request) {
 
@@ -28,6 +31,7 @@ public class UserService {
     }
 
     User user = toUser(request);
+    user.changePassword(passwordEncoder.encode(request.getPassword()));
     return userRepository.save(user).getId();
   }
 
@@ -44,7 +48,10 @@ public class UserService {
     User user = userRepository.findById(userId)
         .orElseThrow(RuntimeException::new);
 
-    user.changePassword(request.getPrePassword(), request.getNewPassword());
+    if (!passwordEncoder.matches(request.getPrePassword(), user.getPassword())) {
+      throw new RuntimeException();
+    }
+    user.changePassword(passwordEncoder.encode(request.getNewPassword()));
 
     // TODO: 2022/10/27 로그아웃 구현
   }

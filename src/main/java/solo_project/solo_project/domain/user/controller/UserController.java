@@ -3,6 +3,7 @@ package solo_project.solo_project.domain.user.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -27,6 +28,7 @@ public class UserController {
   private final UploadService uploadService;
 
   @PostMapping("/signUp")
+  @PreAuthorize("isAnonymous()")
   @ResponseStatus(HttpStatus.CREATED)
   public Long signUp(@RequestBody SignUpRequest request) {
     return userService.signUp(request);

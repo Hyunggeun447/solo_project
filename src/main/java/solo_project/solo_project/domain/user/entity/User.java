@@ -28,7 +28,6 @@ import solo_project.solo_project.domain.user.value.Address;
 import solo_project.solo_project.domain.user.value.Email;
 import solo_project.solo_project.domain.user.value.Name;
 import solo_project.solo_project.domain.user.value.Nickname;
-import solo_project.solo_project.domain.user.value.Password;
 import solo_project.solo_project.domain.user.value.Phone;
 
 @Entity
@@ -36,7 +35,7 @@ import solo_project.solo_project.domain.user.value.Phone;
 @Where(clause = "is_deleted = false")
 @SQLDelete(sql = "UPDATE users SET is_deleted = true WHERE id = ?")
 @Getter
-@EqualsAndHashCode(of = "id")
+@EqualsAndHashCode(of = "id", callSuper = true)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class User extends BaseTimeEntity {
 
@@ -57,9 +56,8 @@ public class User extends BaseTimeEntity {
   @Column(name = "nickname")
   private Nickname nickname;
 
-  @Embedded
   @Column(name = "password")
-  private Password password;
+  private String password;
 
   @Embedded
   @Column(name = "phoneNumber")
@@ -89,7 +87,7 @@ public class User extends BaseTimeEntity {
     this.nickname = new Nickname(nickname);
     this.phoneNumber = new Phone(phoneNumber);
     this.address = new Address(city, detailAddress);
-    this.password = new Password(password);
+    this.password = password;
     addUserAuth(this);
   }
 
@@ -106,8 +104,8 @@ public class User extends BaseTimeEntity {
     this.phoneNumber.changeNumber(number);
   }
 
-  public void changePassword(String prePassword, String newPassword) {
-    this.password.changePassword(prePassword, newPassword);
+  public void changePassword(String password) {
+    this.password = password;
   }
 
   public String getMainProfile() {
