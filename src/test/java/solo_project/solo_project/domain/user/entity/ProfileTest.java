@@ -47,7 +47,7 @@ class ProfileTest {
       //then
       assertThat(profile.getProfileUrl()).isEqualTo(profileUrl);
       assertThat(user.getProfiles().size()).isEqualTo(1);
-      assertThat(user.getMainProfile()).isEqualTo(profile);
+      assertThat(user.getMainProfile()).isEqualTo(profile.getProfileUrl());
     }
 
     @Test
