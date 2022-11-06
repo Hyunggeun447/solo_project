@@ -17,7 +17,7 @@ public class InterceptorConfig implements WebMvcConfigurer {
   public void addInterceptors(InterceptorRegistry registry) {
     registry.addInterceptor(expireTokenArgumentResolver)
         .addPathPatterns("/**")
-        .excludePathPatterns("/auth/reissue");
+        .excludePathPatterns("/api/v1/auth/reissue");
   }
 
   @Override
