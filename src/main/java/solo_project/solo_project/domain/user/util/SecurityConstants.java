@@ -17,4 +17,6 @@ public class SecurityConstants {
 
   public static final String AUTHORIZATION_HEADER = "Authorization";
 
+  public static final String IS_LOGOUT_PREFIX = "is logout";
+
 }

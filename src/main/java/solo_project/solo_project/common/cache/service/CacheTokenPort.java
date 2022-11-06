@@ -1,4 +1,4 @@
-package solo_project.solo_project.domain.cashe.service;
+package solo_project.solo_project.common.cache.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
