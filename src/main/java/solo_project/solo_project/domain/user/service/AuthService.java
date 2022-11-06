@@ -15,15 +15,17 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import solo_project.solo_project.common.exception.BadRequestException;
 import solo_project.solo_project.common.exception.NotFoundException;
-import solo_project.solo_project.common.util.CookieUtils;
-import solo_project.solo_project.domain.cashe.service.CacheTokenPort;
+import solo_project.solo_project.common.cache.service.CacheTokenPort;
+import solo_project.solo_project.domain.user.mapper.dto.response.ReissueResponse;
 import solo_project.solo_project.domain.user.mapper.dto.TokenInfo;
 import solo_project.solo_project.domain.user.mapper.dto.request.LoginRequest;
-import solo_project.solo_project.domain.user.mapper.dto.response.LoginResponse;
 import solo_project.solo_project.domain.user.entity.User;
 import solo_project.solo_project.domain.user.repository.UserRepository;
 import org.springframework.util.StringUtils;
@@ -44,14 +46,14 @@ public class AuthService {
 
     String email = loginRequest.getEmail();
 
-    // TODO: 2022/11/05
-    checkFailureCount(email);
-
     User user = userRepository.findByEmailEmailAddress(email)
         .orElseThrow(() -> new NotFoundException("해당 user를 찾을 수 없습니다."));
 
+    checkFailureCount(email);
+
     UsernamePasswordAuthenticationToken authenticationToken = loginRequest.toAuthenticationToken();
-    authenticationManagerBuilder.getObject().authenticate(authenticationToken);
+    Authentication authentication = authenticate(authenticationToken);
+    SecurityContextHolder.getContext().setAuthentication(authentication);
 
     TokenInfo tokenInfo = jwtTokenProvider.getTokenResponse(user);
     saveTokenToCache(email, tokenInfo);
@@ -94,15 +96,18 @@ public class AuthService {
       throw new IllegalArgumentException("유효하지 않은 토큰");
     }
 
-    cacheTokenPort.setDataAndExpiration(LOGOUT_KEY_PREFIX + accessToken, accessToken, ACCESS_TOKEN_EXPIRATION_TIME.getValue());
-    SecurityContextHolder.clearContext();
-  }
+    cacheTokenPort.setDataAndExpiration(
+        LOGOUT_KEY_PREFIX + accessToken,
+        accessToken,
+        ACCESS_TOKEN_EXPIRATION_TIME.getValue());
 
-  private String resolveAccessToken(HttpServletRequest request) {
-    return CookieUtils.getCookie(request, ACCESS_TOKEN)
-        .filter(cookie -> cookie.getValue().startsWith(BEARER_TYPE))
-        .map(cookie -> cookie.getValue().substring(BEARER_TYPE.length()))
-        .orElseGet(() -> EMPTY_VALUE);
+    String email = jwtTokenProvider.getUserEmail(accessToken);
+
+    cacheTokenPort.setDataAndExpiration(
+        LOGIN_REFRESH_TOKEN_PREFIX + email,
+        IS_LOGOUT_PREFIX,
+        REFRESH_TOKEN_EXPIRATION_TIME.getValue());
+    SecurityContextHolder.clearContext();
   }
 
   private void saveTokenToCache(String email, TokenInfo tokenInfo) {
@@ -126,5 +131,15 @@ public class AuthService {
     }
   }
 
+  public Authentication authenticate(UsernamePasswordAuthenticationToken authenticationToken) {
+    try {
+      Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
+      cacheTokenPort.deleteData(LOGIN_FAILED_KEY_PREFIX + authenticationToken.getName());
+      return authentication;
+    } catch (AuthenticationException e) {
+      cacheTokenPort.increment(LOGIN_FAILED_KEY_PREFIX + authenticationToken.getName());
+      throw e;
+    }
+  }
 
 }
