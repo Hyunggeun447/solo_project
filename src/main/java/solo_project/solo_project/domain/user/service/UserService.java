@@ -52,8 +52,6 @@ public class UserService {
       throw new RuntimeException();
     }
     user.changePassword(passwordEncoder.encode(request.getNewPassword()));
-
-    // TODO: 2022/10/27 로그아웃 구현
   }
 
   @Transactional(readOnly = true)

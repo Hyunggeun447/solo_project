@@ -1,5 +1,6 @@
 package solo_project.solo_project.domain.user.controller;
 
+import javax.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.annotation.Secured;
@@ -17,6 +18,7 @@ import solo_project.solo_project.common.s3.UploadService;
 import solo_project.solo_project.domain.user.mapper.dto.request.SignUpRequest;
 import solo_project.solo_project.domain.user.mapper.dto.request.UpdatePasswordRequest;
 import solo_project.solo_project.domain.user.mapper.dto.request.UpdateRequest;
+import solo_project.solo_project.domain.user.service.AuthService;
 import solo_project.solo_project.domain.user.service.UserService;
 
 @RestController
@@ -25,6 +27,7 @@ import solo_project.solo_project.domain.user.service.UserService;
 public class UserController {
 
   private final UserService userService;
+  private final AuthService authService;
   private final UploadService uploadService;
 
   @PostMapping("/signUp")
@@ -44,8 +47,12 @@ public class UserController {
 
   @PutMapping("/update/password")
   @ResponseStatus(HttpStatus.OK)
-  public void changePassword(@AuthUser Long id, UpdatePasswordRequest request) {
-    userService.updatePassword(id, request);
+  public void changePassword(
+      @AuthUser Long id,
+      UpdatePasswordRequest updatePasswordRequest,
+      HttpServletRequest request) {
+    userService.updatePassword(id, updatePasswordRequest);
+    authService.logout(request);
   }
 
   @GetMapping("/validateEmail")
