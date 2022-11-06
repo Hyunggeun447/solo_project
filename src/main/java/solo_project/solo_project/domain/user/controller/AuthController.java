@@ -36,4 +36,21 @@ public class AuthController {
     return new LoginResponse(tokenInfo.getAccessToken());
   }
 
+  @GetMapping("/reissue")
+  @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
+  @ResponseStatus(HttpStatus.OK)
+  public ReissueResponse reissue(HttpServletRequest request) {
+    String refreshToken = CookieUtils.getCookie(request, REFRESH_TOKEN)
+        .map(cookie -> cookie.getValue())
+        .orElseGet(() -> EMPTY_VALUE);
+    return authService.reissue(refreshToken);
+  }
+
+  @PostMapping("/logout")
+  @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
+  @ResponseStatus(HttpStatus.NO_CONTENT)
+  public void logout(HttpServletRequest request) {
+    authService.logout(request);
+  }
+
 }

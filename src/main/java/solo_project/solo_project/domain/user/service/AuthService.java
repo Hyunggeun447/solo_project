@@ -62,6 +62,34 @@ public class AuthService {
     return tokenInfo;
   }
 
+  public ReissueResponse reissue(String refreshToken) {
+
+    Authentication authentication = jwtTokenProvider.getAuthentication(refreshToken);
+
+    Long userId = jwtTokenProvider.getUserId(refreshToken);
+    String email = jwtTokenProvider.getUserEmail(refreshToken);
+
+    User user = userRepository.findById(userId)
+        .orElseThrow(RuntimeException::new);
+
+    String redisRefreshToken = cacheTokenPort.getData(LOGIN_REFRESH_TOKEN_PREFIX + email);
+
+    if (!jwtTokenProvider.validateToken(refreshToken) ||
+        !refreshToken.equals(redisRefreshToken) ||
+        jwtTokenProvider.isTokenExpired(refreshToken)) {
+      throw new BadRequestException("유효하지 않은 토큰입니다.");
+    }
+
+    TokenInfo tokenInfo = jwtTokenProvider.getTokenResponse(user);
+
+    cacheTokenPort.setDataAndExpiration(
+        LOGIN_ACCESS_TOKEN_PREFIX + email,
+        tokenInfo.getAccessToken(),
+        ACCESS_TOKEN_EXPIRATION_TIME.getValue());
+
+    return new ReissueResponse(tokenInfo.getAccessToken());
+  }
+
   public void logout(HttpServletRequest request) {
     String accessToken = resolveAccessToken(request);
 
