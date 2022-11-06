@@ -1,5 +1,6 @@
 package solo_project.solo_project.domain.user.mapper.dto.request;
 
+import javax.validation.constraints.Pattern;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -10,16 +11,20 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class SignUpRequest {
 
+  @Pattern(regexp = "^(.+)@(\\S+)$")
   private String email;
 
+  @Pattern(regexp = "^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\\-_=+]).{8,15}$")
   private String password;
 
   private String firstName;
 
   private String lastName;
 
+  @Pattern(regexp = "^.{2,8}$")
   private String nickname;
 
+  @Pattern(regexp = "^\\d{3}-\\d{4}-\\d{4}$")
   private String phoneNumber;
 
   private String city;
