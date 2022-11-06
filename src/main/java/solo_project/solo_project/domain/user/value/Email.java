@@ -1,5 +1,6 @@
 package solo_project.solo_project.domain.user.value;
 
+import static solo_project.solo_project.common.regex.CommonRegex.EMAIL_REGEX_PATTERN;
 import static solo_project.solo_project.common.util.Validation.*;
 
 import javax.persistence.Access;
@@ -10,7 +11,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.springframework.util.Assert;
-import solo_project.solo_project.common.util.Validation;
 
 @Embeddable
 @Getter
@@ -19,7 +19,6 @@ import solo_project.solo_project.common.util.Validation;
 @ToString
 public class Email {
 
-  private static String EMAIL_REGEX_PATTERN = "^(.+)@(\\S+)$";
   private String emailAddress;
 
   public Email(String email) {

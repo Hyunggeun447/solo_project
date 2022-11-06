@@ -1,5 +1,6 @@
 package solo_project.solo_project.domain.user.value;
 
+import static solo_project.solo_project.common.regex.CommonRegex.PASSWORD_REGEX_PATTERN;
 import static solo_project.solo_project.common.util.Validation.validateRegex;
 
 import javax.persistence.Access;
@@ -19,8 +20,6 @@ import org.springframework.util.Assert;
 @ToString
 
 public class Password {
-
-  private static final String PASSWORD_REGEX_PATTERN = "^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\\-_=+]).{8,15}$";
 
   private String hashedPassword;
 

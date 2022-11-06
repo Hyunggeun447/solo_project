@@ -1,5 +1,7 @@
 package solo_project.solo_project.domain.user.value;
 
+import static solo_project.solo_project.common.regex.CommonRegex.PHONE_NUMBER_REGEX_PATTERN;
+
 import java.util.regex.Pattern;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
@@ -17,7 +19,6 @@ import org.springframework.util.Assert;
 @ToString
 public class Phone {
 
-  private static String PHONE_NUMBER_REGEX_PATTERN = "^\\d{3}-\\d{4}-\\d{4}$";
   private String number;
 
   public Phone(String number) {

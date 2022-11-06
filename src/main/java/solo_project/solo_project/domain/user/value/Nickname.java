@@ -1,5 +1,6 @@
 package solo_project.solo_project.domain.user.value;
 
+import static solo_project.solo_project.common.regex.CommonRegex.NICKNAME_REGEX_PATTERN;
 import static solo_project.solo_project.common.util.Validation.validateRegex;
 
 import javax.persistence.Access;
@@ -17,8 +18,6 @@ import org.springframework.util.Assert;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString
 public class Nickname {
-
-  private static final String NICKNAME_REGEX_PATTERN = "^.{2,8}$";
 
   private String nickname;
 
