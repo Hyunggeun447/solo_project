@@ -10,6 +10,7 @@ import solo_project.solo_project.domain.user.mapper.dto.request.SignUpRequest;
 import solo_project.solo_project.domain.user.mapper.dto.request.UpdatePasswordRequest;
 import solo_project.solo_project.domain.user.mapper.dto.request.UpdateRequest;
 import solo_project.solo_project.domain.user.entity.User;
+import solo_project.solo_project.domain.user.mapper.dto.response.UserSelfInfoResponse;
 import solo_project.solo_project.domain.user.repository.UserRepository;
 
 @Transactional
@@ -51,6 +52,19 @@ public class UserService {
       throw new RuntimeException();
     }
     user.changePassword(passwordEncoder.encode(updatePasswordRequest.getNewPassword()));
+  }
+
+  public void delete(Long userId) {
+    User user = userRepository.findById(userId)
+        .orElseThrow(RuntimeException::new);
+
+    userRepository.delete(user);
+  }
+
+  public UserSelfInfoResponse findUserSelfInfo(Long userId) {
+    User user = userRepository.findById(userId)
+        .orElseThrow(RuntimeException::new);
+    return toUserSelfInfo(user);
   }
 
   @Transactional(readOnly = true)
