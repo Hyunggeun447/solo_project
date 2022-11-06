@@ -91,7 +91,7 @@ public class AuthService {
   }
 
   public void logout(HttpServletRequest request) {
-    String accessToken = resolveAccessToken(request);
+    String accessToken = jwtTokenProvider.resolveToken(request);
 
     if (!jwtTokenProvider.validateToken(accessToken)) {
       throw new IllegalArgumentException("유효하지 않은 토큰");
@@ -109,16 +109,22 @@ public class AuthService {
   }
 
   private void saveTokenToCache(String email, TokenInfo tokenInfo) {
-    cacheTokenPort.setDataAndExpiration(LOGIN_ACCESS_TOKEN_PREFIX + email,
-        tokenInfo.getAccessToken(), ACCESS_TOKEN_EXPIRATION_TIME.getValue());
-    cacheTokenPort.setDataAndExpiration(LOGIN_REFRESH_TOKEN_PREFIX + email,
-        tokenInfo.getRefreshToken(), REFRESH_TOKEN_EXPIRATION_TIME.getValue());
+    cacheTokenPort.setDataAndExpiration(
+        LOGIN_ACCESS_TOKEN_PREFIX + email,
+        tokenInfo.getAccessToken(),
+        ACCESS_TOKEN_EXPIRATION_TIME.getValue());
+    cacheTokenPort.setDataAndExpiration(
+        LOGIN_REFRESH_TOKEN_PREFIX + email,
+        tokenInfo.getRefreshToken(),
+        REFRESH_TOKEN_EXPIRATION_TIME.getValue());
   }
 
   private void checkFailureCount(String email) {
     String loginFailureCount = cacheTokenPort.getData(LOGIN_FAILED_KEY_PREFIX + email);
 
-    if (StringUtils.hasText(loginFailureCount) && Integer.parseInt(loginFailureCount) >= MAXIMAL_NUMBER_OF_WRONG_PASSWORD) {
+    if (StringUtils.hasText(loginFailureCount)
+        && Integer.parseInt(loginFailureCount) >= MAXIMAL_NUMBER_OF_WRONG_PASSWORD) {
+
       throw new AccessDeniedException("비밀번호를 5회 이상 틀려 인증이 필요합니다");
     }
   }
