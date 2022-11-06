@@ -44,7 +44,7 @@ public class CustomUserDetails implements UserDetails {
 
   @Override
   public String getPassword() {
-    return null;
+    return password;
   }
 
   @Override
@@ -77,6 +77,8 @@ public class CustomUserDetails implements UserDetails {
     return CustomUserDetails.builder()
         .id(user.getId())
         .email(user.getEmail().getEmailAddress())
+        .nickname(user.getNickname().getNickname())
+        .password(user.getPassword())
         .authorities(user.getAuthorities())
         .build();
   }
