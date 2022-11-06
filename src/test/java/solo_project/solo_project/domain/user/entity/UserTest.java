@@ -36,10 +36,9 @@ class UserTest {
 
       //then
       assertThat(user.getEmail().getEmailAddress()).isEqualTo(email);
-      assertThat(user.getName().getFirstName()).isEqualTo(firstName);
-      assertThat(user.getName().getLastName()).isEqualTo(lastName);
-      assertThat(user.getNickname().getNickname()).isEqualTo(nickname);
-      assertThat(user.getPhoneNumber().getNumber()).isEqualTo(phoneNumber);
+      assertThat(user.getName()).isEqualTo(lastName + " " + firstName);
+      assertThat(user.getNickname()).isEqualTo(nickname);
+      assertThat(user.getPhoneNumber()).isEqualTo(phoneNumber);
       assertThat(user.getAddress().getCity()).isEqualTo(city);
       assertThat(user.getAddress().getDetailAddress()).isEqualTo(detailAddress);
       assertThat(user.getAuthorities()).contains("ROLE_USER");
@@ -85,7 +84,7 @@ class UserTest {
       user.changeNickname(newNickname);
 
       //then
-      assertThat(user.getNickname().getNickname()).isEqualTo(newNickname);
+      assertThat(user.getNickname()).isEqualTo(newNickname);
     }
 
     @Test
@@ -134,7 +133,7 @@ class UserTest {
       }
 
       @Test
-      @DisplayName("성공 - result = the most recently registered profile")
+      @DisplayName("성공 - result => the most recently registered profile = main profile")
       public void S_profile() throws Exception {
 
         //given
@@ -148,7 +147,7 @@ class UserTest {
         String mainProfile = user.getMainProfile();
 
         //then
-        assertThat(mainProfile).isEqualTo(profile);
+        assertThat(mainProfile).isEqualTo(profile.getProfileUrl());
       }
     }
   }

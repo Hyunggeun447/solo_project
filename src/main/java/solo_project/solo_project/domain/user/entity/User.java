@@ -91,6 +91,18 @@ public class User extends BaseTimeEntity {
     addUserAuth(this);
   }
 
+  public String getName() {
+    return this.name.getLastName() + " " + this.name.getFirstName();
+  }
+
+  public String getNickname() {
+    return this.nickname.getNickname();
+  }
+
+  public String getPhoneNumber() {
+    return this.phoneNumber.getNumber();
+  }
+
   public void changeNickname(String nickname) {
     this.nickname.changeNickname(nickname);
   }
