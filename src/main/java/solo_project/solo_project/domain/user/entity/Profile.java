@@ -23,7 +23,7 @@ import solo_project.solo_project.common.entity.BaseEntity;
 @Getter
 @Where(clause = "is_deleted = false")
 @SQLDelete(sql = "UPDATE profile SET is_deleted = true WHERE id = ?")
-@EqualsAndHashCode(of = "id")
+@EqualsAndHashCode(of = "id", callSuper = true)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Profile extends BaseEntity {
 
@@ -46,8 +46,8 @@ public class Profile extends BaseEntity {
     Assert.notNull(profileUrl, "need profileUrl");
     Assert.notNull(user, "need user");
 
-    addUser(user);
     this.profileUrl = profileUrl;
+    addUser(user);
   }
 
   public void addUser(User user) {
