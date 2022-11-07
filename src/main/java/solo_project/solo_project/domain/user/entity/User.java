@@ -20,6 +20,7 @@ import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.apache.http.util.Asserts;
 import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
@@ -81,7 +82,7 @@ public class User extends BaseTimeEntity {
   @Builder
   public User(String email, String firstName, String lastName, String nickname, String phoneNumber,
       String city, String detailAddress, String password) {
-
+    Asserts.notEmpty(password,"password shouldn't be empty");
     this.email = new Email(email);
     this.name = new Name(firstName, lastName);
     this.nickname = new Nickname(nickname);

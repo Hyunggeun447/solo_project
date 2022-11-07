@@ -10,7 +10,4 @@ public class CommonRegex {
 
   public static String PHONE_NUMBER_REGEX_PATTERN = "^\\d{3}-\\d{4}-\\d{4}$";
 
-
-
-
 }
