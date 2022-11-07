@@ -30,10 +30,21 @@ public class BoardService {
   public void modifyBoard(Long userId, ModifyBoardRequest modifyBoardRequest) {
     Board board = boardRepository.findById(modifyBoardRequest.getBoardId())
         .orElseThrow(RuntimeException::new);
+    validateBoardOwner(userId, board);
+    modifyBoardRequestMapper.updateFromDto(modifyBoardRequest, board);
+  }
+
+  public void deleteBoard(Long userId, Long boardId) {
+    Board board = boardRepository.findById(boardId)
+        .orElseThrow(RuntimeException::new);
+    validateBoardOwner(userId, board);
+    boardRepository.delete(board);
+  }
+
+  private void validateBoardOwner(Long userId, Board board) {
     if (!board.getUserId().equals(userId)) {
       throw new RuntimeException();
     }
-    modifyBoardRequestMapper.updateFromDto(modifyBoardRequest, board);
   }
 
 }
