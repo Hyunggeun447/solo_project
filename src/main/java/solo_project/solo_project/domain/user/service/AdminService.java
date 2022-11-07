@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import solo_project.solo_project.domain.user.entity.Authority;
 import solo_project.solo_project.domain.user.entity.User;
+import solo_project.solo_project.domain.user.repository.AuthorityRepository;
 import solo_project.solo_project.domain.user.repository.UserRepository;
 import solo_project.solo_project.domain.user.value.AuthorityLevel;
 
@@ -14,6 +15,7 @@ import solo_project.solo_project.domain.user.value.AuthorityLevel;
 public class AdminService {
 
   private final UserRepository userRepository;
+  private final AuthorityRepository authorityRepository;
 
 
   public void banUser(Long userId) {
@@ -25,11 +27,11 @@ public class AdminService {
   public void giveAuth(Long userId, AuthorityLevel auth) {
     User user = userRepository.findById(userId)
         .orElseThrow(RuntimeException::new);
-    Authority authority = Authority.builder()
-        .role(auth.getRole())
-        .user(user)
-        .build();
-    user.addAuthority(authority);
+    auth.giveAuth(user);
+  }
+
+  public void removeAuth(Long userIdm, AuthorityLevel auth) {
+
   }
 
 }

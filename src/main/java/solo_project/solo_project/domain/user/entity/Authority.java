@@ -17,6 +17,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import solo_project.solo_project.common.entity.BaseEntity;
+import solo_project.solo_project.domain.user.value.AuthorityLevel;
 
 @Table(name = "authority")
 @Entity
@@ -45,18 +46,10 @@ public class Authority extends BaseEntity implements GrantedAuthority {
   }
 
   public static void addUserAuth(User user) {
-    Authority role_user = Authority.builder()
-        .role("ROLE_USER")
-        .user(user)
-        .build();
-    user.addAuthority(role_user);
+    AuthorityLevel.USER.giveAuth(user);
   }
 
   public static void addAdminAuth(User user) {
-    Authority role_admin = Authority.builder()
-        .role("ROLE_ADMIN")
-        .user(user)
-        .build();
-    user.addAuthority(role_admin);
+    AuthorityLevel.ADMIN.giveAuth(user);
   }
 }
