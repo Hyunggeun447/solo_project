@@ -5,7 +5,7 @@ import solo_project.solo_project.domain.user.entity.User;
 
 public enum AuthorityLevel {
 
-  ADMIN("관리자", "ROLE_AMDIN") {
+  ADMIN("관리자", "ROLE_ADMIN") {
 
     @Override
     public void giveAuth(User user) {
