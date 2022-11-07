@@ -27,9 +27,6 @@ public enum AuthorityLevel {
       user.addAuthority(authority);
     }
   },
-
-
-
   ;
 
   private String description;
