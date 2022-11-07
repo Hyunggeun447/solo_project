@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import solo_project.solo_project.domain.user.mapper.dto.response.UserSelfInfoResponse;
 import solo_project.solo_project.domain.user.service.UserService;
+import solo_project.solo_project.domain.user.value.AuthorityLevel;
 
 @RestController
 @RequestMapping("/api/v1/admin")
@@ -39,5 +40,14 @@ public class AdminController {
   @ResponseStatus(HttpStatus.OK)
   public void banUser(@RequestParam Long userId) {
     userService.banUser(userId);
+  }
+
+  @PutMapping("/promote")
+  @Secured("{ROLE_ADMIN}")
+  @ResponseStatus(HttpStatus.OK)
+  public void giveAuth(
+      @RequestParam(name = "userId") Long userId,
+      @RequestParam(name = "auth") AuthorityLevel auth) {
+    userService.giveAuth(userId, auth);
   }
 }

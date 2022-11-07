@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import solo_project.solo_project.common.s3.S3UploadService;
+import solo_project.solo_project.domain.user.entity.Authority;
 import solo_project.solo_project.domain.user.entity.Profile;
 import solo_project.solo_project.domain.user.mapper.dto.request.SignUpRequest;
 import solo_project.solo_project.domain.user.mapper.dto.request.UpdatePasswordRequest;
@@ -15,6 +16,7 @@ import solo_project.solo_project.domain.user.mapper.dto.request.UpdateRequest;
 import solo_project.solo_project.domain.user.entity.User;
 import solo_project.solo_project.domain.user.mapper.dto.response.UserSelfInfoResponse;
 import solo_project.solo_project.domain.user.repository.UserRepository;
+import solo_project.solo_project.domain.user.value.AuthorityLevel;
 
 @Transactional
 @Service
@@ -92,5 +94,15 @@ public class UserService {
     User user = userRepository.findById(userId)
         .orElseThrow(RuntimeException::new);
     user.changeIsNonLocked(false);
+  }
+
+  public void giveAuth(Long userId, AuthorityLevel auth) {
+    User user = userRepository.findById(userId)
+        .orElseThrow(RuntimeException::new);
+    Authority authority = Authority.builder()
+        .role(auth.getRole())
+        .user(user)
+        .build();
+    user.addAuthority(authority);
   }
 }
