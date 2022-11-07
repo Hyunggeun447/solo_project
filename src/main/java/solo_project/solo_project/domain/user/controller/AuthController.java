@@ -32,6 +32,7 @@ public class AuthController {
   private final AuthService authService;
 
   @PostMapping("/login")
+  @PreAuthorize("isAnonymous()")
   @ResponseStatus(HttpStatus.OK)
   public LoginResponse login(
       @RequestBody @Valid LoginRequest loginRequest,

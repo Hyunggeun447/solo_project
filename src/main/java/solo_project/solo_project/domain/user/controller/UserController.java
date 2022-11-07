@@ -104,6 +104,4 @@ public class UserController {
     userService.addProfile(userId, multipartFile);
   }
 
-
-
 }
