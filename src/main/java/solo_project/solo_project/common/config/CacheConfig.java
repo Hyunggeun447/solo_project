@@ -32,8 +32,8 @@ public class CacheConfig {
             .SerializationPair
             .fromSerializer(new GenericJackson2JsonRedisSerializer()));
 
-    Map<String, RedisCacheConfiguration> cacheConfigurations = setCustomCacheConfigurations(
-        redisCacheConfiguration);
+    Map<String, RedisCacheConfiguration> cacheConfigurations
+        = setCustomCacheConfigurations(redisCacheConfiguration);
 
     return RedisCacheManager.RedisCacheManagerBuilder
         .fromConnectionFactory(redisConnectionFactory)

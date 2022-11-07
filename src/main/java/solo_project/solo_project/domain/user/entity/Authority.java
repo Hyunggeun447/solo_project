@@ -22,7 +22,7 @@ import solo_project.solo_project.common.entity.BaseEntity;
 @Entity
 @Getter
 @Builder
-@EqualsAndHashCode(of = "id")
+@EqualsAndHashCode(of = "id", callSuper = true)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class Authority extends BaseEntity implements GrantedAuthority {

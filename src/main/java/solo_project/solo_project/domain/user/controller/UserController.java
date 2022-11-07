@@ -94,7 +94,7 @@ public class UserController {
     return userService.findUserSelfInfo(userId);
   }
 
-  @PostMapping
+  @PostMapping("/profile")
   @ResponseStatus(HttpStatus.OK)
   @Secured({"ROLE_USER", "ROLE_ADMIN"})
   public void addProfile(
