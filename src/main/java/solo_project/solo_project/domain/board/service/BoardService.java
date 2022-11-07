@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import solo_project.solo_project.domain.board.entity.Board;
-import solo_project.solo_project.domain.board.mapper.BoardDetailsResponseMapper;
 import solo_project.solo_project.domain.board.mapper.CreateBoardRequestMapper;
 import solo_project.solo_project.domain.board.mapper.ModifyBoardRequestMapper;
 import solo_project.solo_project.domain.board.mapper.request.CreateBoardRequest;
@@ -21,7 +20,6 @@ public class BoardService {
 
   private final CreateBoardRequestMapper createBoardRequestMapper;
   private final ModifyBoardRequestMapper modifyBoardRequestMapper;
-  private final BoardDetailsResponseMapper boardDetailsResponseMapper;
 
   public Long createBoard(Long userId, CreateBoardRequest createBoardRequest) {
 
