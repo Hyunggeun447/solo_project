@@ -4,10 +4,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import solo_project.solo_project.domain.board.entity.Board;
+import solo_project.solo_project.domain.board.mapper.BoardDetailsResponseMapper;
 import solo_project.solo_project.domain.board.mapper.CreateBoardRequestMapper;
 import solo_project.solo_project.domain.board.mapper.ModifyBoardRequestMapper;
 import solo_project.solo_project.domain.board.mapper.request.CreateBoardRequest;
 import solo_project.solo_project.domain.board.mapper.request.ModifyBoardRequest;
+import solo_project.solo_project.domain.board.mapper.response.BoardDetailsResponse;
 import solo_project.solo_project.domain.board.repository.BoardRepository;
 
 @Service
@@ -19,6 +21,7 @@ public class BoardService {
 
   private final CreateBoardRequestMapper createBoardRequestMapper;
   private final ModifyBoardRequestMapper modifyBoardRequestMapper;
+  private final BoardDetailsResponseMapper boardDetailsResponseMapper;
 
   public Long createBoard(Long userId, CreateBoardRequest createBoardRequest) {
 
@@ -47,4 +50,7 @@ public class BoardService {
     }
   }
 
+  public BoardDetailsResponse findBoard(Long boardId) {
+    return boardRepository.findBoardDetails(boardId);
+  }
 }

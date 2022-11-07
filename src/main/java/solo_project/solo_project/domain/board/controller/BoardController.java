@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import solo_project.solo_project.common.annotation.AuthUserId;
 import solo_project.solo_project.domain.board.mapper.request.CreateBoardRequest;
 import solo_project.solo_project.domain.board.mapper.request.ModifyBoardRequest;
+import solo_project.solo_project.domain.board.mapper.response.BoardDetailsResponse;
 import solo_project.solo_project.domain.board.service.BoardService;
 
 @RequestMapping("/api/v1/board")
@@ -55,4 +57,10 @@ public class BoardController {
     boardService.deleteBoard(userId, boardId);
   }
 
+  @GetMapping
+  @ResponseStatus(HttpStatus.OK)
+  @PreAuthorize("isAnonymous()")
+  public BoardDetailsResponse getBoard(@RequestParam Long boardId) {
+    return boardService.findBoard(boardId);
+  }
 }
