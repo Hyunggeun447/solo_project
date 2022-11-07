@@ -32,10 +32,6 @@ public class CustomUserDetails implements UserDetails {
   @Builder.Default
   private List<String> authorities = new ArrayList<>();
 
-  public boolean validate(Long id, String email){
-    return id.equals(this.id) && email.equals(this.email);
-  }
-
   public Collection<? extends GrantedAuthority> getAuthorities() {
     return authorities.stream()
         .map(SimpleGrantedAuthority::new)
