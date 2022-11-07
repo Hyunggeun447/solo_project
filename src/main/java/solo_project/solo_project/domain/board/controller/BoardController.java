@@ -1,6 +1,8 @@
 package solo_project.solo_project.domain.board.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -16,6 +18,7 @@ import solo_project.solo_project.common.annotation.AuthUserId;
 import solo_project.solo_project.domain.board.mapper.request.CreateBoardRequest;
 import solo_project.solo_project.domain.board.mapper.request.ModifyBoardRequest;
 import solo_project.solo_project.domain.board.mapper.response.BoardDetailsResponse;
+import solo_project.solo_project.domain.board.mapper.response.BoardSummaryResponse;
 import solo_project.solo_project.domain.board.service.BoardService;
 
 @RequestMapping("/api/v1/board")
@@ -62,5 +65,12 @@ public class BoardController {
   @PreAuthorize("isAnonymous()")
   public BoardDetailsResponse getBoard(@RequestParam Long boardId) {
     return boardService.findBoard(boardId);
+  }
+
+  @GetMapping
+  @ResponseStatus(HttpStatus.OK)
+  @PreAuthorize("isAnonymous()")
+  public Slice<BoardSummaryResponse> getBoardList(Pageable pageable) {
+    return boardService.findBoardList(pageable);
   }
 }
