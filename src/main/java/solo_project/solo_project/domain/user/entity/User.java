@@ -72,6 +72,9 @@ public class User extends BaseTimeEntity {
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<Profile> profiles = new ArrayList<>();
 
+  @Column(name = "is_non_locked")
+  private Boolean isNonLocked = Boolean.TRUE;
+
   @Column(name = "is_deleted")
   private Boolean isDeleted = Boolean.FALSE;
 
@@ -121,6 +124,9 @@ public class User extends BaseTimeEntity {
     this.password = password;
   }
 
+  public void changeIsNonLocked(Boolean aBoolean) {
+    this.isNonLocked = aBoolean;
+  }
   public String getMainProfile() {
     Integer profileSize = this.profiles.size();
     if (profileSize.equals(0)) {

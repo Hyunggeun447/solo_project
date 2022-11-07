@@ -28,6 +28,8 @@ public class CustomUserDetails implements UserDetails {
 
   private String nickname;
 
+  private Boolean isNonLocked;
+
 
   @Builder.Default
   private List<String> authorities = new ArrayList<>();
@@ -55,7 +57,7 @@ public class CustomUserDetails implements UserDetails {
 
   @Override
   public boolean isAccountNonLocked() {
-    return true;
+    return isNonLocked;
   }
 
   @Override
@@ -74,6 +76,7 @@ public class CustomUserDetails implements UserDetails {
         .id(user.getId())
         .email(user.getEmail().getEmailAddress())
         .nickname(user.getNickname())
+        .isNonLocked(user.getIsNonLocked())
         .password(user.getPassword())
         .authorities(user.getAuthorities())
         .build();

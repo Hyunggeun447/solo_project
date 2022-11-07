@@ -87,4 +87,10 @@ public class UserService {
   public boolean isDuplicatedEmail(String email) {
     return userRepository.existsByEmailEmailAddress(email);
   }
+
+  public void banUser(Long userId) {
+    User user = userRepository.findById(userId)
+        .orElseThrow(RuntimeException::new);
+    user.changeIsNonLocked(false);
+  }
 }
