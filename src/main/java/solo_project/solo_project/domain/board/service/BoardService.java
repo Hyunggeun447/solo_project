@@ -1,6 +1,7 @@
 package solo_project.solo_project.domain.board.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
@@ -51,10 +52,14 @@ public class BoardService {
     }
   }
 
+  @Transactional(readOnly = true)
+  @Cacheable(keyGenerator = "customKeyGenerator", cacheNames = "long", unless = "#result==null")
   public BoardDetailsResponse findBoard(Long boardId) {
     return boardRepository.findBoardDetails(boardId);
   }
 
+  @Transactional(readOnly = true)
+  @Cacheable(keyGenerator = "customKeyGenerator", cacheNames = "long", unless = "#result==null")
   public Slice<BoardSummaryResponse> findBoardList(Pageable pageable) {
      return boardRepository.findBoardList(pageable);
   }
