@@ -13,6 +13,7 @@ import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 import solo_project.solo_project.common.entity.BaseEntity;
@@ -22,6 +23,7 @@ import solo_project.solo_project.common.entity.BaseEntity;
 @Where(clause = "is_deleted = false")
 @SQLDelete(sql = "UPDATE board SET is_deleted = true WHERE id = ?")
 @Getter
+@Setter
 @EqualsAndHashCode(of = "id", callSuper = true)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Board extends BaseEntity {
