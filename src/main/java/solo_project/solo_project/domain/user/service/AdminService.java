@@ -30,8 +30,12 @@ public class AdminService {
     auth.giveAuth(user);
   }
 
-  public void removeAuth(Long userIdm, AuthorityLevel auth) {
-
+  public void removeAuth(Long userId, AuthorityLevel auth) {
+    User user = userRepository.findById(userId)
+        .orElseThrow(RuntimeException::new);
+    Authority authority = authorityRepository.findByUserAndRole(user, auth.getRole())
+        .orElseThrow(RuntimeException::new);
+    authorityRepository.delete(authority);
   }
 
 }

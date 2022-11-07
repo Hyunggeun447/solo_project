@@ -52,4 +52,14 @@ public class AdminController {
       @RequestParam(name = "auth") AuthorityLevel auth) {
     adminService.giveAuth(userId, auth);
   }
+
+  @PutMapping("/relegation")
+  @Secured("{ROLE_ADMIN}")
+  @ResponseStatus(HttpStatus.OK)
+  public void removeAuth(
+      @RequestParam(name = "userId") Long userId,
+      @RequestParam(name = "auth") AuthorityLevel auth
+  ) {
+    adminService.removeAuth(userId, auth);
+  }
 }
