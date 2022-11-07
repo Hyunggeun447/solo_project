@@ -20,21 +20,21 @@ public class AdminController {
 
   private final UserService userService;
 
-  @PostMapping("/delete")
+  @PostMapping("/user/delete")
   @ResponseStatus(HttpStatus.NO_CONTENT)
   @Secured({"ROLE_ADMIN"})
   public void deleteUser(@RequestParam Long userId) {
     userService.delete(userId);
   }
 
-  @GetMapping("")
+  @GetMapping("/user")
   @Secured({"ROLE_ADMIN"})
   @ResponseStatus(HttpStatus.OK)
   public UserSelfInfoResponse getUserInfo(@RequestParam Long userId) {
     return userService.findUserSelfInfo(userId);
   }
 
-  @PutMapping
+  @PutMapping("/ban")
   @Secured("{ROLE_ADMIN}")
   @ResponseStatus(HttpStatus.OK)
   public void banUser(@RequestParam Long userId) {
