@@ -90,19 +90,4 @@ public class UserService {
     return userRepository.existsByEmailEmailAddress(email);
   }
 
-  public void banUser(Long userId) {
-    User user = userRepository.findById(userId)
-        .orElseThrow(RuntimeException::new);
-    user.changeIsNonLocked(false);
-  }
-
-  public void giveAuth(Long userId, AuthorityLevel auth) {
-    User user = userRepository.findById(userId)
-        .orElseThrow(RuntimeException::new);
-    Authority authority = Authority.builder()
-        .role(auth.getRole())
-        .user(user)
-        .build();
-    user.addAuthority(authority);
-  }
 }

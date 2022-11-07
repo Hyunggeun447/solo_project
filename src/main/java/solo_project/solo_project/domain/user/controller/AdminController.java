@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import solo_project.solo_project.domain.user.mapper.dto.response.UserSelfInfoResponse;
+import solo_project.solo_project.domain.user.service.AdminService;
 import solo_project.solo_project.domain.user.service.UserService;
 import solo_project.solo_project.domain.user.value.AuthorityLevel;
 
@@ -20,6 +21,7 @@ import solo_project.solo_project.domain.user.value.AuthorityLevel;
 public class AdminController {
 
   private final UserService userService;
+  private final AdminService adminService;
 
   @PostMapping("/user/delete")
   @ResponseStatus(HttpStatus.NO_CONTENT)
@@ -39,7 +41,7 @@ public class AdminController {
   @Secured("{ROLE_ADMIN}")
   @ResponseStatus(HttpStatus.OK)
   public void banUser(@RequestParam Long userId) {
-    userService.banUser(userId);
+    adminService.banUser(userId);
   }
 
   @PutMapping("/promote")
@@ -48,6 +50,6 @@ public class AdminController {
   public void giveAuth(
       @RequestParam(name = "userId") Long userId,
       @RequestParam(name = "auth") AuthorityLevel auth) {
-    userService.giveAuth(userId, auth);
+    adminService.giveAuth(userId, auth);
   }
 }
