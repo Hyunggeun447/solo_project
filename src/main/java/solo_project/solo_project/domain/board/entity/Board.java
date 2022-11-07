@@ -45,6 +45,11 @@ public class Board extends BaseEntity {
   @Column(name = "is_deleted")
   private Boolean isDeleted = Boolean.FALSE;
 
+  public Board(String title, String description, Long userId) {
+    this.title = title;
+    this.description = description;
+    this.userId = userId;
+  }
 
   public void addImage(Image image) {
     this.images.add(image);
