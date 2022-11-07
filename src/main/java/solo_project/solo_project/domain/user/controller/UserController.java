@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 import solo_project.solo_project.common.annotation.AuthUserId;
 import solo_project.solo_project.common.s3.UploadService;
 import solo_project.solo_project.domain.user.mapper.dto.request.SignUpRequest;
@@ -90,6 +92,16 @@ public class UserController {
       @AuthUserId Long userId
   ) {
     return userService.findUserSelfInfo(userId);
+  }
+
+  @PostMapping
+  @ResponseStatus(HttpStatus.OK)
+  @Secured({"ROLE_USER", "ROLE_ADMIN"})
+  public void addProfile(
+      @AuthUserId Long userId,
+      @RequestPart("image") MultipartFile multipartFile
+  ) {
+    userService.addProfile(userId, multipartFile);
   }
 
 

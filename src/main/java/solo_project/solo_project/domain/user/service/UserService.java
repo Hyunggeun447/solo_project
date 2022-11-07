@@ -6,6 +6,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+import solo_project.solo_project.common.s3.S3UploadService;
+import solo_project.solo_project.domain.user.entity.Profile;
 import solo_project.solo_project.domain.user.mapper.dto.request.SignUpRequest;
 import solo_project.solo_project.domain.user.mapper.dto.request.UpdatePasswordRequest;
 import solo_project.solo_project.domain.user.mapper.dto.request.UpdateRequest;
@@ -20,6 +23,7 @@ public class UserService {
 
   private final UserRepository userRepository;
   private final PasswordEncoder passwordEncoder;
+  private final S3UploadService s3UploadService;
 
   public Long signUp(SignUpRequest signUpRequest) {
 
@@ -65,6 +69,13 @@ public class UserService {
     User user = userRepository.findById(userId)
         .orElseThrow(RuntimeException::new);
     return toUserSelfInfo(user);
+  }
+
+  public void addProfile(Long userId, MultipartFile multipartFile) {
+    String profileUrl = s3UploadService.uploadImg(multipartFile);
+    User user = userRepository.findById(userId)
+        .orElseThrow(RuntimeException::new);
+    Profile profile = new Profile(profileUrl, user);
   }
 
   @Transactional(readOnly = true)
