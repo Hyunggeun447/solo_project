@@ -1,4 +1,4 @@
-# Jwt Token을 이용한 인증을 구현해는 개인 프로젝트입니다.
+# Jwt Token을 이용해 인증을 구현하는 개인 프로젝트입니다.
 
 
 ### 🔧 사용 기술
@@ -20,3 +20,9 @@
 ### 📠 협업툴
 
 ![GitHub](https://img.shields.io/badge/-GitHub-181717?style=plastic&logo=GitHub&logoColor=white)
+
+
+## 프로젝트 내용
+- AccessToken, RefreshToken을 이용한 인증처리
+- RefreshToken = HttpOnly로 Cookie, AccessToken = Header를 통해 인증
+- Redis를 이용한 Token 저장 및 만료 및 각종 캐시 처리
