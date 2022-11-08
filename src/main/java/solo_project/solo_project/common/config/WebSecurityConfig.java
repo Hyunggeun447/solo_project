@@ -11,9 +11,9 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import solo_project.solo_project.domain.user.security.JwtAccessDeniedHandler;
-import solo_project.solo_project.domain.user.security.JwtAuthenticationFilter;
-import solo_project.solo_project.domain.user.security.JwtEntryPoint;
+import solo_project.solo_project.common.security.JwtAccessDeniedHandler;
+import solo_project.solo_project.common.security.JwtAuthenticationFilter;
+import solo_project.solo_project.common.security.JwtEntryPoint;
 import solo_project.solo_project.domain.user.service.CustomUserDetailsService;
 
 @EnableWebSecurity

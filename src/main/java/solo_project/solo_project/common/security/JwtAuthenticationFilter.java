@@ -1,4 +1,4 @@
-package solo_project.solo_project.domain.user.security;
+package solo_project.solo_project.common.security;
 
 import static solo_project.solo_project.domain.user.util.SecurityConstants.LOGOUT_KEY_PREFIX;
 

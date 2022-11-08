@@ -9,7 +9,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import solo_project.solo_project.common.exception.BadRequestException;
-import solo_project.solo_project.domain.user.security.JwtTokenProvider;
+import solo_project.solo_project.common.security.JwtTokenProvider;
 
 @Component
 @RequiredArgsConstructor

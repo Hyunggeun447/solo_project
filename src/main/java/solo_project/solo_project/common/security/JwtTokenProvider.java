@@ -1,7 +1,7 @@
-package solo_project.solo_project.domain.user.security;
+package solo_project.solo_project.common.security;
 
-import static solo_project.solo_project.domain.user.security.JwtExpirationEnum.ACCESS_TOKEN_EXPIRATION_TIME;
-import static solo_project.solo_project.domain.user.security.JwtExpirationEnum.REFRESH_TOKEN_EXPIRATION_TIME;
+import static solo_project.solo_project.common.security.JwtExpirationEnum.ACCESS_TOKEN_EXPIRATION_TIME;
+import static solo_project.solo_project.common.security.JwtExpirationEnum.REFRESH_TOKEN_EXPIRATION_TIME;
 import static solo_project.solo_project.domain.user.util.SecurityConstants.AUTHORIZATION_HEADER;
 import static solo_project.solo_project.domain.user.util.SecurityConstants.BEARER_TYPE;
 

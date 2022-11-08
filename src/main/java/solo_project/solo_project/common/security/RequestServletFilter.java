@@ -1,4 +1,4 @@
-package solo_project.solo_project.domain.user.security;
+package solo_project.solo_project.common.security;
 
 import java.io.IOException;
 import java.util.Objects;

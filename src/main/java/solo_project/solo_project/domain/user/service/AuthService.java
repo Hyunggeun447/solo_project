@@ -1,8 +1,8 @@
 package solo_project.solo_project.domain.user.service;
 
 
-import static solo_project.solo_project.domain.user.security.JwtExpirationEnum.ACCESS_TOKEN_EXPIRATION_TIME;
-import static solo_project.solo_project.domain.user.security.JwtExpirationEnum.REFRESH_TOKEN_EXPIRATION_TIME;
+import static solo_project.solo_project.common.security.JwtExpirationEnum.ACCESS_TOKEN_EXPIRATION_TIME;
+import static solo_project.solo_project.common.security.JwtExpirationEnum.REFRESH_TOKEN_EXPIRATION_TIME;
 import static solo_project.solo_project.domain.user.util.SecurityConstants.IS_LOGOUT_PREFIX;
 import static solo_project.solo_project.domain.user.util.SecurityConstants.LOGIN_ACCESS_TOKEN_PREFIX;
 import static solo_project.solo_project.domain.user.util.SecurityConstants.LOGIN_FAILED_KEY_PREFIX;
@@ -29,7 +29,7 @@ import solo_project.solo_project.domain.user.mapper.dto.request.LoginRequest;
 import solo_project.solo_project.domain.user.entity.User;
 import solo_project.solo_project.domain.user.repository.UserRepository;
 import org.springframework.util.StringUtils;
-import solo_project.solo_project.domain.user.security.JwtTokenProvider;
+import solo_project.solo_project.common.security.JwtTokenProvider;
 
 
 @Transactional
