@@ -60,14 +60,15 @@ public class BoardController {
     boardService.deleteBoard(userId, boardId);
   }
 
-  @GetMapping
+  @GetMapping()
   @ResponseStatus(HttpStatus.OK)
   @PreAuthorize("isAnonymous()")
-  public BoardDetailsResponse getBoard(@RequestParam Long boardId) {
+  public BoardDetailsResponse getBoard(
+      @RequestParam Long boardId) {
     return boardService.findBoard(boardId);
   }
 
-  @GetMapping
+  @GetMapping("/list")
   @ResponseStatus(HttpStatus.OK)
   @PreAuthorize("isAnonymous()")
   public Slice<BoardSummaryResponse> getBoardList(Pageable pageable) {
