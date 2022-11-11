@@ -14,9 +14,11 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.apache.http.util.Asserts;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 import solo_project.solo_project.common.entity.BaseEntity;
+import solo_project.solo_project.domain.board.value.BoardType;
 
 @Entity
 @Table(name = "board")
@@ -37,6 +39,8 @@ public class Board extends BaseEntity {
 
   private String description;
 
+  private BoardType boardType;
+
   private Long userId;
 
   @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -45,10 +49,15 @@ public class Board extends BaseEntity {
   @Column(name = "is_deleted")
   private Boolean isDeleted = Boolean.FALSE;
 
-  public Board(String title, String description, Long userId) {
+  public Board(String title, String description, Long userId, BoardType boardType) {
+    Asserts.notEmpty(title, "title shouldn't be empty");
+    Asserts.notEmpty(description, "description shouldn't be empty");
+    Asserts.notNull(userId, "userId shouldn't be null");
+    Asserts.notNull(boardType, "boardType shouldn't be null");
     this.title = title;
     this.description = description;
     this.userId = userId;
+    this.boardType = boardType;
   }
 
   public void addImage(Image image) {
