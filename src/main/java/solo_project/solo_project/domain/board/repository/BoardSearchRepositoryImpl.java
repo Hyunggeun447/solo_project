@@ -5,6 +5,7 @@ import static solo_project.solo_project.domain.user.entity.QUser.user;
 
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import org.springframework.data.domain.Pageable;
@@ -23,6 +24,16 @@ public class BoardSearchRepositoryImpl implements BoardSearchRepository{
 
   @Override
   public BoardDetailsResponse findBoardDetails(Long boardId) {
+
+    List<Long> ids = jpaQueryFactory.select(board.id)
+        .from(board)
+        .where(board.id.eq(boardId))
+        .fetch();
+
+    if (ids.isEmpty()) {
+      return BoardDetailsResponse.builder().build();
+    }
+
     return jpaQueryFactory.select(
             Projections.constructor(BoardDetailsResponse.class,
                 board.title,
@@ -32,12 +43,24 @@ public class BoardSearchRepositoryImpl implements BoardSearchRepository{
         )
         .from(board)
         .leftJoin(user).on(board.userId.eq(user.id))
-        .where(board.id.eq(boardId))
+        .where(board.id.in(ids))
         .fetchOne();
   }
 
   @Override
   public Slice<BoardSummaryResponse> findBoardList(Pageable pageable) {
+
+    /*
+    List<Long> ids = jpaQueryFactory.select(board.id)
+        .from(board)
+        .where()
+        .fetch();
+
+    if (ids.isEmpty()) {
+      return new SliceImpl<>(new ArrayList<BoardSummaryResponse>(), pageable, false);
+    }
+    */
+
     List<BoardSummaryResponse> boardSummaryResponseList = jpaQueryFactory.select(
             Projections.constructor(BoardSummaryResponse.class,
                 board.title,
