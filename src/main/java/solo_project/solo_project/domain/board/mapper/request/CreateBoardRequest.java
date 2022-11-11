@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import solo_project.solo_project.domain.board.value.BoardType;
 
 @Getter
 @Builder
@@ -14,5 +15,6 @@ public class CreateBoardRequest {
 
   private String title;
   private String description;
+  private BoardType boardType;
 
 }
