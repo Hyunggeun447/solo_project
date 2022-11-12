@@ -96,7 +96,7 @@ public class User extends BaseTimeEntity {
   }
 
   public String getName() {
-    return this.name.getLastName() + " " + this.name.getFirstName();
+    return this.name.getFirstName() + " " + this.name.getLastName();
   }
 
   public String getNickname() {
