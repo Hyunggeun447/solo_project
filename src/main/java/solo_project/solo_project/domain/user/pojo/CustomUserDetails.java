@@ -7,14 +7,12 @@ import java.util.stream.Collectors;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import solo_project.solo_project.domain.user.entity.User;
 
-@Getter
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
@@ -29,7 +27,6 @@ public class CustomUserDetails implements UserDetails {
   private String nickname;
 
   private Boolean isNonLocked;
-
 
   @Builder.Default
   private List<String> authorities = new ArrayList<>();
