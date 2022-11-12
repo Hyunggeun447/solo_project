@@ -3,6 +3,7 @@ package solo_project.solo_project.domain.board.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -46,7 +47,8 @@ public class AdminBoardController {
   @GetMapping
   @ResponseStatus(HttpStatus.OK)
   @PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN')")
-  public Page<BoardSummaryResponse> getNoticePage(Pageable pageable) {
+  public Page<BoardSummaryResponse> getNoticePage(
+      @PageableDefault(page = 0, size = 5) Pageable pageable) {
     return adminBoardService.findNoticePage(pageable);
   }
 }
