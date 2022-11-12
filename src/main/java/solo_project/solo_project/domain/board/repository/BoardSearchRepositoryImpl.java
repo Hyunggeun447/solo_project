@@ -55,16 +55,13 @@ public class BoardSearchRepositoryImpl implements BoardSearchRepository{
   @Override
   public Slice<BoardSummaryResponse> findBoardList(Pageable pageable) {
 
-    /*
     List<Long> ids = jpaQueryFactory.select(board.id)
         .from(board)
-        .where()
         .fetch();
 
     if (ids.isEmpty()) {
       return new SliceImpl<>(new ArrayList<BoardSummaryResponse>(), pageable, false);
     }
-    */
 
     List<BoardSummaryResponse> boardSummaryResponseList = jpaQueryFactory.select(
             Projections.constructor(BoardSummaryResponse.class,
@@ -75,6 +72,8 @@ public class BoardSearchRepositoryImpl implements BoardSearchRepository{
         )
         .from(board)
         .leftJoin(user).on(board.userId.eq(user.id))
+        .where(board.id.in(ids),
+            board.boardType.eq(BoardType.NORMAL))
         .limit(pageable.getPageSize() + 1)
         .offset(pageable.getOffset())
         .fetch();
