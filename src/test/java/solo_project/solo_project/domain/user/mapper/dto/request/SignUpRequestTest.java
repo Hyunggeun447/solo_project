@@ -104,4 +104,50 @@ class SignUpRequestTest {
     assertThat(violations.size()).isEqualTo(4);
   }
 
+  @Test
+  @DisplayName("실패: nickname regex 불일치")
+  public void failSignUpRequestNicknameRegexTest() throws Exception {
+
+    //given
+    nickname = "e";
+
+    SignUpRequest signUpRequest = SignUpRequest.builder()
+        .email(email)
+        .firstName(firstName)
+        .lastName(lastName)
+        .nickname(nickname)
+        .city(city)
+        .detailAddress(detailAddress)
+        .phoneNumber(phoneNumber)
+        .password(password)
+        .build();
+
+    //then
+    Set<ConstraintViolation<SignUpRequest>> violations = validator.validate(signUpRequest);
+    assertThat(violations.size()).isEqualTo(1);
+  }
+
+  @Test
+  @DisplayName("실패: phoneNumber regex 불일치")
+  public void failSignUpRequestPhoneNumberRegexTest() throws Exception {
+
+    //given
+    phoneNumber = "02-11-111";
+
+    SignUpRequest signUpRequest = SignUpRequest.builder()
+        .email(email)
+        .firstName(firstName)
+        .lastName(lastName)
+        .nickname(nickname)
+        .city(city)
+        .detailAddress(detailAddress)
+        .phoneNumber(phoneNumber)
+        .password(password)
+        .build();
+
+    //then
+    Set<ConstraintViolation<SignUpRequest>> violations = validator.validate(signUpRequest);
+    assertThat(violations.size()).isEqualTo(1);
+  }
+
 }
