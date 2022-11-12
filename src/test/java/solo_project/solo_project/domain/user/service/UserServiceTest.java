@@ -65,10 +65,8 @@ class UserServiceTest {
     }
 
     @Test
-    @DisplayName("성공: ")
+    @DisplayName("성공: 생성요청에 맞은 User 객체 생성 및 초기값")
     public void signUpTest() throws Exception {
-
-      //given
 
       //when
       Long userId = userService.signUp(signUpRequest);
@@ -84,7 +82,10 @@ class UserServiceTest {
       assertThat(user.getAddress().getCity()).isEqualTo(city);
       assertThat(user.getAddress().getDetailAddress()).isEqualTo(detailAddress);
       assertThat(passwordEncoder.matches(password, user.getPassword())).isTrue();
-
+      assertThat(user.getAuthorities()).containsExactly("ROLE_USER");
+      assertThat(user.getIsNonLocked()).isTrue();
+      assertThat(user.getIsDeleted()).isFalse();
+      assertThat(user.getMainProfile()).isNull();
     }
 
   }
