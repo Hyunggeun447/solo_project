@@ -8,6 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 import solo_project.solo_project.domain.board.entity.Board;
 import solo_project.solo_project.domain.board.mapper.response.BoardDetailsResponse;
+import solo_project.solo_project.domain.board.value.BoardType;
 import solo_project.solo_project.domain.user.entity.User;
 import solo_project.solo_project.domain.user.repository.UserRepository;
 
@@ -38,7 +39,8 @@ class BoardSearchRepositoryTest {
 
     Long userId = userRepository.save(user).getId();
 
-    Board board = new Board("title", " des", userId);
+    BoardType boardType = BoardType.NORMAL;
+    Board board = new Board("title", " des", userId, boardType);
 
     Long boardId = boardRepository.save(board).getId();
 
