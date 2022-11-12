@@ -44,7 +44,7 @@ public class AdminBoardController {
     adminBoardService.deleteBoard(boardId);
   }
 
-  @GetMapping
+  @GetMapping("/notice")
   @ResponseStatus(HttpStatus.OK)
   @PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN')")
   public Page<BoardSummaryResponse> getNoticePage(
