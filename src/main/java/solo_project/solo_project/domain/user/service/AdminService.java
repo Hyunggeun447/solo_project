@@ -6,7 +6,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import solo_project.solo_project.domain.user.entity.Authority;
 import solo_project.solo_project.domain.user.entity.User;
 import solo_project.solo_project.domain.user.pojo.CustomUserDetails;
 import solo_project.solo_project.domain.user.repository.AuthorityRepository;
@@ -39,9 +38,7 @@ public class AdminService {
     validateAdminAuth(customUserDetails);
     User user = userRepository.findById(userId)
         .orElseThrow(RuntimeException::new);
-    Authority authority = authorityRepository.findByUserAndRole(user, auth.getRole())
-        .orElseThrow(RuntimeException::new);
-    authorityRepository.delete(authority);
+    authorityRepository.deleteAuthorityByUserIdAndRole(userId, auth.getRole());
   }
 
   public void delete(Long userId, CustomUserDetails customUserDetails) {
