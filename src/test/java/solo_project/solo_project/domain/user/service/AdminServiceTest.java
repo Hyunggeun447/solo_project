@@ -1,10 +1,10 @@
 package solo_project.solo_project.domain.user.service;
 
 import static org.assertj.core.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.UUID;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -17,6 +17,7 @@ import solo_project.solo_project.domain.user.entity.User;
 import solo_project.solo_project.domain.user.mapper.dto.request.SignUpRequest;
 import solo_project.solo_project.domain.user.pojo.CustomUserDetails;
 import solo_project.solo_project.domain.user.repository.UserRepository;
+import solo_project.solo_project.domain.user.value.AuthorityLevel;
 
 @SpringBootTest
 @Transactional
@@ -118,9 +119,33 @@ class AdminServiceTest {
           customUserDetailsService.loadUserByUsername(user.getEmail().getEmailAddress());
 
       //then
-      Assertions.assertThrows(RuntimeException.class,
+      assertThrows(RuntimeException.class,
           () -> adminService.banUser(adminUserId, userNotAdmin));
     }
+
+  }
+
+  @Nested
+  @DisplayName("giveAuth test")
+  class GiveAuthTest {
+
+    @Test
+    @DisplayName("성공: 관리자는 임의의 유저에게 특정 권한들을 부여할 수 있음")
+    public void giveAuthTest() throws Exception {
+
+      //given
+      CustomUserDetails adminUserDetails =
+          customUserDetailsService.loadUserByUsername(adminUser.getEmail().getEmailAddress());
+
+      //when
+      adminService.giveAuth(userId, AuthorityLevel.ADMIN, adminUserDetails);
+
+      //then
+      User user = userRepository.findById(userId)
+          .orElseThrow(RuntimeException::new);
+      assertThat(user.getAuthorities()).contains("ROLE_ADMIN");
+    }
+
   }
 
 }
