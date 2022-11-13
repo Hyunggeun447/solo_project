@@ -16,6 +16,7 @@ import solo_project.solo_project.domain.user.entity.Authority;
 import solo_project.solo_project.domain.user.entity.User;
 import solo_project.solo_project.domain.user.mapper.dto.request.SignUpRequest;
 import solo_project.solo_project.domain.user.pojo.CustomUserDetails;
+import solo_project.solo_project.domain.user.repository.AuthorityRepository;
 import solo_project.solo_project.domain.user.repository.UserRepository;
 import solo_project.solo_project.domain.user.value.AuthorityLevel;
 
@@ -166,6 +167,32 @@ class AdminServiceTest {
       //then
       assertThrows(RuntimeException.class,
           () -> adminService.giveAuth(targetUserId, AuthorityLevel.ADMIN, normalUserDetails));
+    }
+
+  }
+
+  @Nested
+  @DisplayName("removeAuth test")
+  class RemoveAuthTest {
+
+    AuthorityRepository authorityRepository;
+
+    @Test
+    @DisplayName("성공: userId의 auth가 지워짐")
+    public void removeAuthTest() throws Exception {
+
+      //given
+      CustomUserDetails adminUserDetails =
+          customUserDetailsService.loadUserByUsername(adminUser.getEmail().getEmailAddress());
+
+      //when
+      adminService.removeAuth(targetUserId, AuthorityLevel.USER, adminUserDetails);
+
+      //then
+      User user = userRepository.findById(targetUserId)
+          .orElseThrow(RuntimeException::new);
+
+      assertThat(user.getAuthorities().contains("ROLE_USER")).isFalse();
     }
 
   }
