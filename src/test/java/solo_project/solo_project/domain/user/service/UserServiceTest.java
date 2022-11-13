@@ -30,6 +30,8 @@ class UserServiceTest {
   @Autowired
   PasswordEncoder passwordEncoder;
 
+  DecimalFormat decimalFormat = new DecimalFormat("00000000");
+
   String email = "email@naver.com";
   String firstName = "John";
   String lastName = "Park";
@@ -50,6 +52,9 @@ class UserServiceTest {
 
     SignUpRequest signUpRequest;
 
+    String duplicateEmail = "isDuple@hello.com";
+    String duplicateNickname = "isDuple";
+
     @BeforeEach
     void setup() {
       signUpRequest = SignUpRequest.builder()
@@ -62,6 +67,28 @@ class UserServiceTest {
           .detailAddress(detailAddress)
           .password(password)
           .build();
+
+      userService.signUp(SignUpRequest.builder()
+          .email(duplicateEmail)
+          .firstName(firstName)
+          .lastName(lastName)
+          .nickname(nickname + UUID.randomUUID().toString().substring(0, 4))
+          .phoneNumber("010" + decimalFormat.format(new Random().nextInt(100000000)))
+          .city(city)
+          .detailAddress(detailAddress)
+          .password(password)
+          .build());
+
+      userService.signUp(SignUpRequest.builder()
+          .email(email + UUID.randomUUID().toString().substring(0, 4))
+          .firstName(firstName)
+          .lastName(lastName)
+          .nickname(duplicateNickname)
+          .phoneNumber("010" + decimalFormat.format(new Random().nextInt(100000000)))
+          .city(city)
+          .detailAddress(detailAddress)
+          .password(password)
+          .build());
     }
 
     @Test
@@ -86,6 +113,43 @@ class UserServiceTest {
       assertThat(user.getIsNonLocked()).isTrue();
       assertThat(user.getIsDeleted()).isFalse();
       assertThat(user.getMainProfile()).isNull();
+    }
+
+    @Test
+    @DisplayName("실패: 중복 이메일이 있을 경우 생성이 불가능합니다.")
+    public void duplicateEmail() throws Exception {
+
+      //then
+      assertThrows(RuntimeException.class,
+          () -> userService.signUp(SignUpRequest.builder()
+              .email(duplicateEmail)
+              .firstName(firstName + UUID.randomUUID().toString().substring(0, 4))
+              .lastName(lastName + UUID.randomUUID().toString().substring(0, 4))
+              .nickname(nickname + UUID.randomUUID().toString().substring(0, 4))
+              .phoneNumber("010" + decimalFormat.format(new Random().nextInt(100000000)))
+              .city(city + UUID.randomUUID().toString().substring(0, 4))
+              .detailAddress(detailAddress + UUID.randomUUID().toString().substring(0, 4))
+              .password(password + UUID.randomUUID().toString().substring(0, 4))
+              .build()));
+
+    }
+
+    @Test
+    @DisplayName("실패: 중복 닉네임이 있을 경우 생성이 불가능합니다.")
+    public void duplicateNickname() throws Exception {
+
+      //then
+      assertThrows(RuntimeException.class,
+          () -> userService.signUp(SignUpRequest.builder()
+              .email(email + UUID.randomUUID().toString().substring(0, 4))
+              .firstName(firstName + UUID.randomUUID().toString().substring(0, 4))
+              .lastName(lastName + UUID.randomUUID().toString().substring(0, 4))
+              .nickname(duplicateNickname)
+              .phoneNumber("010" + decimalFormat.format(new Random().nextInt(100000000)))
+              .city(city + UUID.randomUUID().toString().substring(0, 4))
+              .detailAddress(detailAddress + UUID.randomUUID().toString().substring(0, 4))
+              .password(password + UUID.randomUUID().toString().substring(0, 4))
+              .build()));
     }
 
   }
