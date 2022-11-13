@@ -43,6 +43,10 @@ public class UserService {
     User user = userRepository.findById(userId)
         .orElseThrow(RuntimeException::new);
 
+    if (isDuplicatedNickname(updateUserRequest.getNickname())) {
+      throw new RuntimeException();
+    }
+
     user.changeNickname(updateUserRequest.getNickname());
     user.changeAddress(updateUserRequest.getCity(), updateUserRequest.getDetailAddress());
     user.changePhoneNumber(updateUserRequest.getPhoneNumber());
