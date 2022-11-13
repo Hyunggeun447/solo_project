@@ -15,7 +15,7 @@ public class SignUpRequest {
   @Pattern(regexp = "^(.+)@(\\S+)$")
   private String email;
 
-  @Pattern(regexp = "^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\\-_=+]).{8,15}$")
+  @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,}$")
   private String password;
 
   @NotBlank
