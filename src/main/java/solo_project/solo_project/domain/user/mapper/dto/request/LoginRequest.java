@@ -1,7 +1,5 @@
 package solo_project.solo_project.domain.user.mapper.dto.request;
 
-import static solo_project.solo_project.common.regex.CommonRegex.*;
-
 import javax.validation.constraints.Pattern;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
