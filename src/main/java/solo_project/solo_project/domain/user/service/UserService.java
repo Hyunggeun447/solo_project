@@ -8,15 +8,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import solo_project.solo_project.common.s3.S3UploadService;
-import solo_project.solo_project.domain.user.entity.Authority;
 import solo_project.solo_project.domain.user.entity.Profile;
 import solo_project.solo_project.domain.user.mapper.dto.request.SignUpRequest;
 import solo_project.solo_project.domain.user.mapper.dto.request.UpdatePasswordRequest;
-import solo_project.solo_project.domain.user.mapper.dto.request.UpdateRequest;
+import solo_project.solo_project.domain.user.mapper.dto.request.UpdateUserRequest;
 import solo_project.solo_project.domain.user.entity.User;
 import solo_project.solo_project.domain.user.mapper.dto.response.UserSelfInfoResponse;
 import solo_project.solo_project.domain.user.repository.UserRepository;
-import solo_project.solo_project.domain.user.value.AuthorityLevel;
 
 @Transactional
 @Service
@@ -41,13 +39,13 @@ public class UserService {
     return userRepository.save(user).getId();
   }
 
-  public void update(Long userId, UpdateRequest updateRequest) {
+  public void update(Long userId, UpdateUserRequest updateUserRequest) {
     User user = userRepository.findById(userId)
         .orElseThrow(RuntimeException::new);
 
-    user.changeNickname(updateRequest.getNickname());
-    user.changeAddress(updateRequest.getCity(), updateRequest.getDetailAddress());
-    user.changePhoneNumber(updateRequest.getPhoneNumber());
+    user.changeNickname(updateUserRequest.getNickname());
+    user.changeAddress(updateUserRequest.getCity(), updateUserRequest.getDetailAddress());
+    user.changePhoneNumber(updateUserRequest.getPhoneNumber());
   }
 
   public void updatePassword(Long userId, UpdatePasswordRequest updatePasswordRequest) {
