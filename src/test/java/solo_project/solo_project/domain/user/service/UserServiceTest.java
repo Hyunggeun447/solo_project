@@ -301,4 +301,45 @@ class UserServiceTest {
 
   }
 
+  @Nested
+  @DisplayName("delete test")
+  class Delete {
+
+    Long userId;
+
+    @BeforeEach
+    void setup() {
+
+      userId = userService.signUp(SignUpRequest.builder()
+          .email(email)
+          .firstName(firstName)
+          .lastName(lastName)
+          .nickname(nickname)
+          .phoneNumber(phoneNumber)
+          .city(city)
+          .detailAddress(detailAddress)
+          .password(password)
+          .build());
+    }
+
+    @Test
+    @DisplayName("성공: id가 존재하고 비밀번호가 일치할 경우 삭제 성공")
+    public void deleteTest() throws Exception {
+
+      //given
+      DeleteUserRequest deleteUserRequest = DeleteUserRequest.builder()
+          .password(password)
+          .build();
+
+      //when
+      userService.delete(userId, deleteUserRequest);
+
+      //then
+      assertThrows(RuntimeException.class,
+          () -> userRepository.findById(userId).orElseThrow(RuntimeException::new));
+
+    }
+
+  }
+
 }
