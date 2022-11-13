@@ -16,6 +16,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 import solo_project.solo_project.domain.user.entity.User;
+import solo_project.solo_project.domain.user.mapper.dto.request.DeleteUserRequest;
 import solo_project.solo_project.domain.user.mapper.dto.request.SignUpRequest;
 import solo_project.solo_project.domain.user.mapper.dto.request.UpdatePasswordRequest;
 import solo_project.solo_project.domain.user.mapper.dto.request.UpdateUserRequest;
@@ -232,6 +233,72 @@ class UserServiceTest {
       //then
       assertThrows(RuntimeException.class, () -> userService.update(userId, updateUserRequest));
     }
+  }
+
+  @Nested
+  @DisplayName("updatePassword test")
+  class UpdatePassword {
+
+    Long userId;
+
+    @Autowired
+    PasswordEncoder passwordEncoder;
+
+    @BeforeEach
+    void setup() {
+
+      userId = userService.signUp(SignUpRequest.builder()
+          .email(email)
+          .firstName(firstName)
+          .lastName(lastName)
+          .nickname(nickname)
+          .phoneNumber(phoneNumber)
+          .city(city)
+          .detailAddress(detailAddress)
+          .password(password)
+          .build());
+    }
+
+    String newPassword = password + UUID.randomUUID().toString().substring(0, 4);
+
+    @Test
+    @DisplayName("성공: 기존 비밀번호 일치할 경우 새 비밀번호로 변경")
+    public void updatePasswordTest() throws Exception {
+
+      //given
+      UpdatePasswordRequest updatePasswordRequest = UpdatePasswordRequest.builder()
+          .prePassword(password)
+          .newPassword(newPassword)
+          .build();
+
+      //when
+      userService.updatePassword(userId, updatePasswordRequest);
+
+      //then
+      User user = userRepository.findById(userId)
+          .orElseThrow(RuntimeException::new);
+
+      assertThat(passwordEncoder.matches(newPassword, user.getPassword())).isTrue();
+    }
+
+    @Test
+    @DisplayName("실패: 기존 비밀번호 불일치일 경우 에러 발생")
+    public void failUpdatePasswordForWrongPrePasswordTest() throws Exception {
+
+      //given
+      password = password + UUID.randomUUID().toString().substring(0, 4);
+
+      //when
+      UpdatePasswordRequest updatePasswordRequest = UpdatePasswordRequest.builder()
+          .prePassword(password)
+          .newPassword(newPassword)
+          .build();
+
+      //then
+      assertThrows(RuntimeException.class,
+          () -> userService.updatePassword(userId, updatePasswordRequest));
+    }
+
   }
 
 }
