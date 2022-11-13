@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import solo_project.solo_project.common.s3.S3UploadService;
 import solo_project.solo_project.domain.user.entity.Profile;
+import solo_project.solo_project.domain.user.mapper.dto.request.DeleteUserRequest;
 import solo_project.solo_project.domain.user.mapper.dto.request.SignUpRequest;
 import solo_project.solo_project.domain.user.mapper.dto.request.UpdatePasswordRequest;
 import solo_project.solo_project.domain.user.mapper.dto.request.UpdateUserRequest;
@@ -62,9 +63,13 @@ public class UserService {
     user.changePassword(passwordEncoder.encode(updatePasswordRequest.getNewPassword()));
   }
 
-  public void delete(Long userId) {
+  public void delete(Long userId, DeleteUserRequest deleteUserRequest) {
     User user = userRepository.findById(userId)
         .orElseThrow(RuntimeException::new);
+
+    if (!passwordEncoder.matches(deleteUserRequest.getPassword(), user.getPassword())) {
+      throw new RuntimeException("비밀번호가 일치하지 않습니다.");
+    }
 
     userRepository.delete(user);
   }

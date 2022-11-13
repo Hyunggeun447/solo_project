@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import solo_project.solo_project.common.annotation.AuthUserId;
 import solo_project.solo_project.common.s3.UploadService;
+import solo_project.solo_project.domain.user.mapper.dto.request.DeleteUserRequest;
 import solo_project.solo_project.domain.user.mapper.dto.request.SignUpRequest;
 import solo_project.solo_project.domain.user.mapper.dto.request.UpdatePasswordRequest;
 import solo_project.solo_project.domain.user.mapper.dto.request.UpdateUserRequest;
@@ -80,9 +81,10 @@ public class UserController {
   @ResponseStatus(HttpStatus.NO_CONTENT)
   @Secured({"ROLE_USER", "ROLE_ADMIN"})
   public void delete(
-      @AuthUserId Long userId
+      @AuthUserId Long userId,
+      @RequestBody DeleteUserRequest deleteUserRequest
   ) {
-    userService.delete(userId);
+    userService.delete(userId, deleteUserRequest);
   }
 
   @GetMapping
