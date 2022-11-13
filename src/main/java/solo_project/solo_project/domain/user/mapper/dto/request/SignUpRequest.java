@@ -27,7 +27,7 @@ public class SignUpRequest {
   @Pattern(regexp = "^.{2,8}$")
   private String nickname;
 
-  @Pattern(regexp = "^\\d{3}-\\d{4}-\\d{4}$")
+  @Pattern(regexp = "^\\d{3}-?\\d{4}-?\\d{4}$")
   private String phoneNumber;
 
   @NotBlank
