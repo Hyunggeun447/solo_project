@@ -191,8 +191,38 @@ class AdminServiceTest {
       //then
       User user = userRepository.findById(targetUserId)
           .orElseThrow(RuntimeException::new);
-
       assertThat(user.getAuthorities().contains("ROLE_USER")).isFalse();
+    }
+
+    @Test
+    @DisplayName("실패: 요청자가 admin이 아닐 경우 실패 반환")
+    public void failRemoveAuthTest() throws Exception {
+
+      //given
+      CustomUserDetails normalUserDetails =
+          customUserDetailsService.loadUserByUsername(normalUser.getEmail().getEmailAddress());
+
+      //then
+      assertThrows(RuntimeException.class,
+          () -> adminService.removeAuth(targetUserId, AuthorityLevel.USER, normalUserDetails));
+    }
+
+    // TODO: 2022/11/13 예외를 반환해야하는가? 하지만 멱등한지 보았을때, 그리고  요청한 결과가 요청자의 니즈와 다를바 없음
+    @Test
+    @DisplayName("성공: target user가 삭제요청한 권한을 가지고있지 않았음")
+    public void failRemoveAuthForNotExistAuthTest() throws Exception {
+
+      //given
+      CustomUserDetails adminUserDetails =
+          customUserDetailsService.loadUserByUsername(adminUser.getEmail().getEmailAddress());
+
+      //when
+      adminService.removeAuth(targetUserId, AuthorityLevel.ADMIN, adminUserDetails);
+
+      //then
+      User user = userRepository.findById(targetUserId)
+          .orElseThrow(RuntimeException::new);
+      assertThat(user.getAuthorities().contains("ROLE_ADMIN")).isFalse();
     }
 
   }
