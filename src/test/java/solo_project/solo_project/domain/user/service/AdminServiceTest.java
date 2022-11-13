@@ -160,12 +160,12 @@ class AdminServiceTest {
     public void failGiveAuthNotAdminTest() throws Exception {
 
       //given
-      CustomUserDetails adminUserDetails =
+      CustomUserDetails normalUserDetails =
           customUserDetailsService.loadUserByUsername(normalUser.getEmail().getEmailAddress());
 
       //then
       assertThrows(RuntimeException.class,
-          () -> adminService.giveAuth(targetUserId, AuthorityLevel.ADMIN, adminUserDetails));
+          () -> adminService.giveAuth(targetUserId, AuthorityLevel.ADMIN, normalUserDetails));
     }
 
   }
