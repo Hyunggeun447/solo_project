@@ -155,6 +155,19 @@ class AdminServiceTest {
       assertThat(user.getAuthorities()).contains("ROLE_ADMIN");
     }
 
+    @Test
+    @DisplayName("실패: admin 권한이 없는 유저는 임의의 유저에게 특정 권한들을 부여할 수 없음")
+    public void failGiveAuthNotAdminTest() throws Exception {
+
+      //given
+      CustomUserDetails adminUserDetails =
+          customUserDetailsService.loadUserByUsername(normalUser.getEmail().getEmailAddress());
+
+      //then
+      assertThrows(RuntimeException.class,
+          () -> adminService.giveAuth(targetUserId, AuthorityLevel.ADMIN, adminUserDetails));
+    }
+
   }
 
 }
