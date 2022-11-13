@@ -52,7 +52,7 @@ public class AdminService {
   private void validateAdminAuth(CustomUserDetails customUserDetails) {
     Collection<? extends GrantedAuthority> authorities = customUserDetails.getAuthorities();
     if (!authorities.contains(new SimpleGrantedAuthority("ROLE_ADMIN"))) {
-      throw new RuntimeException("ban 권한이 없습니다.");
+      throw new RuntimeException("admin 권한이 없습니다.");
     }
   }
 
