@@ -27,7 +27,7 @@ public class AdminController {
   @ResponseStatus(HttpStatus.NO_CONTENT)
   @Secured({"ROLE_ADMIN"})
   public void deleteUser(@RequestParam Long userId) {
-    userService.delete(userId);
+    adminService.delete(userId);
   }
 
   @GetMapping("/user")
