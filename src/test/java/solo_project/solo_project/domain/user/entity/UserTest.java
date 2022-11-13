@@ -36,7 +36,7 @@ class UserTest {
 
       //then
       assertThat(user.getEmail().getEmailAddress()).isEqualTo(email);
-      assertThat(user.getName()).isEqualTo(lastName + " " + firstName);
+      assertThat(user.getName()).isEqualTo(firstName + " " + lastName);
       assertThat(user.getNickname()).isEqualTo(nickname);
       assertThat(user.getPhoneNumber()).isEqualTo(phoneNumber);
       assertThat(user.getAddress().getCity()).isEqualTo(city);
