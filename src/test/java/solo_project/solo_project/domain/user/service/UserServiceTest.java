@@ -17,6 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 import solo_project.solo_project.domain.user.entity.User;
 import solo_project.solo_project.domain.user.mapper.dto.request.SignUpRequest;
+import solo_project.solo_project.domain.user.mapper.dto.request.UpdatePasswordRequest;
 import solo_project.solo_project.domain.user.mapper.dto.request.UpdateUserRequest;
 import solo_project.solo_project.domain.user.repository.UserRepository;
 
@@ -51,7 +52,7 @@ class UserServiceTest {
 
   @Nested
   @DisplayName("signUp test")
-  class signUp {
+  class SignUp {
 
     SignUpRequest signUpRequest;
 
@@ -160,7 +161,7 @@ class UserServiceTest {
 
   @Nested
   @DisplayName("update test")
-  class update {
+  class Update {
 
     Long userId;
 
