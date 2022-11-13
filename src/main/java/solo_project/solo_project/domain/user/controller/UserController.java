@@ -44,8 +44,7 @@ public class UserController {
   }
 
   @PutMapping("/update")
-//  @PreAuthorize("hasRole('ROLE_USER')")
-  @Secured({"ROLE_USER", "ROLE_ADMIN"})
+  @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
   @ResponseStatus(HttpStatus.OK)
   public void update(
       @AuthUserId Long id,
@@ -79,7 +78,7 @@ public class UserController {
 
   @DeleteMapping()
   @ResponseStatus(HttpStatus.NO_CONTENT)
-  @Secured({"ROLE_USER", "ROLE_ADMIN"})
+  @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
   public void delete(
       @AuthUserId Long userId,
       @RequestBody DeleteUserRequest deleteUserRequest
@@ -89,7 +88,7 @@ public class UserController {
 
   @GetMapping
   @ResponseStatus(HttpStatus.OK)
-  @Secured({"ROLE_USER", "ROLE_ADMIN"})
+  @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
   public UserSelfInfoResponse getUserSelfInfo(
       @AuthUserId Long userId
   ) {
@@ -98,7 +97,7 @@ public class UserController {
 
   @PostMapping("/profile")
   @ResponseStatus(HttpStatus.OK)
-  @Secured({"ROLE_USER", "ROLE_ADMIN"})
+  @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
   public void addProfile(
       @AuthUserId Long userId,
       @RequestPart("image") MultipartFile multipartFile

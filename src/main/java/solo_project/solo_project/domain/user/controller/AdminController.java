@@ -2,7 +2,7 @@ package solo_project.solo_project.domain.user.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,7 +27,7 @@ public class AdminController {
 
   @PostMapping("/user/delete")
   @ResponseStatus(HttpStatus.NO_CONTENT)
-  @Secured({"ROLE_ADMIN"})
+  @PreAuthorize("hasRole('ROLE_ADMIN')")
   public void deleteUser(@RequestParam Long userId,
       @AuthenticationPrincipal CustomUserDetails customUserDetails
   ) {
@@ -35,14 +35,14 @@ public class AdminController {
   }
 
   @GetMapping("/user")
-  @Secured({"ROLE_ADMIN"})
+  @PreAuthorize("hasRole('ROLE_ADMIN')")
   @ResponseStatus(HttpStatus.OK)
   public UserSelfInfoResponse getUserInfo(@RequestParam Long userId) {
     return userService.findUserSelfInfo(userId);
   }
 
   @PutMapping("/ban")
-  @Secured("{ROLE_ADMIN}")
+  @PreAuthorize("hasRole('ROLE_ADMIN')")
   @ResponseStatus(HttpStatus.OK)
   public void banUser(
       @RequestParam Long userId,
@@ -52,7 +52,7 @@ public class AdminController {
   }
 
   @PutMapping("/promote")
-  @Secured("{ROLE_ADMIN}")
+  @PreAuthorize("hasRole('ROLE_ADMIN')")
   @ResponseStatus(HttpStatus.OK)
   public void giveAuth(
       @RequestParam(name = "userId") Long userId,
@@ -63,7 +63,7 @@ public class AdminController {
   }
 
   @PutMapping("/relegation")
-  @Secured("{ROLE_ADMIN}")
+  @PreAuthorize("hasRole('ROLE_ADMIN')")
   @ResponseStatus(HttpStatus.OK)
   public void removeAuth(
       @RequestParam(name = "userId") Long userId,
