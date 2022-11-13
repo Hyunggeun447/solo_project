@@ -38,4 +38,11 @@ public class AdminService {
     authorityRepository.delete(authority);
   }
 
+  public void delete(Long userId) {
+    User user = userRepository.findById(userId)
+        .orElseThrow(RuntimeException::new);
+
+    userRepository.delete(user);
+  }
+
 }
