@@ -17,7 +17,6 @@ public class AdminService {
   private final UserRepository userRepository;
   private final AuthorityRepository authorityRepository;
 
-
   public void banUser(Long userId) {
     User user = userRepository.findById(userId)
         .orElseThrow(RuntimeException::new);
