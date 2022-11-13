@@ -1,9 +1,11 @@
 package solo_project.solo_project.domain.user.service;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import org.assertj.core.api.Assertions;
+import java.text.DecimalFormat;
+import java.util.Random;
+import java.util.UUID;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -15,6 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 import solo_project.solo_project.domain.user.entity.User;
 import solo_project.solo_project.domain.user.mapper.dto.request.SignUpRequest;
+import solo_project.solo_project.domain.user.mapper.dto.request.UpdateUserRequest;
 import solo_project.solo_project.domain.user.repository.UserRepository;
 
 @SpringBootTest
@@ -154,5 +157,80 @@ class UserServiceTest {
 
   }
 
+
+  @Nested
+  @DisplayName("update test")
+  class update {
+
+    Long userId;
+
+    @BeforeEach
+    void setup() {
+
+      userId = userService.signUp(SignUpRequest.builder()
+          .email(email)
+          .firstName(firstName)
+          .lastName(lastName)
+          .nickname(nickname)
+          .phoneNumber(phoneNumber)
+          .city(city)
+          .detailAddress(detailAddress)
+          .password(password)
+          .build());
+    }
+
+    String newNickname = nickname + UUID.randomUUID().toString().substring(0, 4);
+    String newPhoneNumber = "010" + decimalFormat.format(new Random().nextInt(100000000));
+    String newCity = UUID.randomUUID().toString().substring(0, 4);
+    String newDetailAddress = detailAddress + UUID.randomUUID().toString().substring(0, 4);
+
+    @Test
+    @DisplayName("성공: 요청대로 entity update")
+    public void updateTest() throws Exception {
+
+      //given
+      UpdateUserRequest updateUserRequest = UpdateUserRequest.builder()
+          .nickname(newNickname)
+          .phoneNumber(newPhoneNumber)
+          .city(newCity)
+          .detailAddress(newDetailAddress)
+          .build();
+
+      //when
+      userService.update(userId, updateUserRequest);
+
+      //then
+      User user = userRepository.findById(userId)
+          .orElseThrow(RuntimeException::new);
+
+      assertThat(updateUserRequest).usingRecursiveComparison()
+          .ignoringFields("city", "detailAddress")
+          .isEqualTo(user);
+
+      assertThat(updateUserRequest).usingRecursiveComparison()
+          .ignoringFields("nickname", "phoneNumber")
+          .isEqualTo(user.getAddress());
+    }
+
+
+    @Test
+    @DisplayName("실패: 중복 닉네임이 있을 경우 update에 실패해야함")
+    public void failUpdateForDuplicateNicknameTest() throws Exception {
+
+      //given
+      newNickname = nickname;
+
+      //when
+      UpdateUserRequest updateUserRequest = UpdateUserRequest.builder()
+          .nickname(newNickname)
+          .phoneNumber(newPhoneNumber)
+          .city(newCity)
+          .detailAddress(newDetailAddress)
+          .build();
+
+      //then
+      assertThrows(RuntimeException.class, () -> userService.update(userId, updateUserRequest));
+    }
+  }
 
 }
