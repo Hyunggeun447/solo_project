@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.*;
 
 import java.util.UUID;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -48,50 +49,51 @@ class AdminServiceTest {
   String password = "!q2w3e4r5t";
 
   User adminUser;
+  Long userId;
+  Long adminUserId;
+
+  @BeforeEach
+  void setup() {
+
+    userId = userService.signUp(SignUpRequest.builder()
+        .email(email)
+        .firstName(firstName)
+        .lastName(lastName)
+        .nickname(nickname)
+        .phoneNumber(phoneNumber)
+        .city(city)
+        .detailAddress(detailAddress)
+        .password(password)
+        .build());
+
+    adminUserId = userService.signUp(SignUpRequest.builder()
+        .email("admin@google.com")
+        .firstName("관")
+        .lastName("리자")
+        .nickname("관리자")
+        .phoneNumber(phoneNumber)
+        .city(city + UUID.randomUUID().toString().substring(0, 4))
+        .detailAddress(detailAddress + UUID.randomUUID().toString().substring(0, 4))
+        .password(password + UUID.randomUUID().toString().substring(0, 4))
+        .build());
+
+    adminUser = userRepository.findById(adminUserId)
+        .orElseThrow(RuntimeException::new);
+    Authority.addAdminAuth(adminUser);
+  }
 
   @Nested
   @DisplayName("banUser test")
   class BanUserTest {
 
-    Long userId;
-
-    @BeforeEach
-    void setup() {
-
-      userId = userService.signUp(SignUpRequest.builder()
-          .email(email)
-          .firstName(firstName)
-          .lastName(lastName)
-          .nickname(nickname)
-          .phoneNumber(phoneNumber)
-          .city(city)
-          .detailAddress(detailAddress)
-          .password(password)
-          .build());
-
-      Long adminUserId = userService.signUp(SignUpRequest.builder()
-          .email("admin@google.com")
-          .firstName("관")
-          .lastName("리자")
-          .nickname("관리자")
-          .phoneNumber(phoneNumber)
-          .city(city + UUID.randomUUID().toString().substring(0, 4))
-          .detailAddress(detailAddress + UUID.randomUUID().toString().substring(0, 4))
-          .password(password + UUID.randomUUID().toString().substring(0, 4))
-          .build());
-
-      adminUser = userRepository.findById(adminUserId)
-          .orElseThrow(RuntimeException::new);
-      Authority.addAdminAuth(adminUser);
-    }
 
     @Test
     @DisplayName("성공: 관리자는 임의의 계정을 lock시킬 수 있음")
     public void banUserTest() throws Exception {
 
       //given
-      CustomUserDetails adminUserDetails = customUserDetailsService.loadUserByUsername(
-          adminUser.getEmail().getEmailAddress());
+      CustomUserDetails adminUserDetails =
+          customUserDetailsService.loadUserByUsername(adminUser.getEmail().getEmailAddress());
 
       //when
       adminService.banUser(userId, adminUserDetails);
@@ -103,6 +105,22 @@ class AdminServiceTest {
       assertThat(user.getIsNonLocked()).isFalse();
     }
 
+    @Test
+    @DisplayName("실패: 권한이 없는 유저는 임의의 계정을 lock시킬 수 없음")
+    public void failBanUserForHasNotAuthTest() throws Exception {
+
+      //given
+      User user = userRepository.findById(userId)
+          .orElseThrow(RuntimeException::new);
+
+      //when
+      CustomUserDetails userNotAdmin =
+          customUserDetailsService.loadUserByUsername(user.getEmail().getEmailAddress());
+
+      //then
+      Assertions.assertThrows(RuntimeException.class,
+          () -> adminService.banUser(adminUserId, userNotAdmin));
+    }
   }
 
 }
