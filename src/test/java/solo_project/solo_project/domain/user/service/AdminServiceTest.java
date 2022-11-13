@@ -50,13 +50,13 @@ class AdminServiceTest {
   String password = "!q2w3e4r5t";
 
   User adminUser;
-  Long userId;
-  Long adminUserId;
+  User normalUser;
+  Long targetUserId;
 
   @BeforeEach
   void setup() {
 
-    userId = userService.signUp(SignUpRequest.builder()
+    targetUserId = userService.signUp(SignUpRequest.builder()
         .email(email)
         .firstName(firstName)
         .lastName(lastName)
@@ -67,7 +67,7 @@ class AdminServiceTest {
         .password(password)
         .build());
 
-    adminUserId = userService.signUp(SignUpRequest.builder()
+    Long adminUserId = userService.signUp(SignUpRequest.builder()
         .email("admin@google.com")
         .firstName("관")
         .lastName("리자")
@@ -81,12 +81,25 @@ class AdminServiceTest {
     adminUser = userRepository.findById(adminUserId)
         .orElseThrow(RuntimeException::new);
     Authority.addAdminAuth(adminUser);
+
+    Long normalUserId = userService.signUp(SignUpRequest.builder()
+        .email("normal@google.com")
+        .firstName("일반")
+        .lastName("유저")
+        .nickname("일반유저")
+        .phoneNumber(phoneNumber)
+        .city(city + UUID.randomUUID().toString().substring(0, 4))
+        .detailAddress(detailAddress + UUID.randomUUID().toString().substring(0, 4))
+        .password(password + UUID.randomUUID().toString().substring(0, 4))
+        .build());
+
+    normalUser = userRepository.findById(normalUserId)
+        .orElseThrow(RuntimeException::new);
   }
 
   @Nested
   @DisplayName("banUser test")
   class BanUserTest {
-
 
     @Test
     @DisplayName("성공: 관리자는 임의의 계정을 lock시킬 수 있음")
@@ -97,10 +110,10 @@ class AdminServiceTest {
           customUserDetailsService.loadUserByUsername(adminUser.getEmail().getEmailAddress());
 
       //when
-      adminService.banUser(userId, adminUserDetails);
+      adminService.banUser(targetUserId, adminUserDetails);
 
       //then
-      User user = userRepository.findById(userId)
+      User user = userRepository.findById(targetUserId)
           .orElseThrow(RuntimeException::new);
 
       assertThat(user.getIsNonLocked()).isFalse();
@@ -110,17 +123,13 @@ class AdminServiceTest {
     @DisplayName("실패: 권한이 없는 유저는 임의의 계정을 lock시킬 수 없음")
     public void failBanUserForHasNotAuthTest() throws Exception {
 
-      //given
-      User user = userRepository.findById(userId)
-          .orElseThrow(RuntimeException::new);
-
       //when
       CustomUserDetails userNotAdmin =
-          customUserDetailsService.loadUserByUsername(user.getEmail().getEmailAddress());
+          customUserDetailsService.loadUserByUsername(normalUser.getEmail().getEmailAddress());
 
       //then
       assertThrows(RuntimeException.class,
-          () -> adminService.banUser(adminUserId, userNotAdmin));
+          () -> adminService.banUser(targetUserId, userNotAdmin));
     }
 
   }
@@ -138,10 +147,10 @@ class AdminServiceTest {
           customUserDetailsService.loadUserByUsername(adminUser.getEmail().getEmailAddress());
 
       //when
-      adminService.giveAuth(userId, AuthorityLevel.ADMIN, adminUserDetails);
+      adminService.giveAuth(targetUserId, AuthorityLevel.ADMIN, adminUserDetails);
 
       //then
-      User user = userRepository.findById(userId)
+      User user = userRepository.findById(targetUserId)
           .orElseThrow(RuntimeException::new);
       assertThat(user.getAuthorities()).contains("ROLE_ADMIN");
     }
