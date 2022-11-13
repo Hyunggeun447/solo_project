@@ -13,14 +13,14 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @Getter
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
-public class BaseTimeEntity implements Serializable {
+public abstract class BaseTimeEntity implements Serializable {
 
   @CreatedDate
   @Column(name = "created_at", updatable = false)
   private LocalDateTime createdAt;
 
   @LastModifiedDate
-  @Column(name = "updated_at")
+  @Column(name = "modified_at")
   private LocalDateTime updatedAt;
 
 }
