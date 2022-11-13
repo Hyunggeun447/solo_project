@@ -337,7 +337,40 @@ class UserServiceTest {
       //then
       assertThrows(RuntimeException.class,
           () -> userRepository.findById(userId).orElseThrow(RuntimeException::new));
+    }
 
+    @Test
+    @DisplayName("실패: id가 존재하나 비밀번호가 불일치할 경우 삭제 실패")
+    public void failDeleteForWrongPasswordTest() throws Exception {
+
+      //given
+      password = password + UUID.randomUUID().toString().substring(0, 4);
+
+      //when
+      DeleteUserRequest deleteUserRequest = DeleteUserRequest.builder()
+          .password(password)
+          .build();
+
+      //then
+      assertThrows(RuntimeException.class,
+          () -> userService.delete(userId, deleteUserRequest));
+    }
+
+    @Test
+    @DisplayName("실패: user id가 존재하지 않아 실패")
+    public void failDeleteForWrongUserIdTest() throws Exception {
+
+      //given
+      userId = -1L;
+
+      //when
+      DeleteUserRequest deleteUserRequest = DeleteUserRequest.builder()
+          .password(password)
+          .build();
+
+      //then
+      assertThrows(RuntimeException.class,
+          () -> userService.delete(userId, deleteUserRequest));
     }
 
   }
