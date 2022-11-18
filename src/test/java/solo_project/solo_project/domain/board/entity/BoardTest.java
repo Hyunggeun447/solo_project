@@ -40,7 +40,7 @@ class BoardTest {
     @DisplayName("실패: title is null")
     public void failCreateBoardTitleIsNull() throws Exception {
 
-      //when
+      //given
       TITLE = null;
 
       //then
@@ -52,7 +52,7 @@ class BoardTest {
     @DisplayName("실패: title is empty")
     public void failCreateBoardTitleIsEmpty() throws Exception {
 
-      //when
+      //given
       TITLE = "";
 
       //then
@@ -64,7 +64,7 @@ class BoardTest {
     @DisplayName("실패: title is blank")
     public void failCreateBoardTitleIsBlank() throws Exception {
 
-      //when
+      //given
       TITLE = " ";
 
       //then
@@ -72,6 +72,46 @@ class BoardTest {
           () -> new Board(TITLE, DESCRIPTION, USER_ID, BOARD_TYPE));
     }
 
+    @Test
+    @DisplayName("실패: escription is null")
+    public void failCreateBoardDescriptionIsNull() throws Exception {
 
+      //given
+      DESCRIPTION = null;
+
+      //then
+      assertThrows(RuntimeException.class,
+          () -> new Board(TITLE, DESCRIPTION, USER_ID, BOARD_TYPE));
+    }
+
+    @Test
+    @DisplayName("실패: description is empty")
+    public void failCreateBoardDescriptionIsEmpty() throws Exception {
+
+      //given
+      DESCRIPTION = "";
+
+      //then
+      assertThrows(RuntimeException.class,
+          () -> new Board(TITLE, DESCRIPTION, USER_ID, BOARD_TYPE));
+    }
+
+    @Test
+    @DisplayName("성공: description is blank")
+    public void createBoardDescriptionIsBlank() throws Exception {
+
+      //given
+      DESCRIPTION = " ";
+
+      //when
+      Board board = new Board(TITLE, DESCRIPTION, USER_ID, BOARD_TYPE);
+
+      //then
+      assertThat(board.getTitle()).isEqualTo(TITLE);
+      assertThat(board.getDescription()).isEqualTo(DESCRIPTION);
+      assertThat(board.getUserId()).isEqualTo(USER_ID);
+      assertThat(board.getBoardType()).isEqualTo(BOARD_TYPE);
+    }
   }
+
 }
