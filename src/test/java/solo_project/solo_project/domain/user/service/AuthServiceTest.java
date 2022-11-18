@@ -120,6 +120,21 @@ class AuthServiceTest extends RedisTestContainers {
 
     }
 
+    @Test
+    @DisplayName("실패: 틀린 비밀번호를 입력하면 로그인 실패")
+    public void FailLoginTest() throws Exception {
+
+      //given
+      String wrongPassword = "4321";
+      LoginRequest loginRequest = LoginRequest.builder()
+          .email(email)
+          .password(wrongPassword)
+          .build();
+
+      assertThrows(RuntimeException.class,
+          () -> authService.login(loginRequest));
+    }
+
   }
 
 }
