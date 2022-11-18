@@ -4,6 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static solo_project.solo_project.common.security.JwtExpirationEnum.ACCESS_TOKEN_EXPIRATION_TIME;
 import static solo_project.solo_project.common.security.JwtExpirationEnum.REFRESH_TOKEN_EXPIRATION_TIME;
+import static solo_project.solo_project.domain.user.util.SecurityConstants.AUTHORIZATION_HEADER;
+import static solo_project.solo_project.domain.user.util.SecurityConstants.BEARER_TYPE;
 import static solo_project.solo_project.domain.user.util.SecurityConstants.LOGIN_ACCESS_TOKEN_PREFIX;
 import static solo_project.solo_project.domain.user.util.SecurityConstants.LOGIN_REFRESH_TOKEN_PREFIX;
 
@@ -14,7 +16,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.transaction.annotation.Transactional;
 import solo_project.solo_project.common.cache.service.CacheTokenPort;
 import solo_project.solo_project.common.security.JwtTokenProvider;
@@ -22,6 +24,7 @@ import solo_project.solo_project.config.RedisTestContainers;
 import solo_project.solo_project.domain.user.mapper.dto.TokenInfo;
 import solo_project.solo_project.domain.user.mapper.dto.request.LoginRequest;
 import solo_project.solo_project.domain.user.mapper.dto.request.SignUpRequest;
+import solo_project.solo_project.domain.user.mapper.dto.response.ReissueResponse;
 import solo_project.solo_project.domain.user.repository.UserRepository;
 
 @SpringBootTest
@@ -136,5 +139,65 @@ class AuthServiceTest extends RedisTestContainers {
     }
 
   }
+  @Nested
+  @DisplayName("ReissueTest")
+  class ReissueTest {
+
+    TokenInfo tokenInfo;
+
+    @BeforeEach
+    void setup() {
+
+      LoginRequest loginRequest = LoginRequest.builder()
+          .email(email)
+          .password(password)
+          .build();
+
+      tokenInfo = authService.login(loginRequest);
+    }
+
+
+    @Test
+    @DisplayName("성공: 새로운 access 토큰 재발급, redis에 저장")
+    public void reissueTest() throws Exception {
+
+      //given
+
+      String refreshToken = tokenInfo.getRefreshToken();
+
+      //when
+      ReissueResponse reissueResponse = authService.reissue(refreshToken);
+      String newAccessToken = reissueResponse.getAccessToken();
+      Long newAccessTokenUserId = jwtTokenProvider.getUserId(newAccessToken);
+      String newRedisAccessToken = cacheTokenPort
+          .getData(LOGIN_ACCESS_TOKEN_PREFIX + email);
+
+      //then
+      assertThat(newAccessTokenUserId).isEqualTo(userId);
+      assertThat(tokenInfo.getAccessTokenExpirationTime())
+          .isEqualTo(ACCESS_TOKEN_EXPIRATION_TIME.getValue());
+      assertThat(newRedisAccessToken).isEqualTo(newAccessToken);
+    }
+
+    @Test
+    @DisplayName("실패: refreshToken이 유효하지 않을경우")
+    public void failReissueTestForWrongRefreshToken() throws Exception {
+
+      //given
+      String refreshToken = tokenInfo.getRefreshToken();
+
+      MockHttpServletRequest request = new MockHttpServletRequest();
+      request.addHeader(AUTHORIZATION_HEADER, BEARER_TYPE + tokenInfo.getAccessToken());
+
+      //when
+      authService.logout(request);
+
+      //then
+      assertThrows(RuntimeException.class,
+          () -> authService.reissue(refreshToken));
+    }
+
+  }
+
 
 }
