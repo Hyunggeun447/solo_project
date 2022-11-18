@@ -198,6 +198,23 @@ class AuthServiceTest extends RedisTestContainers {
     }
 
   }
+  @Nested
+  @DisplayName("LogoutTest")
+  class LogoutTest {
+
+    TokenInfo tokenInfo;
+
+    @BeforeEach
+    void setup() {
+
+      LoginRequest loginRequest = LoginRequest.builder()
+          .email(email)
+          .password(password)
+          .build();
+
+      tokenInfo = authService.login(loginRequest);
+    }
+  }
 
 
 }
