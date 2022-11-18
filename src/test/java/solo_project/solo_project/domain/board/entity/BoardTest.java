@@ -19,12 +19,12 @@ class BoardTest {
   BoardType BOARD_TYPE = BoardType.NORMAL;
 
   @Nested
-  @DisplayName("create Board")
-  class create {
+  @DisplayName("create Board test")
+  class createTest {
 
     @Test
     @DisplayName("성공: board 생성에 성공")
-    public void createBoard() throws Exception {
+    public void createBoardTest() throws Exception {
 
       //when
       Board board = new Board(TITLE, DESCRIPTION, USER_ID, BOARD_TYPE);
@@ -113,17 +113,17 @@ class BoardTest {
       assertThat(board.getBoardType()).isEqualTo(BOARD_TYPE);
     }
 
-    @Test
-    @DisplayName("실패: userId is null")
-    public void failCreateBoardUserIdIsNull() throws Exception {
-
-      //given
-      USER_ID = null;
-
-      //then
-      assertThrows(RuntimeException.class,
-          () -> new Board(TITLE, DESCRIPTION, USER_ID, BOARD_TYPE));
-    }
+//    @Test
+//    @DisplayName("실패: userId is null")
+//    public void failCreateBoardUserIdIsNull() throws Exception {
+//
+//      //given
+//      USER_ID = null;
+//
+//      //then
+//      assertThrows(RuntimeException.class,
+//          () -> new Board(TITLE, DESCRIPTION, USER_ID, BOARD_TYPE));
+//    }
 
     @Test
     @DisplayName("실패: boardType is null")

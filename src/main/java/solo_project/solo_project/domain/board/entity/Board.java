@@ -53,7 +53,6 @@ public class Board extends BaseEntity {
   public Board(String title, String description, Long userId, BoardType boardType) {
     Asserts.notBlank(title, "title shouldn't be empty");
     Asserts.notEmpty(description, "description shouldn't be empty");
-    Asserts.notNull(userId, "userId shouldn't be null");
     Asserts.notNull(boardType, "boardType shouldn't be null");
     this.title = title;
     this.description = description;
