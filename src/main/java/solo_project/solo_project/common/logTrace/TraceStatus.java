@@ -23,4 +23,5 @@ public class TraceStatus {
     public TraceId getTraceId() {
         return traceId;
     }
+
 }

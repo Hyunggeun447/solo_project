@@ -26,4 +26,5 @@ public class Email {
     validateRegex(email, EMAIL_REGEX_PATTERN);
     this.emailAddress = email;
   }
+
 }

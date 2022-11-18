@@ -33,7 +33,7 @@ public class Address {
 
   public void changeDetailAddress(String detailAddress) {
     Assert.notNull(detailAddress, "need detailAddress");
-    this.city = city;
     this.detailAddress = detailAddress;
   }
+
 }

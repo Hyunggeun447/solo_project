@@ -22,4 +22,5 @@ public class CustomUserDetailsService implements UserDetailsService {
         .orElseThrow(() -> new RuntimeException("이메일를 찾을 수 없습니다."));
     return CustomUserDetails.of(user);
   }
+
 }

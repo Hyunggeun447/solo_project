@@ -47,4 +47,5 @@ public class SignUpRequest {
     this.city = city;
     this.detailAddress = detailAddress;
   }
+
 }

@@ -64,4 +64,5 @@ public class Board extends BaseEntity {
   public void addImage(Image image) {
     this.images.add(image);
   }
+
 }

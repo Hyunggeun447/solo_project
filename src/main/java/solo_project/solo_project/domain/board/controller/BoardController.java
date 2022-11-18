@@ -76,4 +76,5 @@ public class BoardController {
       @PageableDefault(page = 0, size = 15) Pageable pageable) {
     return boardService.findBoardList(pageable);
   }
+
 }

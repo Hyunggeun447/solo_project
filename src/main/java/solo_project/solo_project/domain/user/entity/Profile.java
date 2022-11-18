@@ -58,4 +58,5 @@ public class Profile extends BaseEntity {
     user.addProfile(this);
     this.user = user;
   }
+
 }

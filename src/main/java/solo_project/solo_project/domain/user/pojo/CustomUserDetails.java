@@ -80,4 +80,5 @@ public class CustomUserDetails implements UserDetails {
         .authorities(user.getAuthorities())
         .build();
   }
+
 }

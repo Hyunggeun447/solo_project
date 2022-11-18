@@ -38,4 +38,5 @@ public class ExceptionAdvice {
   public ResponseEntity<ErrorResponse> handleS3UploadException(S3UploadException e) {
     return ResponseEntity.internalServerError().body(new ErrorResponse(e.getMessage()));
   }
+
 }

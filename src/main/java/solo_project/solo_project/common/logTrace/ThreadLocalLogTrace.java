@@ -71,4 +71,5 @@ public class ThreadLocalLogTrace implements LogTrace {
         }
         return sb.toString();
     }
+
 }

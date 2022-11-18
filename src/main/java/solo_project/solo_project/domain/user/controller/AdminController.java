@@ -72,4 +72,5 @@ public class AdminController {
   ) {
     adminService.removeAuth(userId, auth, customUserDetails);
   }
+
 }

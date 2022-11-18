@@ -10,4 +10,5 @@ public class UserValidateRepositoryImpl implements UserValidateRepository{
   public UserValidateRepositoryImpl(EntityManager em) {
     this.jpaQueryFactory = new JPAQueryFactory(em);
   }
+
 }

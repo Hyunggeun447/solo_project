@@ -14,7 +14,9 @@ import solo_project.solo_project.domain.board.value.BoardType;
 public class CreateBoardRequest {
 
   private String title;
+
   private String description;
+
   private BoardType boardType;
 
 }

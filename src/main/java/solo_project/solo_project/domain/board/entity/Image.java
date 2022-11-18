@@ -55,4 +55,5 @@ public class Image extends BaseEntity {
     board.addImage(this);
     this.board = board;
   }
+
 }

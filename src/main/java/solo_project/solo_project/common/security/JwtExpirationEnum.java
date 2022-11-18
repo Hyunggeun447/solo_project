@@ -22,4 +22,5 @@ public enum JwtExpirationEnum {
   public Long getValue() {
     return value;
   }
+
 }

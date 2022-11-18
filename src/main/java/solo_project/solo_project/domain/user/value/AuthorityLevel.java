@@ -43,4 +43,5 @@ public enum AuthorityLevel {
   }
 
   public abstract void giveAuth(User user);
+
 }

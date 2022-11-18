@@ -40,4 +40,5 @@ public class TraceId {
     public int getLevel() {
         return level;
     }
+
 }

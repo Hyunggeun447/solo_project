@@ -60,4 +60,5 @@ public class Authority extends BaseEntity implements GrantedAuthority {
   public static void addAdminAuth(User user) {
     AuthorityLevel.ADMIN.giveAuth(user);
   }
+
 }

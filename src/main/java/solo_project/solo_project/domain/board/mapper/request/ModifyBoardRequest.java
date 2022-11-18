@@ -13,6 +13,9 @@ import lombok.NoArgsConstructor;
 public class ModifyBoardRequest {
 
   private Long boardId;
+
   private String title;
+
   private String description;
+
 }

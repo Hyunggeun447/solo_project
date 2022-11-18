@@ -12,4 +12,5 @@ public class CustomKeyGenerator implements KeyGenerator {
   public Object generate(Object target, Method method, Object... params) {
     return method.getName() + "#" + StringUtils.arrayToDelimitedString(params, "_");
   }
+
 }

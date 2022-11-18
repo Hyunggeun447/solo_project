@@ -53,4 +53,5 @@ public class CacheConfig {
 //        "BoardService::boardsForAdmin", configuration.entryTtl(Duration.ofMinutes(5))
     );
   }
+
 }

@@ -14,5 +14,4 @@ public interface BoardSearchRepository {
 
   Page<BoardSummaryResponse> findNoticePage(Pageable pageable);
 
-
 }

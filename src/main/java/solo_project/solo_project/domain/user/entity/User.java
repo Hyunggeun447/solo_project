@@ -149,4 +149,5 @@ public class User extends BaseTimeEntity {
   public void addProfile(Profile profile) {
     this.profiles.add(profile);
   }
+
 }

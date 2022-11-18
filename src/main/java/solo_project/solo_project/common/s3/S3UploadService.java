@@ -82,4 +82,5 @@ public class S3UploadService implements UploadService {
   private static String getUuid() {
     return UUID.randomUUID().toString().replaceAll("-", "");
   }
+
 }

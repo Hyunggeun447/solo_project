@@ -63,4 +63,5 @@ public class BoardService {
   public Slice<BoardSummaryResponse> findBoardList(Pageable pageable) {
      return boardRepository.findBoardList(pageable);
   }
+
 }

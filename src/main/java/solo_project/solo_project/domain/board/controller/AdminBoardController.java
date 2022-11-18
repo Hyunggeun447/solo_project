@@ -51,4 +51,5 @@ public class AdminBoardController {
       @PageableDefault(page = 0, size = 5) Pageable pageable) {
     return adminBoardService.findNoticePage(pageable);
   }
+
 }

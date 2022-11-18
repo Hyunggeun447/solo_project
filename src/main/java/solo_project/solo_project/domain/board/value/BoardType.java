@@ -10,4 +10,5 @@ public enum BoardType {
   BoardType(String description) {
     this.description = description;
   }
+
 }
