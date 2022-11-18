@@ -15,7 +15,7 @@ class BoardTest {
 
   String TITLE = "title";
   String DESCRIPTION = "I can write description";
-  long USER_ID = 1L;
+  Long USER_ID = 1L;
   BoardType BOARD_TYPE = BoardType.NORMAL;
 
   @Nested
@@ -73,7 +73,7 @@ class BoardTest {
     }
 
     @Test
-    @DisplayName("실패: escription is null")
+    @DisplayName("실패: description is null")
     public void failCreateBoardDescriptionIsNull() throws Exception {
 
       //given
@@ -111,6 +111,30 @@ class BoardTest {
       assertThat(board.getDescription()).isEqualTo(DESCRIPTION);
       assertThat(board.getUserId()).isEqualTo(USER_ID);
       assertThat(board.getBoardType()).isEqualTo(BOARD_TYPE);
+    }
+
+    @Test
+    @DisplayName("실패: userId is null")
+    public void failCreateBoardUserIdIsNull() throws Exception {
+
+      //given
+      USER_ID = null;
+
+      //then
+      assertThrows(RuntimeException.class,
+          () -> new Board(TITLE, DESCRIPTION, USER_ID, BOARD_TYPE));
+    }
+
+    @Test
+    @DisplayName("실패: boardType is null")
+    public void failCreateBoardBoardTypeIsNull() throws Exception {
+
+      //given
+      BOARD_TYPE = null;
+
+      //then
+      assertThrows(RuntimeException.class,
+          () -> new Board(TITLE, DESCRIPTION, USER_ID, BOARD_TYPE));
     }
   }
 
