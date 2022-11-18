@@ -1,6 +1,7 @@
 package solo_project.solo_project.domain.board.entity;
 
 import static org.assertj.core.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -34,6 +35,43 @@ class BoardTest {
       assertThat(board.getUserId()).isEqualTo(USER_ID);
       assertThat(board.getBoardType()).isEqualTo(BOARD_TYPE);
     }
+
+    @Test
+    @DisplayName("실패: title is null")
+    public void failCreateBoardTitleIsNull() throws Exception {
+
+      //when
+      TITLE = null;
+
+      //then
+      assertThrows(RuntimeException.class,
+          () -> new Board(TITLE, DESCRIPTION, USER_ID, BOARD_TYPE));
+    }
+
+    @Test
+    @DisplayName("실패: title is empty")
+    public void failCreateBoardTitleIsEmpty() throws Exception {
+
+      //when
+      TITLE = "";
+
+      //then
+      assertThrows(RuntimeException.class,
+          () -> new Board(TITLE, DESCRIPTION, USER_ID, BOARD_TYPE));
+    }
+
+    @Test
+    @DisplayName("실패: title is blank")
+    public void failCreateBoardTitleIsBlank() throws Exception {
+
+      //when
+      TITLE = " ";
+
+      //then
+      assertThrows(RuntimeException.class,
+          () -> new Board(TITLE, DESCRIPTION, USER_ID, BOARD_TYPE));
+    }
+
 
   }
 }
