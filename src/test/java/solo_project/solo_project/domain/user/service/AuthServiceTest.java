@@ -8,6 +8,7 @@ import static solo_project.solo_project.domain.user.util.SecurityConstants.AUTHO
 import static solo_project.solo_project.domain.user.util.SecurityConstants.BEARER_TYPE;
 import static solo_project.solo_project.domain.user.util.SecurityConstants.LOGIN_ACCESS_TOKEN_PREFIX;
 import static solo_project.solo_project.domain.user.util.SecurityConstants.LOGIN_REFRESH_TOKEN_PREFIX;
+import static solo_project.solo_project.domain.user.util.SecurityConstants.LOGOUT_KEY_PREFIX;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -214,6 +215,25 @@ class AuthServiceTest extends RedisTestContainers {
 
       tokenInfo = authService.login(loginRequest);
     }
+
+    @Test
+    @DisplayName("성공: accessToken은 로그아웃되었다고 Redis에 저장, refreshToken = 'is logout'으로 변환")
+    public void failReissueTestForWrongRefreshToken() throws Exception {
+
+      //given
+      String accessToken = tokenInfo.getAccessToken();
+      MockHttpServletRequest request = new MockHttpServletRequest();
+      request.addHeader(AUTHORIZATION_HEADER, BEARER_TYPE + accessToken);
+
+      //when
+      authService.logout(request);
+
+      //then
+      assertThat(cacheTokenPort.getData(LOGIN_REFRESH_TOKEN_PREFIX + email))
+          .isEqualTo("is logout");
+      assertThat(cacheTokenPort.getData(LOGOUT_KEY_PREFIX + accessToken)).isNotNull();
+    }
+
   }
 
 
