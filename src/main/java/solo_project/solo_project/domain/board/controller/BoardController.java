@@ -1,5 +1,6 @@
 package solo_project.solo_project.domain.board.controller;
 
+import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
@@ -45,7 +46,7 @@ public class BoardController {
   @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
   public void modifyBoard(
       @AuthUserId Long userId,
-      @RequestBody ModifyBoardRequest modifyBoardRequest
+      @RequestBody @Valid ModifyBoardRequest modifyBoardRequest
   ) {
 //    boardService.modifyBoard(modifyBoardRequest);
     boardService.modifyBoard(userId, modifyBoardRequest);
