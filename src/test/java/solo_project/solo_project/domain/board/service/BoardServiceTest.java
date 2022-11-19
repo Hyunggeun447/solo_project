@@ -114,6 +114,42 @@ class BoardServiceTest {
           .ignoringFields("boardId")
           .isEqualTo(board);
     }
+
+    @Test
+    @DisplayName("실패: boardId is null")
+    public void failModifyBoardForWrongBoardIdTest() throws Exception {
+
+      //given
+      boardId = null;
+
+      ModifyBoardRequest modifyBoardRequest = ModifyBoardRequest.builder()
+          .boardId(boardId)
+          .title(NEW_TITLE)
+          .description(NEW_DESCRIPTION)
+          .build();
+
+      //then
+      assertThrows(RuntimeException.class,
+          () -> boardService.modifyBoard(USER_ID, modifyBoardRequest));
+    }
+
+    @Test
+    @DisplayName("실패: boardId is wrong")
+    public void failModifyBoardForWrongBoardIdTest2() throws Exception {
+
+      //given
+      boardId = -1L;
+
+      ModifyBoardRequest modifyBoardRequest = ModifyBoardRequest.builder()
+          .boardId(boardId)
+          .title(NEW_TITLE)
+          .description(NEW_DESCRIPTION)
+          .build();
+
+      //then
+      assertThrows(RuntimeException.class,
+          () -> boardService.modifyBoard(USER_ID, modifyBoardRequest));
+    }
   }
 
 }
