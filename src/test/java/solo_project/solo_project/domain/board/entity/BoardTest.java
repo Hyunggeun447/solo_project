@@ -34,6 +34,8 @@ class BoardTest {
       assertThat(board.getDescription()).isEqualTo(DESCRIPTION);
       assertThat(board.getUserId()).isEqualTo(USER_ID);
       assertThat(board.getBoardType()).isEqualTo(BOARD_TYPE);
+      assertThat(board.getIsDeleted()).isFalse();
+      assertThat(board.getImages()).isEmpty();
     }
 
     @Test
