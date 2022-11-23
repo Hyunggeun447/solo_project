@@ -37,7 +37,7 @@ public class BoardSearchRepositoryImpl implements BoardSearchRepository{
         .fetch();
 
     if (ids.isEmpty()) {
-      return BoardDetailsResponse.builder().build();
+      throw new RuntimeException();
     }
 
     return jpaQueryFactory.select(
@@ -48,7 +48,6 @@ public class BoardSearchRepositoryImpl implements BoardSearchRepository{
                     .when(user.nickname.nickname.isNull())
                     .then("삭제된 유저입니다.")
                     .otherwise(user.nickname.nickname)
-
                 )
         )
         .from(board)
