@@ -4,6 +4,7 @@ import static solo_project.solo_project.domain.board.entity.QBoard.board;
 import static solo_project.solo_project.domain.user.entity.QUser.user;
 
 import com.querydsl.core.types.Projections;
+import com.querydsl.core.types.dsl.CaseBuilder;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.ArrayList;
@@ -43,7 +44,11 @@ public class BoardSearchRepositoryImpl implements BoardSearchRepository{
             Projections.constructor(BoardDetailsResponse.class,
                 board.title,
                 board.description,
-                user.nickname.nickname
+                new CaseBuilder()
+                    .when(user.nickname.nickname.isNull())
+                    .then("삭제된 유저입니다.")
+                    .otherwise(user.nickname.nickname)
+
                 )
         )
         .from(board)
