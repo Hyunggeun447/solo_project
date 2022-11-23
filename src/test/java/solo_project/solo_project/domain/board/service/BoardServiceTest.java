@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import solo_project.solo_project.domain.board.entity.Board;
 import solo_project.solo_project.domain.board.mapper.request.CreateBoardRequest;
 import solo_project.solo_project.domain.board.mapper.request.ModifyBoardRequest;
+import solo_project.solo_project.domain.board.mapper.response.BoardDetailsResponse;
 import solo_project.solo_project.domain.board.repository.BoardRepository;
 import solo_project.solo_project.domain.board.value.BoardType;
 
@@ -206,6 +207,54 @@ class BoardServiceTest {
       assertThrows(RuntimeException.class, () ->
           boardService.deleteBoard(USER_ID, boardId));
     }
+
+  }
+
+
+  @Nested
+  @DisplayName("findBoard test")
+  class FindBoardTest {
+
+    Long boardId;
+
+    @BeforeEach
+    void setup() {
+
+      //given
+      for (int i = 0; i < 10; i++) {
+
+        CreateBoardRequest createBoardRequest = CreateBoardRequest.builder()
+            .title(TITLE + i)
+            .description(DESCRIPTION + i)
+            .boardType(BOARD_TYPE)
+            .build();
+
+      }
+    }
+
+    @Test
+    @DisplayName("성공: 요청 board 반환")
+    public void findBoardTest() throws Exception {
+
+      //given
+      CreateBoardRequest createBoardRequest = CreateBoardRequest.builder()
+          .title(TITLE )
+          .description(DESCRIPTION)
+          .boardType(BOARD_TYPE)
+          .build();
+
+      //when
+      boardId = boardService.createBoard(USER_ID, createBoardRequest);
+
+      //when
+      BoardDetailsResponse boardDetailsResponse = boardService.findBoard(boardId);
+
+      //then
+      assertThat(boardDetailsResponse).usingRecursiveComparison()
+          .ignoringFields("writer")
+          .isEqualTo(createBoardRequest);
+    }
+
 
   }
 
