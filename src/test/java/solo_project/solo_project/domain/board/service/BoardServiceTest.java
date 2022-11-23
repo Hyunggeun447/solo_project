@@ -151,4 +151,42 @@ class BoardServiceTest {
     }
   }
 
+  @Nested
+  @DisplayName("deleteBoard test")
+  class DeleteBoardTest {
+
+    Long boardId;
+
+    @BeforeEach
+    void setup() {
+
+      //given
+      CreateBoardRequest createBoardRequest = CreateBoardRequest.builder()
+          .title(TITLE)
+          .description(DESCRIPTION)
+          .boardType(BOARD_TYPE)
+          .build();
+
+      //when
+      boardId = boardService.createBoard(USER_ID, createBoardRequest);
+    }
+
+    @Test
+    @DisplayName("성공: 요청값의 board 삭제")
+    public void deleteBoardTest() throws Exception {
+
+      //given
+
+      //when
+      boardService.deleteBoard(USER_ID, boardId);
+
+      //then
+      assertThrows(RuntimeException.class, () -> boardRepository.findById(boardId)
+          .orElseThrow(RuntimeException::new));
+
+    }
+
+  }
+
+
 }
