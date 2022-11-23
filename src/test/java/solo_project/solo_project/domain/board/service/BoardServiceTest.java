@@ -253,6 +253,8 @@ class BoardServiceTest {
       assertThat(boardDetailsResponse).usingRecursiveComparison()
           .ignoringFields("writer")
           .isEqualTo(createBoardRequest);
+      assertThat(boardDetailsResponse.getWriter())
+          .isEqualTo("삭제된 유저입니다.");
     }
 
 
