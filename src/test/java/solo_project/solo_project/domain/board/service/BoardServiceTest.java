@@ -183,6 +183,18 @@ class BoardServiceTest {
           .orElseThrow(RuntimeException::new));
     }
 
+    @Test
+    @DisplayName("실패: user가 board의 주인이 아님")
+    public void failDeleteBoardForWrongUserIdTest() throws Exception {
+
+      //when
+      USER_ID = -1L;
+
+      //then
+      assertThrows(RuntimeException.class, () ->
+          boardService.deleteBoard(USER_ID, boardId));
+    }
+
   }
 
 
