@@ -175,15 +175,12 @@ class BoardServiceTest {
     @DisplayName("성공: 요청값의 board 삭제")
     public void deleteBoardTest() throws Exception {
 
-      //given
-
       //when
       boardService.deleteBoard(USER_ID, boardId);
 
       //then
       assertThrows(RuntimeException.class, () -> boardRepository.findById(boardId)
           .orElseThrow(RuntimeException::new));
-
     }
 
   }
