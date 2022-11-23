@@ -238,7 +238,7 @@ class BoardServiceTest {
 
       //given
       CreateBoardRequest createBoardRequest = CreateBoardRequest.builder()
-          .title(TITLE )
+          .title(TITLE)
           .description(DESCRIPTION)
           .boardType(BOARD_TYPE)
           .build();
@@ -255,6 +255,19 @@ class BoardServiceTest {
           .isEqualTo(createBoardRequest);
       assertThat(boardDetailsResponse.getWriter())
           .isEqualTo("삭제된 유저입니다.");
+    }
+
+    @Test
+    @DisplayName("실패: 요청 board없으면 예외 반환")
+    public void failFindBoardTest() throws Exception {
+
+      //when
+      boardId = -1L;
+
+      //then
+      assertThrows(RuntimeException.class, () ->
+          boardService.findBoard(boardId)
+      );
     }
 
 
